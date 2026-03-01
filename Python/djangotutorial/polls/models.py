@@ -2,10 +2,17 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib import admin
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
+
+    @admin.display(
+        boolean=True,                # Zamienia True/False na ikony
+        ordering="pub_date",         # Pozwala sortować po kliknięciu w nagłówek
+        description="Published recently?", # Nazwa kolumny w adminie
+    )
 
     def __str__(self):
         return self.question_text
