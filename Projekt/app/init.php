@@ -14,6 +14,7 @@
 	define("CACHE_DIR",			ROOT_PATH . "../cache/");
 	define("LIB_DIR",			ROOT_PATH . "../lib/");
 	define("RUNTIME_DIR",		ROOT_PATH . "../runtime/");
+	define("WWW_DIR",			ROOT_PATH);
 
 	define("CONTROLLERS_DIR",	APP_DIR	  . "controllers/");
 	define("MODELS_DIR",		APP_DIR	  . "models/");
