@@ -12,6 +12,13 @@ builder.Services.AddDbContext<MvcMovieContext>(options =>
 // 2. ZBUDUJ APLIKACJĘ
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    // Wywołujemy naszą nową klasę zasilającą
+    MvcMovie.Models.SeedData.Initialize(services);
+}
+
 // 3. KONFIGURUJ PIPELINE (Middleware)
 if (!app.Environment.IsDevelopment())
 {
