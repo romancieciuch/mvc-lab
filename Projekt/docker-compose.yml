@@ -7,8 +7,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./app:/var/www/html/app
+      - ./cache:/var/www/html/cache
+      - ./env:/var/www/html/env
       - ./lib:/var/www/html/lib
       - ./www:/var/www/html/www
     command: bash -c "cd /var/www/html/lib && composer update && apache2-foreground"
