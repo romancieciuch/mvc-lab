@@ -1,0 +1,7 @@
+{
+    "name": "twoja/aplikacja",
+    "description": "Czysty projekt PHP",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
