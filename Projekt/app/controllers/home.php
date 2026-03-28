@@ -1,9 +1,6 @@
 <?php
 
-	$data["users"] = $_DB->query("SELECT * FROM users");
-
-	$modules = [
-		VIEWS_DIR . "modules/users/users.php"
-	];
-
-	require_once VIEWS_DIR . "global/page.php";
+	if (!empty($_SESSION["USER"]))
+		require_once("dashboard.php");
+	else
+		require_once("login.php");
