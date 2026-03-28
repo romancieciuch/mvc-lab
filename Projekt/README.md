@@ -1,8 +1,9 @@
 # MVC LAB
 
-Wybór projektu:
+Wybór projektu
 
 Zadanie 13 – System monitorowania wydatków domowych
+
 Struktura projektu MVC:
 • Model: kategoria, kwota, data
 • Kontroler: obsługa żądań HTTP, interakcja z modelem, przekazywanie danych do widoku
@@ -22,13 +23,16 @@ Baza MySQL:
 - hasło: dev
 
 Zarządzanie bazą danych phpMyAdmin:
-http://localhost:8081 (logujesz się jako dev / dev)
+http://localhost:8081 (dane logowania: dev / dev)
 
 Skrzynka Mailhog:
 http://localhost:8025
 
-Uruchomienie, odpalamy w terminalu:
+Uruchomienie projektu w terminalu:
 docker compose up -d --build
+
+Wyjście:
+Ctrl + C
 
 Wracanie do punktu zero:
 docker compose down -v
