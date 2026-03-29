@@ -21,7 +21,7 @@
 		?>
 
 		<div class="form-row">
-			<label for="name">Imię</label>
+			<label for="name">Nazwa użytkownika</label>
 			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user->name ?? ""); ?>">
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>

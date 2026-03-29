@@ -311,7 +311,7 @@ class UserService {
 			$errors["password"] = "Błędny adres e-mail i/lub hasło";
 
 		// Czy to logowanie z hasłem jednorazowym
-		if ($res[0]["token"] === $dto->password) {
+		if (!empty($res[0]["token"]) && $res[0]["token"] === $dto->password) {
 			$this->db->query(
 				"UPDATE users SET token = NULL WHERE email = :email LIMIT 1",
 				["email" => $dto->email]
