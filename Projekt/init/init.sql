@@ -60,6 +60,57 @@ CREATE TABLE IF NOT EXISTS transactions (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+-- Wyzwalacze - automatyczna aktualizacja salda konta po dowolnych operacjach na tym koncie
+-- Zmiana znaku końca zapytania, aby MySQL nie przerwał tworzenia triggera w połowie
+DELIMITER //
+
+-- 1. Wyzwalacz po dodaniu nowej transakcji (INSERT)
+CREATE TRIGGER po_dodaniu_transakcji
+AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    UPDATE accounts
+    SET balance = balance + NEW.amount
+    WHERE id = NEW.account_id;
+END //
+
+-- 2. Wyzwalacz po usunięciu transakcji (DELETE)
+CREATE TRIGGER po_usunieciu_transakcji
+AFTER DELETE ON transactions
+FOR EACH ROW
+BEGIN
+    UPDATE accounts
+    SET balance = balance - OLD.amount
+    WHERE id = OLD.account_id;
+END //
+
+-- 3. Wyzwalacz po edycji transakcji (UPDATE)
+CREATE TRIGGER po_edycji_transakcji
+AFTER UPDATE ON transactions
+FOR EACH ROW
+BEGIN
+    -- Sprawdzamy, czy transakcja została przeniesiona na inne konto
+    IF OLD.account_id = NEW.account_id THEN
+        -- Jeśli konto jest to samo, aktualizujemy tylko różnicę kwot
+        UPDATE accounts
+        SET balance = balance - OLD.amount + NEW.amount
+        WHERE id = NEW.account_id;
+    ELSE
+        -- Jeśli zmieniono przypisanie do konta, odejmujemy ze starego i dodajemy do nowego
+        UPDATE accounts
+        SET balance = balance - OLD.amount
+        WHERE id = OLD.account_id;
+
+        UPDATE accounts
+        SET balance = balance + NEW.amount
+        WHERE id = NEW.account_id;
+    END IF;
+END //
+
+-- Przywrócenie standardowego średnika jako separatora
+DELIMITER ;
+
+
 -- Dane startowe
 
 -- 0. Twortzymy użytkownika Jan Kowalski, jan.kowalski@gmail.com, 123456abcd
@@ -95,21 +146,21 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (2, 5, 1000.00, 'Przelew nadwyżki z bieżącego', '2026-03-10'),
 (2, 4, 15.50, 'Kapitalizacja odsetek', '2026-03-28');
 
--- 6. Przeliczenie sald
-UPDATE accounts a
-LEFT JOIN (
-    SELECT account_id, SUM(amount) AS total_balance
-    FROM transactions
-    GROUP BY account_id
-) t ON a.id = t.account_id
-SET a.balance = COALESCE(t.total_balance, 0.00)
-WHERE a.id = 1;
+-- 6. Przeliczenie sald (dzieje się automatycznie)
+-- UPDATE accounts a
+-- LEFT JOIN (
+--     SELECT account_id, SUM(amount) AS total_balance
+--     FROM transactions
+--     GROUP BY account_id
+-- ) t ON a.id = t.account_id
+-- SET a.balance = COALESCE(t.total_balance, 0.00)
+-- WHERE a.id = 1;
 
-UPDATE accounts a
-LEFT JOIN (
-    SELECT account_id, SUM(amount) AS total_balance
-    FROM transactions
-    GROUP BY account_id
-) t ON a.id = t.account_id
-SET a.balance = COALESCE(t.total_balance, 0.00)
-WHERE a.id = 2;
+-- UPDATE accounts a
+-- LEFT JOIN (
+--     SELECT account_id, SUM(amount) AS total_balance
+--     FROM transactions
+--     GROUP BY account_id
+-- ) t ON a.id = t.account_id
+-- SET a.balance = COALESCE(t.total_balance, 0.00)
+-- WHERE a.id = 2;
