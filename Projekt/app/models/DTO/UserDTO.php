@@ -7,14 +7,20 @@ use InvalidArgumentException;
 
 readonly class UserDTO {
     private function __construct (
+		public bool $logged_in,
+		public int $id,
         public string $name,
-        public string $email
+        public string $email,
+		public string $created_at
     ) {}
 
 	public static function parse (array $data = []) : self {
+		$logged_in	= $data["logged_in"] ?? false;
+		$id			= $data["id"] ?? 0;
         $name		= $data["name"] ?? "";
-        $email		= $data["email"] ?? "";
+		$email		= $data["email"] ?? "";
+		$created_at	= $data["created_at"] ?? "";
 
-        return new self($name, $email);
+        return new self($logged_in, $id, $name, $email, $created_at);
     }
 }

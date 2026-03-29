@@ -1,6 +1,5 @@
 <?php
-
-	$data = [];
+	$_USER->restricted_area($user);
 
 	$modules = [
 		VIEWS_DIR . "modules/dashboard/dashboard.php"

@@ -4,10 +4,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 class App {
-	public function __construct () {
-	}
-
-	public function route (string $uri = "") {
+	public function route (string $uri = "") : array {
 		$arr = explode("/", trim($uri, "/"));
 
 		return [

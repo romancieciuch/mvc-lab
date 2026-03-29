@@ -44,6 +44,15 @@
 		"auth" => $_CONFIG["SMTP_AUTH"]
 	]);
 
+	// Formularze
+	$_FORM = new App\Models\Form($_CONFIG);
+
+	// Użytkownicy
+	$_USER = new App\Models\UserService($_DB, $_MAIL, $_CONFIG);
+
+	// Użytkownik
+	$user = App\Models\DTO\UserDTO::parse($_SESSION["USER"] ?? []);
+
 	// Nasza aplikacja
 	$_APP = new App\Models\App();
 	$_ROUTING = $_APP->route($_SERVER["REQUEST_URI"]);
@@ -52,4 +61,4 @@
 	if (file_exists($controller))
 		require_once $controller;
 	else
-		require_once CONTROLLERS_DIR . "404.php";
+		require_once CONTROLLERS_DIR . "page.php";

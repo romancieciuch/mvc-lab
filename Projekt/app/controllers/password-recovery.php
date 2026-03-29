@@ -10,25 +10,23 @@
 
 	// Czy Grecaptcha OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\LoginUserDTO::parse($_POST);
+		$dto = App\Models\DTO\PasswordRecoveryDTO::parse($_POST);
 		$errors = $dto->errors;
 	}
 
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
-		$userdata = $_USER->login($dto);
+		$userdata = $_USER->password_recovery($dto);
 		$errors = $userdata["errors"] ?? [];
-	}
 
-	// Wszystko OK
-	if (!empty($userdata) && empty($errors)) {
-		header("Location: /dashboard/");
-		exit;
+		if (empty($errors)) {
+			$message["global"] = "Jeśli posiadasz konto w serwisie - sprawdź instrukcje, które dostałeś na Twoją skrzynkę e-mail.";
+		}
 	}
 
 	// Wczytanie widoku
 	$modules = [
-		VIEWS_DIR . "modules/user/login.php"
+		VIEWS_DIR . "modules/user/password-recovery.php"
 	];
 
 	require_once VIEWS_DIR . "global/page.php";
