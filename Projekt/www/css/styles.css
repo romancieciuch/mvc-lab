@@ -329,7 +329,7 @@ input.input-error:focus {
 .form-row label {
     display: block;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-main);
     margin-bottom: 0.375rem;
 }

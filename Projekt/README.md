@@ -19,6 +19,11 @@ Roman Cieciuch
 ### Aplikacja www:
 <http://localhost:8080> (katalog ./www)
 
+### Testowy użytkownik:
+* **Nazwa:** Jan Kowalski
+* **E-mail:** jan.kowalski@gmail.com
+* **Hasło:** 123456abcd
+
 ### Baza MySQL:
 * **port:** 3306
 * **host:** db
