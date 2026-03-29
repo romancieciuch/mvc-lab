@@ -66,15 +66,15 @@ class DB {
 		return mb_substr($string, 0, $max_length, "UTF-8");
 	}
 
-	public function generate_token (int $length = 32) {
+	public function generate_token (int $length = 32) : string {
 		return bin2hex(random_bytes(intval($length / 2)));
 	}
 
-	public function email_validate (string $email = "") {
+	public function email_validate (string $email = "") : bool {
 		return filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 
-	public function pagination (int|string $page = 1, int|string $per_page = 10) {
+	public function pagination (int|string $page = 1, int|string $per_page = 10) : string {
 		$page = (int) $page;
 		$per_page = (int) $per_page;
 
@@ -82,7 +82,7 @@ class DB {
 		return " LIMIT {$per_page} OFFSET {$offset} ";
 	}
 
-	public function prepare_for_update (array $data, array $allowed_columns) {
+	public function prepare_for_update (array $data, array $allowed_columns) : array {
 		$sql = [];
 		$sql_data["id"] = $data["id"];
 

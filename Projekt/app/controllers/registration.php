@@ -10,25 +10,25 @@
 
 	// Czy Grecaptcha OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\LoginUserDTO::parse($_POST);
+		$dto = App\Models\DTO\RegisterUserDTO::parse($_POST);
 		$errors = $dto->errors;
 	}
 
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
-		$userdata = $_USER->login($dto);
+		$userdata = $_USER->create($dto);
 		$errors = $userdata["errors"] ?? [];
 	}
 
 	// Wszystko OK
 	if (!empty($userdata) && empty($errors)) {
-		header("Location: /dashboard/");
+		header("Location: /thank-you/");
 		exit;
 	}
 
 	// Wczytanie widoku
 	$modules = [
-		VIEWS_DIR . "modules/user/login.php"
+		VIEWS_DIR . "modules/user/registration.php"
 	];
 
 	require_once VIEWS_DIR . "global/page.php";

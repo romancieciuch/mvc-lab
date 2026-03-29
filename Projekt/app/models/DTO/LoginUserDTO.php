@@ -3,27 +3,27 @@
 declare(strict_types=1);
 namespace App\Models\DTO;
 
-use InvalidArgumentException;
-
 readonly class LoginUserDTO {
     private function __construct (
         public string $email,
-        public string $password
+        public string $password,
+		public array  $errors
     ) {}
 
 	public static function parse (array $data = []) : self {
         $email		= $data["email"] ?? "";
         $password	= $data["password"] ?? "";
+		$errors		= [];
 
         if (empty($email) || empty($password))
-            throw new InvalidArgumentException("Required fields: name, email, password");
+            $errors["global"] = "Wymagana pola: e-mail, hasło";
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            throw new InvalidArgumentException("Invalid e-mail format");
+			$errors["email"] = "Niepoprawny adres e-mail";
 
         if (strlen($password) < 8)
-            throw new InvalidArgumentException("Password is too short");
+            $errors["password"] = "Hasło powinno mieć przynajmniej 8 znaków";
 
-        return new self($email, $password);
+        return new self($email, $password, $errors);
     }
 }

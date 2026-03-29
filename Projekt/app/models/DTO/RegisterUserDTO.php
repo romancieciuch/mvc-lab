@@ -3,29 +3,36 @@
 declare(strict_types=1);
 namespace App\Models\DTO;
 
-use InvalidArgumentException;
-
 readonly class RegisterUserDTO {
     private function __construct (
         public string $name,
         public string $email,
-        public string $password
+        public string $password,
+		public array  $errors
     ) {}
 
 	public static function parse (array $data = []) : self {
         $name		= $data["name"] ?? "";
         $email		= $data["email"] ?? "";
         $password	= $data["password"] ?? "";
+		$password2	= $data["password2"] ?? "";
+		$errors		= [];
 
-        if (empty($name) || empty($email) || empty($password))
-            throw new InvalidArgumentException("Required fields: name, email, password");
+        if (empty($name) || empty($email) || empty($password) || empty($password2))
+            $errors["global"] = "Wymagana pola: imię, e-mail, hasło, powtórzenie hasła";
+
+		if (empty($name))
+			$errors["name"] = "Podaj swoje imię";
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            throw new InvalidArgumentException("Invalid e-mail format");
+			$errors["email"] = "Niepoprawny adres e-mail";
 
         if (strlen($password) < 8)
-            throw new InvalidArgumentException("Password is too short");
+            $errors["password"] = "Hasło powinno mieć przynajmniej 8 znaków";
 
-        return new self($name, $email, $password);
+		if ($password !== $password2)
+			$errors["password2"] = "Hasła nie są jednakowe";
+
+        return new self($name, $email, $password, $errors);
     }
 }
