@@ -99,4 +99,8 @@ class DB {
 			"sql_data" => $sql_data
 		];
 	}
+
+	public function nice_format (float $amount = 0) : string {
+    	return number_format($amount, 2, ',', ' ');
+	}
 }

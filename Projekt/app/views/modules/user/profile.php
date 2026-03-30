@@ -1,5 +1,5 @@
-<div class="page-width page-width__narrow">
-	<h1 class="page-title acenter">
+<article class="article page-width__narrow">
+	<h1 class="article-title">
 		Twoje dane
 	</h1>
 
@@ -46,4 +46,10 @@
 
 		<?php echo $_FORM->generate_recaptcha_v3("profile-form"); ?>
 	</form>
-</div>
+
+	<p class="acenter">
+		<strong>
+			<a class="accent" href="/delete/">Usuń konto</a>
+		</strong>
+	</p>
+</article>

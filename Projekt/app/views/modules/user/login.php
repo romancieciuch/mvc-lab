@@ -1,5 +1,5 @@
-<div class="page-width page-width__narrow">
-	<h1 class="page-title acenter">
+<article class="article page-width__narrow">
+	<h1 class="article-title">
 		Logowanie
 	</h1>
 
@@ -38,4 +38,4 @@
 	</form>
 
 	<p class="acenter">Nie masz konta? <strong><a href="/registration/">Zarejestruj się</a></strong></p>
-</div>
+</article>

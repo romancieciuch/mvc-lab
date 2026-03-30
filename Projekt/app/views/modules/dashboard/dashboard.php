@@ -1,9 +1,49 @@
-Dashboard
+<article class="article page-width">
+	<h1 class="article-title">
+		Dashboard
+	</h1>
 
-<br><a href="/password-recovery/">Zapomniałem hasła</a>
-<br><a href="/profile/">Zmień dane</a>
-<br><a href="/delete/">Usuń konto</a>
-<br><a href="/logout/">Wyloguj się</a>
+	<?php if (!empty($data)): ?>
+		<div class="table-container">
+			<table class="table table__mobile-friendly">
+				<thead>
+					<tr>
+						<th>Konto</th>
+						<th>Data utworzenia</th>
+						<th>Saldo</th>
+						<th>Akcje</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($data as $k=>$v): ?>
+						<tr>
+							<td class="table-name">
+								<a href="/account/<?php echo $v["id"]; ?>/list/">
+									<?php echo $v["name"]; ?>
+								</a>
+							</td>
+							<td>
+								<?php echo $v["created_at"]; ?>
+							</td>
+							<td>
+								<?php echo $_DB->nice_format($v["balance"]); ?> <?php echo $v["currency"]; ?>
+							</td>
+							<td class="table-options">
+								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
+								<a class="accent" href="/account/<?php echo $v["id"]; ?>/delete/">Usuń</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	<?php else: ?>
+		<div class="article-body page-width__narrow">
+			<p>Nie masz jeszcze żadnych kont. Dodaj coś.</p>
+		</div>
+	<?php endif; ?>
 
-<?php
-var_dump($user);
+	<p class="acenter">
+		<a href="/account/0/create/" class="button">Nowe konto</a>
+	</p>
+</article>

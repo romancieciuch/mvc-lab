@@ -4,9 +4,9 @@
 	</h1>
 
 	<div class="article-body">
-		<?php if (empty($delete)): ?>
+		<?php if (!empty($data)): ?>
 			<h2 class="acenter">
-				Czy na pewno chcesz usunąć konto razem ze wszystkimi danymi?
+				Czy na pewno chcesz usunąć konto: <strong><?php echo $data[0]["name"]; ?></strong>?
 			</h2>
 
 			<p class="buttons">
@@ -17,4 +17,6 @@
 			<p>Konto zostało usunięte.</p>
 		<?php endif;?>
 	</div>
+
+	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
 </article>

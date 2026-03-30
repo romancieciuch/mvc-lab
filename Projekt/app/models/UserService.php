@@ -30,7 +30,7 @@ class UserService {
 
 		// Czy użytkownik istnieje
 		if ($this->user_exists($dto->email, "email"))
-			$errors["global"] = "Użytkownik o takim adresie e-mail już istnieje. <a href=\"/login/\">Spróbuj się zalogować</a>.";
+			$errors["global"] = "Użytkownik o takim adresie e-mail już istnieje. <strong><a href=\"/login/\">Spróbuj się zalogować</a></strong>.";
 
 		if (!empty($errors))
 			return [
