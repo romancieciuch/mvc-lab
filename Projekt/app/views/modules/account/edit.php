@@ -1,6 +1,6 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Nowe konto
+		Edycja konta: <?php echo $data[0]["name"]; ?>
 	</h1>
 
 	<form class="form" id="account-form" method="POST">
@@ -14,23 +14,23 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa konta</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST["name"] ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"]); ?>">
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="balance">Saldo początkowe</label>
-			<input type="number" id="balance" name="balance" value="<?php echo htmlspecialchars($_POST["balance"] ?? ""); ?>" step="0.01">
+			<input type="number" id="balance" name="balance" value="<?php echo htmlspecialchars($data[0]["balance"]); ?>" step="0.01">
 			<?php echo $_FORM->field_error($dto->errors["balance"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="currency">Waluta rozliczeniowa</label>
 			<select name="currency" id="currency">
-				<option value="PLN">PLN</option>
-				<option value="EUR">EUR</option>
-				<option value="GBP">GBP</option>
-				<option value="USD">USD</option>
+				<option value="PLN"<?php if ($data[0]["name"] === "PLN") echo ' selected'; ?>>PLN</option>
+				<option value="EUR"<?php if ($data[0]["name"] === "EUR") echo ' selected'; ?>>EUR</option>
+				<option value="GBP"<?php if ($data[0]["name"] === "GBP") echo ' selected'; ?>>GBP</option>
+				<option value="USD"<?php if ($data[0]["name"] === "USD") echo ' selected'; ?>>USD</option>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["currency"] ?? ""); ?>
 		</div>
@@ -38,7 +38,7 @@
 		<input type="hidden" name="form-sent" value="1">
 
 		<div class="form-row">
-			<button class="button" type="submit">Twórz konto</button>
+			<button class="button" type="submit">Zapisz zmiany</button>
 		</div>
 
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
