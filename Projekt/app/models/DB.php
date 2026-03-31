@@ -35,7 +35,8 @@ class DB {
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute($params);
 
-		$type = strtoupper(explode(" ", ltrim($sql))[0]);
+		preg_match('/^\s*([a-zA-Z]+)/', $sql, $matches);
+    	$type = strtoupper($matches[1] ?? '');
 
 		return match ($type) {
 			"SELECT", "SHOW"	=> $stmt->fetchAll(),

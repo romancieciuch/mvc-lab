@@ -6,6 +6,10 @@
 	$account = new App\Models\Account($_DB);
 	$data = $account->get_account($user->id, $account_id);
 
+	$page = $_GET["page"] ?? 1;
+	$limit = $_GET["per-page"] ?? 10;
+	$offset = ($page - 1) * $limit;
+
 
 	// Tworzenie konta
 	if ($action === "create")
@@ -16,10 +20,12 @@
 		require_once("account/edit.php");
 
 	// Usuwanie konta
-	if ($action === "delete" && isset($_GET["delete"])) {
-		$deleted = $account->delete_account($user->id, $account_id);
-		$data = [];
-	}
+	if ($action === "delete" && isset($_GET["delete"]))
+		require_once("account/delete.php");
+
+	// Lista transakcji
+	if ($action === "transactions")
+		require_once("account/transactions.php");
 
 
 	// Wczytanie widoku

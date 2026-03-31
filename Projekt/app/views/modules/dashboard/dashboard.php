@@ -18,7 +18,7 @@
 					<?php foreach ($data as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
-								<a href="/account/<?php echo $v["id"]; ?>/list/">
+								<a href="/account/<?php echo $v["id"]; ?>/transactions/">
 									<?php echo $v["name"]; ?>
 								</a>
 							</td>

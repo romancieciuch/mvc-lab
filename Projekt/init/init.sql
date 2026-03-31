@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS categories (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     account_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
+	color VARCHAR(7) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_category_account
@@ -124,15 +125,15 @@ INSERT INTO accounts (id, user_id, name, balance, currency) VALUES
 (2, 1, 'Konto oszczędnościowe', 0.00, 'PLN');
 
 -- 2. Dodajemy kategorie dla konta bieżącego (account_id = 1)
-INSERT INTO categories (id, account_id, name) VALUES
-(1, 1, 'Wypłata'),
-(2, 1, 'Zakupy spożywcze'),
-(3, 1, 'Paliwo');
+INSERT INTO categories (id, account_id, name, color) VALUES
+(1, 1, 'Wypłata', '#095e2d'),
+(2, 1, 'Zakupy spożywcze', '#dd8c00'),
+(3, 1, 'Paliwo', '#cc0000');
 
 -- 3. Dodajemy kategorie dla konta oszczędnościowego (account_id = 2)
-INSERT INTO categories (id, account_id, name) VALUES
-(4, 2, 'Odsetki'),
-(5, 2, 'Wpłata własna');
+INSERT INTO categories (id, account_id, name, color) VALUES
+(4, 2, 'Odsetki', '#10316a'),
+(5, 2, 'Wpłata własna', '#1651b6');
 
 -- 4. Rejestrujemy transakcje dla konta bieżącego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
