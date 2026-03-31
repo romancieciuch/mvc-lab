@@ -1,13 +1,8 @@
 <?php
 	$_USER->restricted_area($user);
 
-	$data = $_DB->query(
-		"SELECT * FROM accounts
-			WHERE user_id = :user_id",
-		[
-			"user_id" => $user->id
-		]
-	);
+	$account = new App\Models\Account($_DB);
+	$data = $account->get_accounts($user->id);
 
 	$modules = [
 		VIEWS_DIR . "modules/dashboard/dashboard.php"

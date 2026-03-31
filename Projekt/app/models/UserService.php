@@ -371,4 +371,28 @@ class UserService {
 		if (!empty($res)) return $res;
 		return 0;
 	}
+
+	public function verify_user (int $user_id = 0, int $account_id = 0, int $transaction_id = 0) {
+		$res = $this->db->query(
+			"SELECT id FROM accounts WHERE id = :id AND user_id = :user_id LIMIT 1",
+			[
+				"id" => $account_id,
+				"user_id" => $user_id
+			]
+		);
+
+		if (!empty($res) && !empty($transaction_id))
+			$res = $this->db->query(
+				"SELECT id FROM transactions WHERE id = :id AND account_id = :account_id LIMIT 1",
+				[
+					"id" => $transaction_id,
+					"account_id" => $account_id
+				]
+			);
+
+		if (!empty($res)) return true;
+
+		$this->logout();
+		exit("Próba oszustwa!");
+	}
 }

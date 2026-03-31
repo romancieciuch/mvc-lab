@@ -1,7 +1,10 @@
 <?php
+	$_USER->restricted_area($user);
 
 	$account_id = $_ROUTING["params"][1] ?? 0;
 	$action = $_ROUTING["params"][2] ?? "list";
+
+	$_USER->verify_user($user->id, $account_id);
 
 	$account = new App\Models\Account($_DB);
 	$data = $account->get_account($user->id, $account_id);

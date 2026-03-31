@@ -1,7 +1,6 @@
 <?php
 
-	$data = [];
-	$errors = [];
+	$_USER->verify_user($user->id, $data[0]["account_id"] ?? 0, $transaction_id ?? 0);
 
 	// Czy formularz wysłany
 	if (!empty($_POST["form-sent"])) {
@@ -10,25 +9,18 @@
 
 	// Czy Grecaptcha OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\LoginUserDTO::parse($_DB->sanitize_array($_POST));
+		$dto = App\Models\DTO\TransactionDTO::parse($_DB->sanitize_array($_POST));
 		$errors = $dto->errors;
 	}
 
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
-		$userdata = $_USER->login($dto);
+		$transactiondata = $transaction->update_transaction($transaction_id, $dto);
 		$errors = $userdata["errors"] ?? [];
 	}
 
 	// Wszystko OK
-	if (!empty($userdata) && empty($errors)) {
+	if (!empty($transactiondata) && empty($errors)) {
 		header("Location: /dashboard/");
 		exit;
 	}
-
-	// Wczytanie widoku
-	$modules = [
-		VIEWS_DIR . "modules/user/login.php"
-	];
-
-	require_once VIEWS_DIR . "global/page.php";

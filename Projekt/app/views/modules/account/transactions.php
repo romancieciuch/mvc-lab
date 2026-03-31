@@ -1,7 +1,13 @@
 <article class="article page-width">
-	<h1 class="article-title">
-		Transakcje: <?php echo $data[0]["name"]; ?>
-	</h1>
+	<div class="article-title-wrap">
+		<h1 class="article-title">
+			Transakcje: <?php echo $data[0]["name"]; ?>
+		</h1>
+
+		<div class="article-title-actions">
+			<a href="/transaction/0/create/" class="button">Nowa transakcja</a>
+		</div>
+	</div>
 
 	<?php if (!empty($transactions)): ?>
 		<div class="table-container">
@@ -49,8 +55,4 @@
 			<p>Nie masz jeszcze żadnych transakcji. Dodaj coś.</p>
 		</div>
 	<?php endif; ?>
-
-	<p class="acenter">
-		<a href="/transactions/0/create/" class="button">Nowa transakcja</a>
-	</p>
 </article>

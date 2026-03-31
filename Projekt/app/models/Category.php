@@ -5,7 +5,7 @@ namespace App\Models;
 
 use App\Models\DTO\AccountDTO;
 
-class Account {
+class Category {
 	private DB $db;
 
 	public function __construct(DB $db) {
@@ -37,14 +37,23 @@ class Account {
 		);
 	}
 
-	public function get_accounts (int $user_id = 0) {
+	public function get_all_categories (int $user_id = 0) {
 		return $this->db->query(
-			"SELECT * FROM accounts
-				WHERE user_id = :user_id",
+			"SELECT * FROM categories
+				WHERE account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
+					ORDER BY account_id ASC",
 			[
 				"user_id" => $user_id
 			]
 		);
+	}
+
+	public function group_categories (array $categories = []) {
+		$json = [];
+		foreach ($categories as $category)
+			$json[$category["account_id"]][] = ["id" => $category["id"], "name" => $category["name"]];
+
+		return $json;
 	}
 
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
