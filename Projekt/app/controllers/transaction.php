@@ -14,6 +14,9 @@
 	$categories = $category->get_all_categories($user->id);
 	$groupped_categories = $category->group_categories($categories);
 
+	if ($action !== "create")
+		$_USER->verify_user($user->id, $data[0]["account_id"] ?? 0, $transaction_id ?? 0);
+
 
 	// Tworzenie transakcji
 	if ($action === "create")
@@ -26,10 +29,6 @@
 	// Usuwanie transakcji
 	if ($action === "delete" && isset($_GET["delete"]))
 		require_once("transaction/delete.php");
-
-	// Pojedyncza transakcja
-	if ($action === "details")
-		require_once("transaction/details.php");
 
 
 	// Wczytanie widoku

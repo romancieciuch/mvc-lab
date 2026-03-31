@@ -22,6 +22,14 @@
     --footer-text-hover: #3b82f6;
     --footer-text-muted: #9ca3af;
 
+	--page-bg: #ffffff;
+    --page-border: #d1d5db;
+    --page-text: #374151;
+    --page-hover-bg: #f3f4f6;
+    --page-active-bg: #3b82f6;
+    --page-active-text: #ffffff;
+    --page-disabled-text: #9ca3af;
+
 	--switch-bg: #d1d5db;
     --switch-thumb: #ffffff;
 }
@@ -49,6 +57,14 @@
     --footer-text: #d1d5db;
     --footer-text-hover: #60a5fa;
     --footer-text-muted: #6b7280;
+
+	--page-bg: #1f2937;
+    --page-border: #374151;
+    --page-text: #d1d5db;
+    --page-hover-bg: #374151;
+    --page-active-bg: #3b82f6;
+    --page-active-text: #ffffff;
+    --page-disabled-text: #4b5563;
 
 	--switch-bg: #3b82f6;
     --switch-thumb: #ffffff;
@@ -768,4 +784,60 @@ input.input-error:focus {
 .category:focus {
 	color: #fff;
 	opacity: 0.8;
+}
+
+/* Kontener całej paginacji */
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+/* Pojedynczy przycisk / link */
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    background-color: var(--page-bg);
+    color: var(--page-text);
+    border: 1px solid var(--page-border);
+    border-radius: 0.375rem; /* Zaokrąglenie w stylu Tailwind (rounded-md) */
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efekt najechania (ignorujemy wyłączone i aktywne strony) */
+.page-link:hover:not(.disabled):not(.active) {
+    background-color: var(--page-hover-bg);
+}
+
+/* Aktualnie wybrana strona */
+.page-link.active {
+    background-color: var(--page-active-bg);
+    color: var(--page-active-text);
+    border-color: var(--page-active-bg);
+    pointer-events: none; /* Zdejmuje łapkę (cursor) i blokuje ponowne kliknięcie */
+}
+
+/* Wyłączony przycisk (np. brak poprzedniej strony) */
+.page-link.disabled {
+    color: var(--page-disabled-text);
+    background-color: transparent;
+    border-color: transparent;
+    pointer-events: none;
+}
+
+/* Separator (wielokropek) gdy stron jest dużo */
+.page-ellipsis {
+    color: var(--page-disabled-text);
+    padding: 0 0.5rem;
+    font-weight: 500;
 }

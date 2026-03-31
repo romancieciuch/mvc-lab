@@ -1,12 +1,12 @@
 <article class="article page-width__midi">
 	<h1 class="article-title">
-		Usuwanie konta
+		Usuwanie transakcji
 	</h1>
 
 	<div class="article-body">
-		<?php if (empty($delete)): ?>
+		<?php if (!empty($data)): ?>
 			<h2 class="acenter">
-				Czy na pewno chcesz usunąć konto razem ze wszystkimi danymi?
+				Czy na pewno chcesz usunąć transakcję: <strong><?php echo $data[0]["description"]; ?></strong>?
 			</h2>
 
 			<p class="buttons">
@@ -14,9 +14,9 @@
 				<a href="?delete" class="button">TAK</a>
 			</p>
 		<?php else: ?>
-			<p>Konto zostało usunięte.</p>
+			<p>Transakcja została usunięta.</p>
 		<?php endif;?>
 	</div>
 
-	<p class="acenter"><strong><a href="/">Powrót</a></strong></p>
+	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
 </article>

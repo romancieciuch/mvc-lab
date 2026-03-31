@@ -33,7 +33,7 @@
 		<?php echo $_FORM->generate_recaptcha_v3("login-form"); ?>
 
 		<div class="form-row">
-			<small class="acenter">Zapomniałeś hasła? <strong><a href="/password-recovery/">Odzyskaj hasło</a></strong></small>
+			<small>Zapomniałeś hasła? <strong><a href="/password-recovery/">Odzyskaj hasło</a></strong></small>
 		</div>
 	</form>
 

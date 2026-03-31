@@ -4,14 +4,13 @@
 	$account_id = $_ROUTING["params"][1] ?? 0;
 	$action = $_ROUTING["params"][2] ?? "list";
 
-	$_USER->verify_user($user->id, $account_id);
+	if ($action !== "create")
+		$_USER->verify_user($user->id, $account_id);
 
 	$account = new App\Models\Account($_DB);
 	$data = $account->get_account($user->id, $account_id);
 
-	$page = $_GET["page"] ?? 1;
-	$limit = $_GET["per-page"] ?? 10;
-	$offset = ($page - 1) * $limit;
+	$pagination = $_APP->pagination();
 
 
 	// Tworzenie konta
@@ -29,6 +28,10 @@
 	// Lista transakcji
 	if ($action === "transactions")
 		require_once("account/transactions.php");
+
+	// Lista kategorii
+	if ($action === "categories")
+		require_once("account/categories.php");
 
 
 	// Wczytanie widoku

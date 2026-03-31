@@ -9,7 +9,7 @@
 		</div>
 	</div>
 
-	<?php if (!empty($transactions)): ?>
+	<?php if (!empty($transactions["data"])): ?>
 		<div class="table-container">
 			<table class="table table__mobile-friendly">
 				<thead>
@@ -22,7 +22,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($transactions as $k=>$v): ?>
+					<?php foreach ($transactions["data"] as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
 								<a href="/transaction/<?php echo $v["transaction_id"]; ?>/details/">
@@ -50,9 +50,14 @@
 				</tbody>
 			</table>
 		</div>
+
+		<?php echo $_APP->pagination_html($pagination["page"], $pagination["limit"], $transactions["total"]); ?>
+
 	<?php else: ?>
 		<div class="article-body page-width__narrow">
 			<p>Nie masz jeszcze żadnych transakcji. Dodaj coś.</p>
 		</div>
 	<?php endif; ?>
+
+	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
 </article>

@@ -30,6 +30,7 @@
 							</td>
 							<td class="table-options">
 								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
+								<a href="/account/<?php echo $v["id"]; ?>/categories/">Kategorie</a>
 								<a class="accent" href="/account/<?php echo $v["id"]; ?>/delete/">Usuń</a>
 							</td>
 						</tr>
