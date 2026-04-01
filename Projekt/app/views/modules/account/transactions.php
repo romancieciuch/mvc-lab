@@ -11,8 +11,14 @@
 	</div>
 
 	<div class="filter-panel">
-		<form class="filter-form" method="GET" action="">
+		<button type="button" class="filter-toggle-btn" id="filter-toggle">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+			</svg>
+			<span id="filter-toggle-text">Pokaż filtry</span>
+		</button>
 
+		<form class="filter-form" id="filter-form" method="GET" action="">
 			<div class="filter-group filter-search">
 				<label for="searchQuery">Wyszukaj</label>
 				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, opis, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
@@ -151,3 +157,25 @@
 
 	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>
+
+<script>
+	{
+		document.addEventListener('DOMContentLoaded', () => {
+			const toggleBtn = document.getElementById('filter-toggle');
+			const toggleText = document.getElementById('filter-toggle-text');
+			const filterForm = document.getElementById('filter-form');
+
+			if (toggleBtn && filterForm) {
+				toggleBtn.addEventListener('click', () => {
+					filterForm.classList.toggle('is-open');
+
+					if (filterForm.classList.contains('is-open')) {
+						toggleText.textContent = 'Ukryj filtry';
+					} else {
+						toggleText.textContent = 'Pokaż filtry';
+					}
+				});
+			}
+		});
+	}
+</script>

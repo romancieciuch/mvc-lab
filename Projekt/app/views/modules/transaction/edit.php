@@ -14,8 +14,14 @@
 		?>
 
 		<div class="form-row">
-			<label for="description">Nazwa transakcji</label>
-			<input type="text" id="description" name="description" value="<?php echo htmlspecialchars($data[0]["description"] ?? ""); ?>">
+			<label for="name">Nazwa transakcji</label>
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>">
+			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
+		</div>
+
+		<div class="form-row">
+			<label for="description">Opis transakcji</label>
+			<textarea id="description" name="description"><?php echo $data[0]["description"] ?? ""; ?></textarea>
 			<?php echo $_FORM->field_error($dto->errors["description"] ?? ""); ?>
 		</div>
 
