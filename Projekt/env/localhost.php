@@ -2,6 +2,7 @@
 
 	return [
 		"ENV" => "local",
+		"DEBUG" => true,
 
 		"URL" => "http://localhost:8080",
 

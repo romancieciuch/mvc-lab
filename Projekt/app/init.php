@@ -23,6 +23,7 @@
 	define("DTO_DIR",			MODELS_DIR. "DTO/");
 
 	define("ENV",				$_CONFIG["ENV"]);
+	define("DEBUG",				$_CONFIG["DEBUG"]);
 	define("URL",				$_CONFIG["URL"]);
 
 	require_once("global.php");
