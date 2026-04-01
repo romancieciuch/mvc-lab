@@ -633,6 +633,9 @@ input.input-error:focus {
     color: var(--header-text);
     text-decoration: none;
     transition: color 0.3s;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
 }
 
 .main-nav {
