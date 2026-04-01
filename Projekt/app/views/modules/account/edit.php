@@ -27,10 +27,13 @@
 		<div class="form-row">
 			<label for="currency">Waluta rozliczeniowa</label>
 			<select name="currency" id="currency">
-				<option value="PLN"<?php if ($data[0]["name"] === "PLN") echo ' selected'; ?>>PLN</option>
-				<option value="EUR"<?php if ($data[0]["name"] === "EUR") echo ' selected'; ?>>EUR</option>
-				<option value="GBP"<?php if ($data[0]["name"] === "GBP") echo ' selected'; ?>>GBP</option>
-				<option value="USD"<?php if ($data[0]["name"] === "USD") echo ' selected'; ?>>USD</option>
+				<option value="PLN"<?php if ($data[0]["currency"] === "PLN") echo ' selected'; ?>>polski złoty (PLN)</option>
+
+				<?php foreach ($currency_rates["rates"] as $currency): ?>
+					<option value="<?php echo $currency["code"]; ?>"<?php if ($data[0]["currency"] === $currency["code"]) echo ' selected'; ?>>
+						<?php echo $currency["currency"]; ?> (<?php echo $currency["code"]; ?>)
+					</option>
+				<?php endforeach; ?>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["currency"] ?? ""); ?>
 		</div>

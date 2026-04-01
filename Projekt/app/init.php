@@ -58,6 +58,9 @@
 	$_ROUTING = $_APP->route($_SERVER["REQUEST_URI"]);
 	$controller = CONTROLLERS_DIR . $_ROUTING["controller"] . ".php";
 
+	// Kursy walut
+	$currency_rates = $_APP->get_currency_rates(CACHE_DIR . "api/nbp.json");
+
 	if (file_exists($controller))
 		require_once $controller;
 	else
