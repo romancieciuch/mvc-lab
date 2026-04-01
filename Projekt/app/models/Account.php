@@ -39,8 +39,17 @@ class Account {
 
 	public function get_accounts (int $user_id = 0) {
 		return $this->db->query(
-			"SELECT * FROM accounts
-				WHERE user_id = :user_id",
+			"SELECT
+				a.id,
+				a.name,
+				a.balance,
+				a.currency,
+				a.created_at,
+				COALESCE(AVG(t.amount), 0) AS avg_transaction
+			FROM accounts a
+			LEFT JOIN transactions t ON a.id = t.account_id
+			WHERE a.user_id = :user_id
+			GROUP BY a.id",
 			[
 				"user_id" => $user_id
 			]
@@ -97,5 +106,15 @@ class Account {
 				"user_id" => $user_id
 			]
 		);
+	}
+
+	public function has_different_currencies (array $accounts = []) : bool {
+		$default_currency = $accounts[0]["currency"] ?? "PLN";
+
+		foreach ($accounts as $account)
+			if ($account["currency"] !== $default_currency)
+				return true;
+
+		return false;
 	}
 }
