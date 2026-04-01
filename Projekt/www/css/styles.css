@@ -581,7 +581,8 @@ input.input-error:focus {
 		display: none;
 	}
 
-	.table__mobile-friendly td {
+	.table__mobile-friendly td,
+	.table__mobile-friendly th {
 		display: block;
 		border: none;
 		padding: 0.25rem 0;

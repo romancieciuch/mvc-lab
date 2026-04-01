@@ -4,7 +4,7 @@
 	</h1>
 
 	<div class="table-container">
-		<table class="table table__mobile-friendly">
+		<table class="table">
 			<tbody>
 				<tr>
 					<th>Konto</th>
@@ -13,8 +13,8 @@
 				<tr>
 					<th>Kategoria</th>
 					<td>
-						<span class="color-box" style="background-color: <?php echo $data[0]["color"]; ?>;"></span>
-						<?php echo $data[0]["category_name"]; ?>
+						<span class="color-box" style="background-color: <?php echo $data[0]["color"] ?? "#444"; ?>;"></span>
+						<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
 					</td>
 				</tr>
 				<tr>
