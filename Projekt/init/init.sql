@@ -122,7 +122,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `token`, `active`) 
 -- 1. Tworzymy dwa konta dla użytkownika o id = 1
 INSERT INTO accounts (id, user_id, name, balance, currency) VALUES
 (1, 1, 'Konto bieżące', 0.00, 'PLN'),
-(2, 1, 'Konto oszczędnościowe', 0.00, 'PLN');
+(2, 1, 'Konto oszczędnościowe', 0.00, 'PLN'),
+(3, 1, 'Konto walutowe', 0.00, 'EUR');
 
 -- 2. Dodajemy kategorie dla konta bieżącego (account_id = 1)
 INSERT INTO categories (id, account_id, name, color) VALUES
@@ -135,7 +136,12 @@ INSERT INTO categories (id, account_id, name, color) VALUES
 (4, 2, 'Odsetki', '#7c3aed'),
 (5, 2, 'Wpłata własna', '#2563eb');
 
--- 4. Rejestrujemy transakcje dla konta bieżącego
+-- 4. Dodajemy kategorie dla konta walutowego (account_id = 3)
+INSERT INTO categories (id, account_id, name, color) VALUES
+(6, 3, 'Barcelona', '#b31446'),
+(7, 3, 'Berlin', '#2563eb');
+
+-- 5. Rejestrujemy transakcje dla konta bieżącego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
 (1, 1, 5000.00, 'Wypłata za marzec', '2026-03-10'),
 (1, 2, -150.50, 'Zakupy w Biedronce', '2026-03-12'),
@@ -153,7 +159,7 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (1, 2, -18.50, 'Żabka - przekąski i woda', '2026-04-08'),
 (1, 1, 5000.00, 'Wypłata za kwiecień', '2026-04-10');
 
--- 5. Rejestrujemy transakcje dla konta oszczędnościowego
+-- 6. Rejestrujemy transakcje dla konta oszczędnościowego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
 (2, 5, 1000.00, 'Przelew nadwyżki z bieżącego', '2026-03-10'),
 (2, 4, 15.50, 'Kapitalizacja odsetek', '2026-03-28'),
@@ -167,6 +173,19 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (2, 4, 18.20, 'Kapitalizacja odsetek', '2026-04-28'),
 (2, 4, 21.00, 'Kapitalizacja odsetek', '2026-05-28'),
 (2, 5, 600.00, 'Przelew nadwyżki - maj', '2026-05-30');
+
+-- 7. 10 transakcji dla konta walutowego (account_id = 3)
+INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
+(3, 6, 300.00, 'Zasilenie z kantoru internetowego', '2026-03-05'),
+(3, 6, -14.99, 'Subskrypcja oprogramowania', '2026-03-12'),
+(3, NULL, -45.50, 'Zakupy zagraniczne - Amazon', '2026-03-18'),
+(3, NULL, 500.00, 'Wymiana walut - przelew z bieżącego', '2026-03-25'),
+(3, 7, -120.00, 'Rezerwacja noclegu - Booking.com', '2026-04-02'),
+(3, 7, -35.00, 'Wypłata z bankomatu za granicą', '2026-04-15'),
+(3, 7, -89.90, 'Bilety lotnicze', '2026-04-20'),
+(3, 6, 150.00, 'Zasilenie konta przed wyjazdem', '2026-05-05'),
+(3, 7, -8.50, 'Kawa i przekąski na lotnisku', '2026-05-10'),
+(3, 6, -112.99, 'Zakupy - elektronika AliExpress', '2026-05-18');
 
 -- 6. Przeliczenie sald (dzieje się automatycznie)
 -- UPDATE accounts a
