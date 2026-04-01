@@ -5,13 +5,13 @@
 
 	// Obsługa błędów
 	if (DEBUG === true) {
+		error_reporting(E_ALL);
+		ini_set("display_errors", 1);
+	} else {
 		ini_set("display_errors", 0);
 		ini_set("log_errors", 1);
 		ini_set("error_log", RUNTIME_DIR . "error.log");
 		error_reporting(E_ALL);
-	} else {
-		error_reporting(E_ALL);
-		ini_set("display_errors", 1);
 	}
 
 	// Autoloader klas

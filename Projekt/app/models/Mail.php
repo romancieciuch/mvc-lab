@@ -31,7 +31,7 @@ class Mail {
 			$this->mailer->Host = $config["host"];
 			$this->mailer->Port = $config["port"];
 			$this->mailer->Username = $config["user"] ?? "";
-			$this->mailer->Password = $config["pass"] ?? "";
+			$this->mailer->Password = $config["password"] ?? "";
 
 			$this->mailer->SMTPAuth = $config["auth"];
 			$this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
