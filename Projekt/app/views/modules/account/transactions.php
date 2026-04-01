@@ -57,6 +57,16 @@
 			<div class="summary-value <?php echo $sumClass; ?>">
 				<?php echo $_DB->nice_format($transactions["avg_amount"]); ?> <?php echo $data[0]["currency"]; ?>
 			</div>
+
+			<?php if ($data[0]["currency"] !== "PLN"): ?>
+				<small class="balance-exchange">
+					<?php
+						echo $_DB->nice_format(
+							$_APP->exchange($transactions["avg_amount"], $data[0]["currency"], "PLN")
+						);
+					?> PLN
+				</small>
+			<?php endif; ?>
 		</div>
 
 		<div class="summary-card">
@@ -64,6 +74,16 @@
 			<div class="summary-value <?php echo $sumClass; ?>">
 				<?php echo $_DB->nice_format($transactions["total_amount"]); ?> <?php echo $data[0]["currency"]; ?>
 			</div>
+
+			<?php if ($data[0]["currency"] !== "PLN"): ?>
+				<small class="balance-exchange">
+					<?php
+						echo $_DB->nice_format(
+							$_APP->exchange($transactions["total_amount"], $data[0]["currency"], "PLN")
+						);
+					?> PLN
+				</small>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -98,6 +118,16 @@
 							<td class="cell-balance">
 								<span class="balance-amount"><?php echo $_DB->nice_format($v["amount"]); ?></span>
 								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
+
+								<?php if ($v["currency"] !== "PLN"): ?>
+									<small class="balance-exchange">
+										<?php
+											echo $_DB->nice_format(
+												$_APP->exchange($v["amount"], $v["currency"], "PLN")
+											);
+										?> PLN
+									</small>
+								<?php endif; ?>
 							</td>
 							<td class="table-options">
 								<a href="/transaction/<?php echo $v["transaction_id"]; ?>/details/">Szczegóły</a>

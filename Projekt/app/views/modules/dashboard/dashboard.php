@@ -48,11 +48,21 @@
 								</a>
 							</td>
 							<td>
-								<?php echo $v["created_at"]; ?>
+								<?php echo date("Y-m-d", strtotime($v["created_at"])); ?>
 							</td>
 							<td class="cell-balance">
 								<span class="balance-amount"><?php echo $_DB->nice_format($v["balance"]); ?></span>
 								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
+
+								<?php if ($v["currency"] !== "PLN"): ?>
+									<small class="balance-exchange">
+										<?php
+											echo $_DB->nice_format(
+												$_APP->exchange($v["balance"], $v["currency"], "PLN")
+											);
+										?> PLN
+									</small>
+								<?php endif; ?>
 							</td>
 							<td class="table-options">
 								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>

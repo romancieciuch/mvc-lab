@@ -5,6 +5,12 @@
 	$data = $account->get_accounts($user->id);
 	$summary = $account->get_accounts_summary($user->id);
 
+	// Dla kont o różnych walutach - potrzebna rekalkulacja
+	if ($account->has_different_currencies($data)) {
+		$data = $_APP->recalculate($data);
+		$summary = $_APP->recalculate_summary($summary, $data);
+	}
+
 	$modules = [
 		VIEWS_DIR . "modules/dashboard/dashboard.php"
 	];

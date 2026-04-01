@@ -1118,3 +1118,9 @@ input.input-error:focus {
 .balance-amount.is-negative {
     color: var(--color-expense); /* Użycie zmiennej dla czerwonego koloru */
 }
+
+.balance-exchange {
+	display: block;
+	font-size: 12px;
+	color: var(--text-muted);
+}

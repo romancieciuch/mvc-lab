@@ -4,6 +4,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 class App {
+	public array $currency_rates = [];
+
+	public function __construct () {
+		$this->currency_rates = $this->get_currency_rates(CACHE_DIR . "api/nbp.json");
+	}
+
 	public function route (string $uri = "") : array {
 		$arr = explode("/", trim($uri, "/"));
 
@@ -118,13 +124,62 @@ class App {
 
 	public function get_currency_rates (string $file) {
 		$is_valid = $this->cache_is_valid($file, 3600 * 12);
-
 		if ($is_valid)
 			return json_decode(file_get_contents($file), true);
 
 		$currency_rates = $this->fetch("GET", "https://api.nbp.pl/api/exchangerates/tables/a/?format=json");
-		$this->cache_save($file, json_encode($currency_rates[0], JSON_UNESCAPED_UNICODE));
+		$arr = $currency_rates[0]["rates"] ?? [];
 
-		return $currency_rates;
+		$this->cache_save($file, json_encode($arr, JSON_UNESCAPED_UNICODE));
+		return $arr;
+	}
+
+	public function exchange (float $amount, string $from, string $to) : float {
+		$from = strtoupper($from);
+		$to = strtoupper($to);
+
+		if ($from === $to) return round($amount, 2);
+
+		$rates = ["PLN" => 1.0];
+		foreach ($this->currency_rates as $rate)
+			if (isset($rate['code']) && isset($rate['mid']))
+				$rates[$rate['code']] = (float)$rate['mid'];
+
+
+		if (!isset($rates[$from]) || !isset($rates[$to]))
+			return 0;
+
+		$amountInPLN = $amount * $rates[$from];
+		$convertedAmount = $amountInPLN / $rates[$to];
+
+		return round($convertedAmount, 2);
+	}
+
+	public function recalculate (array $accounts = []) {
+		$temp = [];
+
+		foreach ($accounts as $account) {
+			$account["balance_pln"] = $this->exchange(floatval($account["balance"]), $account["currency"], "PLN");
+			$account["avg_transaction_pln"] = $this->exchange(floatval($account["avg_transaction"]), $account["currency"], "PLN");
+
+			$temp[] = $account;
+		}
+
+		return $temp;
+	}
+
+	public function recalculate_summary (array $summary = [], array $accounts = []) {
+		$avg_amount = [];
+		$total_balance = 0;
+
+		foreach ($accounts as $account) {
+			$avg_amount[] = $account["avg_transaction_pln"];
+			$total_balance += $account["balance_pln"];
+		}
+
+		$summary["avg_amount"] = array_sum($avg_amount) / count($avg_amount);
+		$summary["total_balance"] = $total_balance;
+
+		return $summary;
 	}
 }
