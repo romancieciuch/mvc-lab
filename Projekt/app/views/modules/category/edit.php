@@ -1,6 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Edycja kategorii: <?php echo $data[0]["name"]; ?>
+		<small class="article-title-breadcrumb">Edycja kategorii:</small>
+		<?php echo $data[0]["name"]; ?>
 	</h1>
 
 	<form class="form" id="account-form" method="POST">

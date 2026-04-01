@@ -1,7 +1,8 @@
 <article class="article page-width">
 	<div class="article-title-wrap">
 		<h1 class="article-title">
-			Transakcje: <?php echo $data[0]["name"]; ?>
+			<small class="article-title-breadcrumb">Transakcje:</small>
+			<?php echo $data[0]["name"]; ?>
 		</h1>
 
 		<div class="article-title-actions">

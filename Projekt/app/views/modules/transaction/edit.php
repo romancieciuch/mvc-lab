@@ -1,6 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Edycja transakcji: <?php echo $data[0]["description"]; ?>
+		<small class="article-title-breadcrumb">Edycja transakcji:</small>
+		<?php echo $data[0]["description"]; ?>
 	</h1>
 
 	<form class="form" id="account-form" method="POST">

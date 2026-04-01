@@ -1,6 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Szczegóły transakcji: <?php echo $data[0]["description"]; ?>
+		<small class="article-title-breadcrumb">Szczegóły transakcji:</small>
+		<?php echo $data[0]["description"]; ?>
 	</h1>
 
 	<div class="table-container">
