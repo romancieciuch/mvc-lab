@@ -7,7 +7,6 @@ Roman Cieciuch
 
 **TODO:**
 * filtrowanie, szukanie?
-* pwa
 
 
 ## Wybór projektu
