@@ -4,7 +4,7 @@
 	</h1>
 
 	<div class="table-container">
-		<table class="table table__mobile-friendly">
+		<table class="table">
 			<tbody>
 				<tr>
 					<th>Konto</th>
@@ -20,7 +20,7 @@
 				<tr>
 					<th>Data utworzenia</th>
 					<td>
-						<?php echo $data[0]["created_at"]; ?>
+						<?php echo date("Y-m-d", strtotime($data[0]["created_at"])); ?>
 					</td>
 				</tr>
 			</tbody>
