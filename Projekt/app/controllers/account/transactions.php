@@ -1,9 +1,18 @@
 <?php
 
+	$search = [
+		"search" => $_GET["search"] ?? "",
+		"date_from" => $_GET["date-from"] ?? "",
+		"date_to" => $_GET["date-to"] ?? "",
+		"amount_min" => $_GET["amount-min"] ?? "",
+		"amount_max" => $_GET["amount-max"] ?? ""
+	];
+
 	$transaction = new App\Models\Transaction($_DB);
-	$transactions = $transaction->get_transactions(
+	$transactions = $transaction->search_transactions(
 		$account_id,
 		$user->id,
 		$pagination["limit"],
-		$pagination["offset"]
+		$pagination["offset"],
+		$search
 	);

@@ -27,16 +27,33 @@ class App {
 		];
 	}
 
-	public function pagination_html (int $page = 0, int $per_page = 0, int $total = 0) : string {
+	public function pagination_html (int $page = 1, int $per_page = 10, int $total = 0, array $queryParams = []): string {
+		$totalPages = (int) ceil($total / $per_page);
+
+		if ($totalPages <= 1) return '';
+
+		$buildUrl = function (int $targetPage) use ($queryParams): string {
+			$queryParams['page'] = $targetPage;
+			return '?' . http_build_query($queryParams);
+		};
+
 		$html = '<nav class="pagination-container" aria-label="Nawigacja paginacji">';
 
+
 		if ($page > 1)
-			$html .= '<a href="?page='.($page - 1).'" class="page-link">Poprzednia</a>';
+			$html .= '<a href="' . $buildUrl($page - 1) . '" class="page-link">Poprzednia</a>';
+		else
+			$html .= '<span class="page-link disabled" aria-disabled="true">Poprzednia</span>';
 
-		$html .= '<span class="page-ellipsis">Strona '. $page .'</span>';
 
-		if ($total > $page * $per_page)
-			$html .= '<a href="?page='.($page + 1).'" class="page-link">Następna</a>';
+		$html .= '<span class="page-ellipsis">Strona ' . $page . ' z ' . $totalPages . '</span>';
+
+
+		if ($page < $totalPages)
+			$html .= '<a href="' . $buildUrl($page + 1) . '" class="page-link">Następna</a>';
+		else
+			$html .= '<span class="page-link disabled" aria-disabled="true">Następna</span>';
+
 
 		$html .= '</nav>';
 		return $html;
