@@ -21,7 +21,7 @@
 				<tr>
 					<th>Kwota</th>
 					<td>
-						<span class="balance-amount<?php if ($v["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
+						<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
 						<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
 					</td>
 				</tr>
