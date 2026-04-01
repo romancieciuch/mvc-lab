@@ -9,6 +9,64 @@
 		</div>
 	</div>
 
+	<div class="filter-panel">
+		<form class="filter-form" method="GET" action="">
+
+			<div class="filter-group filter-search">
+				<label for="searchQuery">Wyszukaj</label>
+				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, opis, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
+			</div>
+
+			<div class="filter-group">
+				<label>Zakres dat</label>
+				<div class="filter-row filter-row__date">
+					<input type="date" name="date-from" aria-label="Data od" value="<?php echo htmlspecialchars($_GET["date-from"] ?? ""); ?>">
+					<span class="filter-separator">-</span>
+					<input type="date" name="date-to" aria-label="Data do" value="<?php echo htmlspecialchars($_GET["date-to"] ?? ""); ?>">
+				</div>
+			</div>
+
+			<div class="filter-group">
+				<label>Kwota</label>
+				<div class="filter-row filter-row__amount">
+					<input type="number" step="0.01" name="amount-min" placeholder="Od" aria-label="Kwota od" value="<?php echo htmlspecialchars($_GET["amount-min"] ?? ""); ?>">
+					<span class="filter-separator">-</span>
+					<input type="number" step="0.01" name="amount-max" placeholder="Do" aria-label="Kwota do" value="<?php echo htmlspecialchars($_GET["amount-max"] ?? ""); ?>">
+				</div>
+			</div>
+
+			<div class="filter-actions">
+				<button type="reset" class="btn-filter-secondary">Wyczyść</button>
+				<button type="submit" class="btn-filter-primary">Szukaj</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="summary-grid">
+		<?php $sumClass = ($transactions["total_amount"] < 0) ? 'text-expense' : 'text-income'; ?>
+
+		<div class="summary-card">
+			<div class="summary-label">Ilość transakcji</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $transactions["total"]; ?>
+			</div>
+		</div>
+
+		<div class="summary-card">
+			<div class="summary-label">Średnia transakcja</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $_DB->nice_format($transactions["avg_amount"]); ?> <?php echo $data[0]["currency"]; ?>
+			</div>
+		</div>
+
+		<div class="summary-card">
+			<div class="summary-label">Łącznie w okresie</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $_DB->nice_format($transactions["total_amount"]); ?> <?php echo $data[0]["currency"]; ?>
+			</div>
+		</div>
+	</div>
+
 	<?php if (!empty($transactions["data"])): ?>
 		<div class="table-container">
 			<table class="table table__mobile-friendly">
@@ -51,7 +109,7 @@
 			</table>
 		</div>
 
-		<?php echo $_APP->pagination_html($pagination["page"], $pagination["limit"], $transactions["total"]); ?>
+		<?php echo $_APP->pagination_html($pagination["page"], $pagination["limit"], $transactions["total"], $_GET); ?>
 
 	<?php else: ?>
 		<div class="article-body page-width__narrow">

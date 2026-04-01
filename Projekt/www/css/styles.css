@@ -32,6 +32,22 @@
 
 	--switch-bg: #d1d5db;
     --switch-thumb: #ffffff;
+
+	--panel-bg: #ffffff;
+    --panel-border: #e5e7eb; /* tailwind gray-200 */
+    --label-color: #6b7280;  /* tailwind gray-500 */
+    --input-bg: #f9fafb;     /* tailwind gray-50 */
+    --input-border: #d1d5db; /* tailwind gray-300 */
+    --input-text: #111827;   /* tailwind gray-900 */
+    --input-focus: #3b82f6;  /* niebieski akcent */
+
+    --btn-sec-bg: #f3f4f6;
+    --btn-sec-border: #d1d5db;
+    --btn-sec-text: #374151;
+    --btn-sec-hover: #e5e7eb;
+
+    --color-income: #059669; /* tailwind emerald-600 */
+    --color-expense: #e11d48;/* tailwind rose-600 */
 }
 
 [data-theme="dark"] {
@@ -68,6 +84,22 @@
 
 	--switch-bg: #3b82f6;
     --switch-thumb: #ffffff;
+
+	--panel-bg: #1f2937;
+    --panel-border: #374151;
+    --label-color: #9ca3af;
+    --input-bg: #374151;
+    --input-border: #4b5563;
+    --input-text: #f9fafb;
+    --input-focus: #60a5fa;
+
+    --btn-sec-bg: #374151;
+    --btn-sec-border: #4b5563;
+    --btn-sec-text: #d1d5db;
+    --btn-sec-hover: #4b5563;
+
+	--color-income: #10b981; /* jaśniejszy emerald-500 dla czytelności na ciemnym */
+    --color-expense: #f43f5e;/* jaśniejszy rose-500 */
 
     body {
         background-image: url("/images/bcg-dark.webp");
@@ -852,4 +884,175 @@ input.input-error:focus {
 	width: 1rem;
 	height: 1rem;
 	border: 1px solid var(--border-color);
+}
+
+.filter-panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 0.5rem; /* Zaokrąglenie 8px */
+    padding: 1.25rem;
+    margin-bottom: 1.5rem; /* Odstęp od tabeli */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Subtelny cień z Tailwind */
+}
+
+/* Układ Flexbox - główny rząd */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap; /* Pozwala przełamać rzędy na mniejszych ekranach */
+    gap: 1.5rem;
+    align-items: flex-end; /* Wyrównuje pola do dołu, by zignorować wysokość etykiet */
+}
+
+/* Pojedyncza sekcja filtra */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1; /* Pola rosną równomiernie */
+}
+
+/* Sekcja szukajki musi być najdłuższa */
+.filter-search {
+    flex: 1.25;
+}
+
+/* Stylizacja etykiet nad inputami */
+.filter-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--label-color);
+}
+
+/* Złączenie dwóch inputów (daty, kwoty) w jednym rzędzie */
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Sam input z płynnym podświetleniem Focus */
+.filter-group input {
+    width: 100%;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-group input:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.filter-separator {
+    color: var(--label-color);
+    font-weight: bold;
+}
+
+/* Sekcja przycisków akcji */
+.filter-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Stylizacja przycisków */
+.btn-filter-primary, .btn-filter-secondary {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    height: 38px; /* Dopasowanie wysokości do inputów */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-filter-primary {
+    background-color: #3b82f6; /* Niebieski z Twojego przycisku nad tabelą */
+    color: #ffffff;
+    border: none;
+}
+
+.btn-filter-primary:hover {
+    background-color: #2563eb;
+}
+
+.btn-filter-secondary {
+    background-color: var(--btn-sec-bg);
+    color: var(--btn-sec-text);
+    border: 1px solid var(--btn-sec-border);
+}
+
+.btn-filter-secondary:hover {
+    background-color: var(--btn-sec-hover);
+}
+
+.summary-grid {
+    display: grid;
+    /* Automatycznie dopasowuje kolumny. Min szerokość 200px, reszta to wolna przestrzeń */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem; /* Odstęp od tabeli poniżej */
+}
+
+/* Pojedyncza karta (wizualnie zgodna z panelem filtrów) */
+.summary-card {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Odstęp między etykietą a kwotą */
+}
+
+/* Etykieta (np. "Łącznie w okresie") */
+.summary-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--label-color);
+}
+
+/* Główna wartość */
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    word-break: break-word; /* Zabezpieczenie przed wylaniem się gigantycznej kwoty z karty */
+}
+
+/* Klasy narzędziowe do kolorowania w PHP */
+.text-income {
+    color: var(--color-income);
+}
+.text-expense {
+    color: var(--color-expense);
+}
+
+@media (max-width: 440px) {
+	.filter-group,
+	.filter-actions {
+		flex: 0 0 100%;
+	}
+
+	.filter-row__date {
+		flex-wrap: wrap;
+	}
+
+	.filter-actions button {
+		flex: 1;
+	}
 }
