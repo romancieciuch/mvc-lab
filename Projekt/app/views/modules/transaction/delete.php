@@ -6,7 +6,7 @@
 	<div class="article-body">
 		<?php if (!empty($data)): ?>
 			<h2 class="acenter">
-				Czy na pewno chcesz usunąć transakcję: <strong><?php echo $data[0]["description"]; ?></strong>?
+				Czy na pewno chcesz usunąć transakcję: <strong><?php echo $data[0]["name"]; ?></strong>?
 			</h2>
 
 			<p class="buttons">

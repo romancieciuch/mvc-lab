@@ -14,12 +14,13 @@ class Transaction {
 
 	public function create_transaction (TransactionDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO transactions (account_id, category_id, amount, description, transaction_date)
-				VALUES (:account_id, :category_id, :amount, :description, :transaction_date)",
+			"INSERT INTO transactions (account_id, category_id, amount, name, description, transaction_date)
+				VALUES (:account_id, :category_id, :amount, :name, :description, :transaction_date)",
 			[
 				"account_id" => $dto->account_id,
 				"category_id" => $dto->category_id,
 				"amount" => $dto->amount,
+				"name" => $dto->name,
 				"description" => $dto->description,
 				"transaction_date" => $dto->transaction_date
 			]
@@ -28,7 +29,7 @@ class Transaction {
 
 	public function get_transaction (int $transaction_id) {
 		return $this->db->query(
-			"SELECT t.amount, t.description, t.transaction_date,
+			"SELECT t.amount, t.name, t.description, t.transaction_date,
 					c.id AS category_id, c.name AS category_name, c.color,
 					a.name AS account_name, a.balance, a.currency, a.id AS account_id
 				FROM transactions t
@@ -59,7 +60,8 @@ class Transaction {
 			"SELECT
 				t.id AS transaction_id,
 					t.amount,
-					t.description as name,
+					t.name,
+					t.description,
 					t.transaction_date,
 					c.id AS category_id,
 					c.name AS category_name,
@@ -94,7 +96,7 @@ class Transaction {
         ];
 
         if (!empty($search['search'])) {
-            $whereSql .= " AND (t.description LIKE :search_desc OR c.name LIKE :search_cat)";
+            $whereSql .= " AND (t.name LIKE :search_desc OR c.name LIKE :search_cat)";
 
             $searchTerm = '%' . $search['search'] . '%';
             $params['search_desc'] = $searchTerm;
@@ -135,7 +137,8 @@ class Transaction {
         $dataSql = "SELECT
                         t.id AS transaction_id,
                         t.amount,
-                        t.description as name,
+                        t.name,
+						t.description,
                         t.transaction_date,
                         c.id AS category_id,
                         c.name AS category_name,
@@ -166,7 +169,7 @@ class Transaction {
 		return $this->db->query(
 			"UPDATE transactions
 				SET account_id = :account_id, category_id = :category_id,
-					amount = :amount, description = :description, transaction_date = :transaction_date
+					amount = :amount, name = :name, description = :description, transaction_date = :transaction_date
 						WHERE id = :transaction_id
 							LIMIT 1",
 			[
@@ -174,6 +177,7 @@ class Transaction {
 				"account_id" => $dto->account_id,
 				"category_id" => $dto->category_id,
 				"amount" => $dto->amount,
+				"name" => $dto->name,
 				"description" => $dto->description,
 				"transaction_date" => $dto->transaction_date
 			]

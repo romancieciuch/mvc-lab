@@ -1,7 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
 		<small class="article-title-breadcrumb">Szczegóły transakcji:</small>
-		<?php echo $data[0]["description"]; ?>
+		<?php echo $data[0]["name"]; ?>
 	</h1>
 
 	<div class="table-container">
@@ -29,6 +29,12 @@
 					<th>Data transakcji</th>
 					<td>
 						<?php echo $data[0]["transaction_date"]; ?>
+					</td>
+				</tr>
+				<tr>
+					<th>Opis transakcji</th>
+					<td>
+						<?php echo $data[0]["description"]; ?>
 					</td>
 				</tr>
 			</tbody>
