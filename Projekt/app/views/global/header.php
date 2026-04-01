@@ -14,7 +14,7 @@
 
 	<meta id="meta-theme-color" name="theme-color" content="#2563EB">
 	<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-	<link rel="manifest" href="/manifest.json">
+	<link rel="manifest" href="/manifest.json?v=<?php echo filemtime(WWW_DIR . "manifest.json"); ?>">
 </head>
 <body>
 	<header class="header">
