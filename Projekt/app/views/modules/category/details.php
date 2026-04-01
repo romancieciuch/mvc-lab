@@ -1,6 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Szczegóły kategorii: <?php echo $data[0]["name"]; ?>
+		<small class="article-title-breadcrumb">Szczegóły kategorii:</small>
+		<?php echo $data[0]["name"]; ?>
 	</h1>
 
 	<div class="table-container">

@@ -1124,3 +1124,9 @@ input.input-error:focus {
 	font-size: 12px;
 	color: var(--text-muted);
 }
+
+.article-title-breadcrumb {
+	display: block;
+	font-size: 14px;
+	color: var(--text-muted);
+}
