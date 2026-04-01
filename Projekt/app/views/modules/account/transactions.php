@@ -123,7 +123,7 @@
 								<?php echo $v["transaction_date"]; ?>
 							</td>
 							<td class="cell-balance">
-								<span class="balance-amount"><?php echo $_DB->nice_format($v["amount"]); ?></span>
+								<span class="balance-amount<?php if ($v["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($v["amount"]); ?></span>
 								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
 
 								<?php if ($v["currency"] !== "PLN"): ?>

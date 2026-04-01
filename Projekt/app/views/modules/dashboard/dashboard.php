@@ -51,7 +51,7 @@
 								<?php echo date("Y-m-d", strtotime($v["created_at"])); ?>
 							</td>
 							<td class="cell-balance">
-								<span class="balance-amount"><?php echo $_DB->nice_format($v["balance"]); ?></span>
+								<span class="balance-amount<?php if ($v["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($v["balance"]); ?></span>
 								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
 
 								<?php if ($v["currency"] !== "PLN"): ?>
