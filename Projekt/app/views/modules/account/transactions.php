@@ -113,7 +113,7 @@
 
 	<?php else: ?>
 		<div class="article-body page-width__narrow">
-			<p>Nie masz jeszcze żadnych transakcji. Dodaj coś.</p>
+			<p>Brak transakcji spełniających kryteria.</p>
 		</div>
 	<?php endif; ?>
 
