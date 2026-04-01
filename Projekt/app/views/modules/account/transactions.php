@@ -15,8 +15,8 @@
 				<thead>
 					<tr>
 						<th>Nazwa</th>
-						<th>Data</th>
 						<th>Kategoria</th>
+						<th>Data</th>
 						<th>Kwota</th>
 						<th>Akcje</th>
 					</tr>
@@ -30,12 +30,12 @@
 								</a>
 							</td>
 							<td>
-								<?php echo $v["transaction_date"]; ?>
-							</td>
-							<td>
 								<a class="category" style="background: <?php echo $v["category_color"] ?? "#444"; ?>" href="/account/<?php echo $data[0]["id"]; ?>/transactions/category/<?php echo $v["category_id"] ?? 0; ?>/">
 									<?php echo $v["category_name"] ?? "Bez kategorii"; ?>
 								</a>
+							</td>
+							<td>
+								<?php echo $v["transaction_date"]; ?>
 							</td>
 							<td>
 								<?php echo $_DB->nice_format($v["amount"]); ?> <?php echo $v["currency"]; ?>

@@ -12,7 +12,10 @@
 				</tr>
 				<tr>
 					<th>Kategoria</th>
-					<td><?php echo $data[0]["category_name"]; ?></td>
+					<td>
+						<span class="color-box" style="background-color: <?php echo $data[0]["color"]; ?>;"></span>
+						<?php echo $data[0]["category_name"]; ?>
+					</td>
 				</tr>
 				<tr>
 					<th>Kwota</th>

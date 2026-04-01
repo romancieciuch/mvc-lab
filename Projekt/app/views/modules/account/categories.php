@@ -23,6 +23,7 @@
 					<?php foreach ($categories as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
+								<span class="color-box" style="background-color: <?php echo $v["color"]; ?>;"></span>
 								<a href="/category/<?php echo $v["id"]; ?>/details/">
 									<?php echo $v["name"]; ?>
 								</a>
