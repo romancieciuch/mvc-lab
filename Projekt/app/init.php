@@ -40,8 +40,12 @@
 	$_MAIL = new App\Models\Mail([
 		"host" => $_CONFIG["SMTP_HOST"],
 		"port" => $_CONFIG["SMTP_PORT"],
+		"user" => $_CONFIG["SMTP_USER"],
+		"password" => $_CONFIG["SMTP_PASSWORD"],
 		"from" => $_CONFIG["MAIL_FROM"],
-		"auth" => $_CONFIG["SMTP_AUTH"]
+		"from_name" => $_CONFIG["MAIL_FROM_NAME"],
+		"auth" => $_CONFIG["SMTP_AUTH"],
+		"env" => $_CONFIG["ENV"]
 	]);
 
 	// Formularze

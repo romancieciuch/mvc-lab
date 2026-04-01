@@ -14,13 +14,32 @@ class Mail {
     public function __construct(array $config = []) {
         $this->mailer = new PHPMailer(true);
 
-		$this->mailer->isSMTP();
-		$this->mailer->Host = $config["host"];
-		$this->mailer->Port = $config["port"];
-		$this->mailer->setFrom($config["from"]);
-		$this->mailer->SMTPAuth = $config["auth"];
-		$this->mailer->CharSet = "UTF-8";
-		$this->mailer->isHTML(true);
+		if ($config["env"] === "local") {
+			$this->mailer->isSMTP();
+
+			$this->mailer->Host = $config["host"];
+			$this->mailer->Port = $config["port"];
+			$this->mailer->SMTPAuth = $config["auth"];
+			$this->mailer->CharSet = "UTF-8";
+
+			$this->mailer->isHTML(true);
+			$this->mailer->setFrom($config["from"], $config["from_name"]);
+
+		} else {
+
+			$this->mailer->isSMTP();
+			$this->mailer->Host = $config["host"];
+			$this->mailer->Port = $config["port"];
+			$this->mailer->Username = $config["user"] ?? "";
+			$this->mailer->Password = $config["pass"] ?? "";
+
+			$this->mailer->SMTPAuth = $config["auth"];
+			$this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+
+			$this->mailer->CharSet = "UTF-8";
+			$this->mailer->isHTML(true);
+			$this->mailer->setFrom($config["from"], $config["from_name"]);
+		}
     }
 
     public function send (string $to, string $title, string $body) : bool {
