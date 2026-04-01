@@ -20,7 +20,8 @@
 				<tr>
 					<th>Kwota</th>
 					<td>
-						<?php echo $data[0]["amount"]; ?> <?php echo $data[0]["currency"]; ?>
+						<span class="balance-amount"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
+						<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
 					</td>
 				</tr>
 				<tr>
@@ -33,5 +34,5 @@
 		</table>
 	</div>
 
-	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
+	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>

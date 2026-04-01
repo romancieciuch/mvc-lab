@@ -3,6 +3,7 @@
 
 	$account = new App\Models\Account($_DB);
 	$data = $account->get_accounts($user->id);
+	$summary = $account->get_accounts_summary($user->id);
 
 	$modules = [
 		VIEWS_DIR . "modules/dashboard/dashboard.php"

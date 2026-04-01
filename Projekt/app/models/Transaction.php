@@ -29,7 +29,7 @@ class Transaction {
 	public function get_transaction (int $transaction_id) {
 		return $this->db->query(
 			"SELECT t.amount, t.description, t.transaction_date,
-					c.name AS category_name, c.color,
+					c.id AS category_id, c.name AS category_name, c.color,
 					a.name AS account_name, a.balance, a.currency, a.id AS account_id
 				FROM transactions t
 					INNER JOIN accounts a ON t.account_id = a.id
