@@ -62,7 +62,7 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
+	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>
 
 <script>
@@ -78,11 +78,13 @@
 			const account_id = select_account.value;
 
 			let html = `<option value="">Bez kategorii</option>`;
-			for (let category of categories[account_id])
-				if (category.id === selected_category)
-					html += `<option value="${category.id}" selected>${category.name}</option>`;
-				else
-					html += `<option value="${category.id}">${category.name}</option>`;
+
+			if (categories[account_id])
+				for (let category of categories[account_id])
+					if (category.id === selected_category)
+						html += `<option value="${category.id}" selected>${category.name}</option>`;
+					else
+						html += `<option value="${category.id}">${category.name}</option>`;
 
 			select_categories.innerHTML = html;
 		}

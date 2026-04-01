@@ -47,6 +47,30 @@ class Account {
 		);
 	}
 
+	public function get_accounts_summary (int $user_id = 0) : array {
+		$txSql = "SELECT
+					COUNT(t.id) AS total_transactions,
+					AVG(t.amount) AS avg_amount
+				FROM transactions t
+				INNER JOIN accounts a ON t.account_id = a.id
+				WHERE a.user_id = :user_id";
+
+		$txStats = $this->db->query($txSql, ["user_id" => $user_id]);
+
+		$balanceSql = "SELECT
+						SUM(balance) AS total_balance
+					FROM accounts
+					WHERE user_id = :user_id";
+
+		$balanceStats = $this->db->query($balanceSql, ["user_id" => $user_id]);
+
+		return [
+			"total_transactions" => $txStats[0]["total_transactions"] ?? 0,
+			"avg_amount"         => $txStats[0]["avg_amount"] ?? 0.00,
+			"total_balance"      => $balanceStats[0]["total_balance"] ?? 0.00
+		];
+	}
+
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
 		return $this->db->query(
 			"UPDATE accounts

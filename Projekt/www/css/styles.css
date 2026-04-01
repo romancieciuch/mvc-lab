@@ -141,7 +141,15 @@ a:hover {
     color: var(--primary-hover);
 }
 
-a.accent {
+.primary {
+    color: var(--primary);
+}
+
+a.primary:hover {
+    color: var(--primary-hover);
+}
+
+.accent {
     color: var(--accent);
 }
 
@@ -196,6 +204,10 @@ blockquote {
     background-color: var(--bg-surface);
     color: var(--text-main);
     font-style: italic;
+}
+
+button {
+	cursor: pointer;
 }
 
 .button {
@@ -257,6 +269,10 @@ blockquote {
 
 .acenter {
     text-align: center;
+}
+
+.aright {
+    text-align: right;
 }
 
 .alert-error {
@@ -979,13 +995,13 @@ input.input-error:focus {
 }
 
 .btn-filter-primary {
-    background-color: #3b82f6; /* Niebieski z Twojego przycisku nad tabelą */
+    background-color: var(--primary); /* Niebieski z Twojego przycisku nad tabelą */
     color: #ffffff;
     border: none;
 }
 
 .btn-filter-primary:hover {
-    background-color: #2563eb;
+    background-color: var(--primary-hover);
 }
 
 .btn-filter-secondary {
@@ -1056,4 +1072,49 @@ input.input-error:focus {
 	.filter-actions button {
 		flex: 1;
 	}
+}
+
+.back-button {
+	background: none;
+	border: none;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+.back-button:hover,
+.back-button:active,
+.back-button:focus {
+	color: var(--primary-hover);
+}
+
+/* Wyrównanie kolumny z kwotami ZAWSZE do prawej strony */
+.cell-balance {
+    text-align: right;
+    padding-right: 2rem; /* Opcjonalny bufor, żeby nie przyklejało się do krawędzi kolumny */
+}
+
+/* Główna kwota - duża i wyraźna */
+.balance-amount {
+    font-size: 1.125rem; /* 18px - odrobinę większa niż reszta tabeli */
+    font-weight: 700;    /* Mocne pogrubienie */
+    color: var(--text-main);
+
+    /* Złota zasada dla liczb: zapobiega "pływaniu" szerokości cyfr */
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em; /* Delikatne ściśnięcie cyfr dla lepszego wyglądu */
+}
+
+/* Waluta - wyciszona, stanowi tylko tło dla liczby */
+.balance-currency {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: var(--label-color); /* Szary odcień, np. z Twoich etykiet formularza */
+    margin-left: 0.25rem;
+}
+
+/* Opcjonalnie: klasa dla ujemnego salda, narzucana z poziomu PHP */
+.balance-amount.is-negative {
+    color: var(--color-expense); /* Użycie zmiennej dla czerwonego koloru */
 }

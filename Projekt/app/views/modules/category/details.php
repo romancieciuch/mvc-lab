@@ -27,5 +27,5 @@
 		</table>
 	</div>
 
-	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
+	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>

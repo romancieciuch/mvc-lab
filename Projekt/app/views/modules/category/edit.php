@@ -28,7 +28,9 @@
 			<label for="account_id">Przypisz do konta</label>
 			<select name="account_id" id="account_id" data-account>
 				<?php foreach ($accounts as $account): ?>
-					<option value="<?php echo $account["id"]; ?>"><?php echo $account["name"]; ?></option>
+					<option value="<?php echo $account["id"]; ?>"<?php echo ($data[0]["account_id"] === $account["id"]) ? " selected" : ""; ?>>
+						<?php echo $account["name"]; ?>
+					</option>
 				<?php endforeach; ?>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["account_id"] ?? ""); ?>
@@ -43,5 +45,5 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
+	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>

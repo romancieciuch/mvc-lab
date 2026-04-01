@@ -5,7 +5,7 @@
 		</h1>
 
 		<div class="article-title-actions">
-			<a href="/transaction/0/create/" class="button">Nowa transakcja</a>
+			<a href="/transaction/0/create/?account-id=<?php echo $data[0]["id"]; ?>" class="button">Nowa transakcja</a>
 		</div>
 	</div>
 
@@ -75,7 +75,7 @@
 						<th>Nazwa</th>
 						<th>Kategoria</th>
 						<th>Data</th>
-						<th>Kwota</th>
+						<th class="aright">Kwota</th>
 						<th>Akcje</th>
 					</tr>
 				</thead>
@@ -95,8 +95,9 @@
 							<td>
 								<?php echo $v["transaction_date"]; ?>
 							</td>
-							<td>
-								<?php echo $_DB->nice_format($v["amount"]); ?> <?php echo $v["currency"]; ?>
+							<td class="cell-balance">
+								<span class="balance-amount"><?php echo $_DB->nice_format($v["amount"]); ?></span>
+								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
 							</td>
 							<td class="table-options">
 								<a href="/transaction/<?php echo $v["transaction_id"]; ?>/details/">Szczegóły</a>
@@ -117,5 +118,5 @@
 		</div>
 	<?php endif; ?>
 
-	<p class="acenter"><strong><a href="/dashboard/">Powrót</a></strong></p>
+	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>

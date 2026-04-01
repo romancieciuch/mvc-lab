@@ -1,7 +1,32 @@
 <article class="article page-width">
 	<h1 class="article-title">
-		Dashboard
+		Witaj, <span class="primary"><?php echo $user->name; ?></span>!
 	</h1>
+
+	<div class="summary-grid">
+		<?php $sumClass = ($summary["total_balance"] < 0) ? 'text-expense' : 'text-income'; ?>
+
+		<div class="summary-card">
+			<div class="summary-label">Ilość transakcji</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $summary["total_transactions"]; ?>
+			</div>
+		</div>
+
+		<div class="summary-card">
+			<div class="summary-label">Średnia transakcja</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $_DB->nice_format($summary["avg_amount"]); ?> <?php echo $data[0]["currency"]; ?>
+			</div>
+		</div>
+
+		<div class="summary-card">
+			<div class="summary-label">Łączna wartość</div>
+			<div class="summary-value <?php echo $sumClass; ?>">
+				<?php echo $_DB->nice_format($summary["total_balance"]); ?> <?php echo $data[0]["currency"]; ?>
+			</div>
+		</div>
+	</div>
 
 	<?php if (!empty($data)): ?>
 		<div class="table-container">
@@ -10,7 +35,7 @@
 					<tr>
 						<th>Konto</th>
 						<th>Data utworzenia</th>
-						<th>Saldo</th>
+						<th class="aright">Saldo</th>
 						<th>Akcje</th>
 					</tr>
 				</thead>
@@ -25,8 +50,9 @@
 							<td>
 								<?php echo $v["created_at"]; ?>
 							</td>
-							<td>
-								<?php echo $_DB->nice_format($v["balance"]); ?> <?php echo $v["currency"]; ?>
+							<td class="cell-balance">
+								<span class="balance-amount"><?php echo $_DB->nice_format($v["balance"]); ?></span>
+								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
 							</td>
 							<td class="table-options">
 								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
