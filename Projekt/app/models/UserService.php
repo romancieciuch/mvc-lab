@@ -372,7 +372,7 @@ class UserService {
 		return 0;
 	}
 
-	public function verify_user (int $user_id = 0, int $account_id = 0, int $transaction_id = 0) {
+	public function verify_user (int $user_id = 0, int $account_id = 0, int $transaction_id = 0, int $category_id = 0) {
 		$res = $this->db->query(
 			"SELECT id FROM accounts WHERE id = :id AND user_id = :user_id LIMIT 1",
 			[
@@ -390,7 +390,22 @@ class UserService {
 				]
 			);
 
+		if (!empty($category_id))
+			$res = $this->db->query(
+				"SELECT id FROM categories c
+					WHERE c.id = :id
+						AND account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
+						LIMIT 1",
+				[
+					"id" => $category_id,
+					"user_id" => $user_id
+				]
+			);
+
 		if (!empty($res)) return true;
+
+		// Do testów
+		// return false;
 
 		$this->logout();
 		exit("Próba oszustwa!");

@@ -51,7 +51,7 @@
 		<input type="hidden" name="form-sent" value="1">
 
 		<div class="form-row">
-			<button class="button" type="submit">Zapisz transakcję</button>
+			<button class="button" type="submit">Utwórz transakcję</button>
 		</div>
 
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>

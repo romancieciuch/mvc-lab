@@ -5,7 +5,7 @@
 		</h1>
 
 		<div class="article-title-actions">
-			<a href="/categories/0/create/" class="button">Nowa kategoria</a>
+			<a href="/category/0/create/" class="button">Nowa kategoria</a>
 		</div>
 	</div>
 

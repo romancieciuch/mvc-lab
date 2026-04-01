@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\Models;
 
-use App\Models\DTO\AccountDTO;
+use App\Models\DTO\CategoryDTO;
 
 class Category {
 	private DB $db;
@@ -12,27 +12,27 @@ class Category {
 		$this->db = $db;
 	}
 
-	public function create_account (int $user_id, AccountDTO $dto) {
+	public function create_category (CategoryDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, balance, currency)
-				VALUES (:user_id, :name, :balance, :currency)",
+			"INSERT INTO categories (account_id, name, color)
+				VALUES (:account_id, :name, :color)",
 			[
-				"user_id" => $user_id,
+				"account_id" => $dto->account_id,
 				"name" => $dto->name,
-				"balance" => $dto->balance,
-				"currency" => $dto->currency
+				"color" => $dto->color
 			]
 		);
 	}
 
-	public function get_account (int $user_id = 0, int $account_id = 0) {
+	public function get_category (int $category_id = 0) {
 		return $this->db->query(
-			"SELECT * FROM accounts
-				WHERE id = :account_id AND user_id = :user_id
-					LIMIT 1",
+			"SELECT c.id, c.name, c.color, c.created_at,
+					a.id AS account_id, a.name AS account_name
+				FROM categories c, accounts a
+					WHERE c.id = :category_id AND c.account_id = a.id
+						LIMIT 1",
 			[
-				"account_id" => $account_id,
-				"user_id" => $user_id
+				"category_id" => $category_id
 			]
 		);
 	}
@@ -48,6 +48,17 @@ class Category {
 		);
 	}
 
+	public function get_account_categories (int $account_id = 0) {
+		return $this->db->query(
+			"SELECT * FROM categories
+				WHERE account_id = :account_id
+					ORDER BY account_id ASC",
+			[
+				"account_id" => $account_id
+			]
+		);
+	}
+
 	public function group_categories (array $categories = []) {
 		$json = [];
 		foreach ($categories as $category)
@@ -56,30 +67,28 @@ class Category {
 		return $json;
 	}
 
-	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
+	public function update_category (int $category_id, CategoryDTO $dto) {
 		return $this->db->query(
-			"UPDATE accounts
-				SET name = :name, balance = :balance, currency = :currency
-					WHERE id = :account_id AND user_id = :user_id
+			"UPDATE categories
+				SET name = :name, color = :color, account_id = :account_id
+					WHERE id = :category_id
 						LIMIT 1",
 			[
-				"user_id" => $user_id,
-				"account_id" => $account_id,
+				"category_id" => $category_id,
 				"name" => $dto->name,
-				"balance" => $dto->balance,
-				"currency" => $dto->currency
+				"account_id" => $dto->account_id,
+				"color" => $dto->color
 			]
 		);
 	}
 
-	public function delete_account (int $user_id = 0, int $account_id = 0) {
+	public function delete_category (int $category_id = 0) {
 		return $this->db->query(
-			"DELETE FROM accounts
-				WHERE id = :account_id AND user_id = :user_id
+			"DELETE FROM categories
+				WHERE id = :category_id
 					LIMIT 1",
 			[
-				"account_id" => $account_id,
-				"user_id" => $user_id
+				"category_id" => $category_id
 			]
 		);
 	}
