@@ -33,6 +33,8 @@ class App {
 		if ($page > 1)
 			$html .= '<a href="?page='.($page - 1).'" class="page-link">Poprzednia</a>';
 
+		$html .= '<span class="page-ellipsis">Strona '. $page .'</span>';
+
 		if ($total > $page * $per_page)
 			$html .= '<a href="?page='.($page + 1).'" class="page-link">Następna</a>';
 

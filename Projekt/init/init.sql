@@ -126,14 +126,14 @@ INSERT INTO accounts (id, user_id, name, balance, currency) VALUES
 
 -- 2. Dodajemy kategorie dla konta bieżącego (account_id = 1)
 INSERT INTO categories (id, account_id, name, color) VALUES
-(1, 1, 'Wypłata', '#095e2d'),
-(2, 1, 'Zakupy spożywcze', '#dd8c00'),
-(3, 1, 'Paliwo', '#cc0000');
+(1, 1, 'Wypłata', '#059669'),
+(2, 1, 'Zakupy spożywcze', '#ea580c'),
+(3, 1, 'Paliwo', '#e11d48');
 
 -- 3. Dodajemy kategorie dla konta oszczędnościowego (account_id = 2)
 INSERT INTO categories (id, account_id, name, color) VALUES
-(4, 2, 'Odsetki', '#10316a'),
-(5, 2, 'Wpłata własna', '#1651b6');
+(4, 2, 'Odsetki', '#7c3aed'),
+(5, 2, 'Wpłata własna', '#2563eb');
 
 -- 4. Rejestrujemy transakcje dla konta bieżącego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
