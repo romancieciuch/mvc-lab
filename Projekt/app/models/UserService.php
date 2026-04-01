@@ -30,7 +30,7 @@ class UserService {
 
 		// Czy użytkownik istnieje
 		if ($this->user_exists($dto->email, "email"))
-			$errors["global"] = "Użytkownik o takim adresie e-mail już istnieje. <a href=\"/login/\">Spróbuj się zalogować</a>.";
+			$errors["global"] = "Użytkownik o takim adresie e-mail już istnieje. <strong><a href=\"/login/\">Spróbuj się zalogować</a></strong>.";
 
 		if (!empty($errors))
 			return [
@@ -370,5 +370,44 @@ class UserService {
 
 		if (!empty($res)) return $res;
 		return 0;
+	}
+
+	public function verify_user (int $user_id = 0, int $account_id = 0, int $transaction_id = 0, int $category_id = 0) {
+		$res = $this->db->query(
+			"SELECT id FROM accounts WHERE id = :id AND user_id = :user_id LIMIT 1",
+			[
+				"id" => $account_id,
+				"user_id" => $user_id
+			]
+		);
+
+		if (!empty($res) && !empty($transaction_id))
+			$res = $this->db->query(
+				"SELECT id FROM transactions WHERE id = :id AND account_id = :account_id LIMIT 1",
+				[
+					"id" => $transaction_id,
+					"account_id" => $account_id
+				]
+			);
+
+		if (!empty($category_id))
+			$res = $this->db->query(
+				"SELECT id FROM categories c
+					WHERE c.id = :id
+						AND account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
+						LIMIT 1",
+				[
+					"id" => $category_id,
+					"user_id" => $user_id
+				]
+			);
+
+		if (!empty($res)) return true;
+
+		// Do testów
+		// return false;
+
+		$this->logout();
+		exit("Próba oszustwa!");
 	}
 }

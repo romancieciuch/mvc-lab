@@ -8,7 +8,7 @@
 
 	// Czy Grecaptcha OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\UpdateUserDTO::parse($_POST + ["id" => $user->id]);
+		$dto = App\Models\DTO\UpdateUserDTO::parse($_DB->sanitize_array($_POST) + ["id" => $user->id]);
 		$errors = $dto->errors;
 	}
 

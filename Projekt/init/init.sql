@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     user_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
     balance DECIMAL(15, 2) DEFAULT 0.00,
+	currency VARCHAR(3) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_account_user
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS categories (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     account_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
+	color VARCHAR(7) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_category_account
@@ -113,25 +115,25 @@ DELIMITER ;
 
 -- Dane startowe
 
--- 0. Twortzymy użytkownika Jan Kowalski, jan.kowalski@gmail.com, 123456abcd
+-- 0. Tworzymy użytkownika Jan Kowalski, jan.kowalski@gmail.com, 123456abcd
 INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `token`, `active`) VALUES
 (1, 'Jan Kowalski', 'jan.kowalski@gmail.com', '$2y$10$ZdJacckGfs4lrr87hRIgUOpQwZesKTC3H7EamTSIB3x9qEPbKWNoe', NULL, 1);
 
 -- 1. Tworzymy dwa konta dla użytkownika o id = 1
-INSERT INTO accounts (id, user_id, name, balance) VALUES
-(1, 1, 'Konto bieżące', 0.00),
-(2, 1, 'Konto oszczędnościowe', 0.00);
+INSERT INTO accounts (id, user_id, name, balance, currency) VALUES
+(1, 1, 'Konto bieżące', 0.00, 'PLN'),
+(2, 1, 'Konto oszczędnościowe', 0.00, 'PLN');
 
 -- 2. Dodajemy kategorie dla konta bieżącego (account_id = 1)
-INSERT INTO categories (id, account_id, name) VALUES
-(1, 1, 'Wypłata'),
-(2, 1, 'Zakupy spożywcze'),
-(3, 1, 'Paliwo');
+INSERT INTO categories (id, account_id, name, color) VALUES
+(1, 1, 'Wypłata', '#059669'),
+(2, 1, 'Zakupy spożywcze', '#ea580c'),
+(3, 1, 'Paliwo', '#e11d48');
 
 -- 3. Dodajemy kategorie dla konta oszczędnościowego (account_id = 2)
-INSERT INTO categories (id, account_id, name) VALUES
-(4, 2, 'Odsetki'),
-(5, 2, 'Wpłata własna');
+INSERT INTO categories (id, account_id, name, color) VALUES
+(4, 2, 'Odsetki', '#7c3aed'),
+(5, 2, 'Wpłata własna', '#2563eb');
 
 -- 4. Rejestrujemy transakcje dla konta bieżącego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
@@ -139,12 +141,32 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (1, 2, -150.50, 'Zakupy w Biedronce', '2026-03-12'),
 (1, 3, -200.00, 'Tankowanie na Orlenie', '2026-03-15'),
 -- Symulacja transakcji, która straciła kategorię (np. kategoria została usunięta)
-(1, NULL, -50.00, 'Abonament za telefon', '2026-03-16');
+(1, NULL, -50.00, 'Abonament za telefon', '2026-03-16'),
+(1, 2, -230.40, 'Duże zakupy w Lidlu', '2026-03-18'),
+(1, 3, -150.00, 'Tankowanie na stacji Shell', '2026-03-20'),
+(1, 2, -45.99, 'Piekarnia i drobne zakupy', '2026-03-21'),
+(1, NULL, -120.00, 'Wyjście do kina i popcorn', '2026-03-22'),
+(1, 2, -320.50, 'Zakupy na cały tydzień - Biedronka', '2026-03-25'),
+(1, 1, 500.00, 'Premia kwartalna', '2026-03-28'),
+(1, 3, -250.00, 'Pełny bak - Orlen', '2026-04-02'),
+(1, NULL, -89.90, 'Subskrypcje Netflix i Spotify', '2026-04-05'),
+(1, 2, -18.50, 'Żabka - przekąski i woda', '2026-04-08'),
+(1, 1, 5000.00, 'Wypłata za kwiecień', '2026-04-10');
 
 -- 5. Rejestrujemy transakcje dla konta oszczędnościowego
 INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
 (2, 5, 1000.00, 'Przelew nadwyżki z bieżącego', '2026-03-10'),
-(2, 4, 15.50, 'Kapitalizacja odsetek', '2026-03-28');
+(2, 4, 15.50, 'Kapitalizacja odsetek', '2026-03-28'),
+(2, 5, 500.00, 'Regularne oszczędzanie - marzec', '2026-03-15'),
+(2, 5, 200.00, 'Przelew wolnych środków', '2026-03-20'),
+(2, 5, 1000.00, 'Wpłata z premii', '2026-03-30'),
+(2, 5, 300.00, 'Przelew nadwyżki z bieżącego', '2026-04-05'),
+(2, NULL, -500.00, 'Awaryjna wypłata na naprawę auta', '2026-04-10'),
+(2, 5, 150.00, 'Zwrot długu od znajomego (na oszczędności)', '2026-04-12'),
+(2, 5, 400.00, 'Regularne oszczędzanie - kwiecień', '2026-04-15'),
+(2, 4, 18.20, 'Kapitalizacja odsetek', '2026-04-28'),
+(2, 4, 21.00, 'Kapitalizacja odsetek', '2026-05-28'),
+(2, 5, 600.00, 'Przelew nadwyżki - maj', '2026-05-30');
 
 -- 6. Przeliczenie sald (dzieje się automatycznie)
 -- UPDATE accounts a

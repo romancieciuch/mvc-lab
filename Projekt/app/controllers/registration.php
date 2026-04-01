@@ -10,7 +10,7 @@
 
 	// Czy Grecaptcha OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\RegisterUserDTO::parse($_POST);
+		$dto = App\Models\DTO\RegisterUserDTO::parse($_DB->sanitize_array($_POST));
 		$errors = $dto->errors;
 	}
 

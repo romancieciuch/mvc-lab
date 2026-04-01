@@ -35,7 +35,8 @@ class DB {
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute($params);
 
-		$type = strtoupper(explode(" ", ltrim($sql))[0]);
+		preg_match('/^\s*([a-zA-Z]+)/', $sql, $matches);
+    	$type = strtoupper($matches[1] ?? '');
 
 		return match ($type) {
 			"SELECT", "SHOW"	=> $stmt->fetchAll(),
@@ -98,5 +99,9 @@ class DB {
 			"sql" => $sql,
 			"sql_data" => $sql_data
 		];
+	}
+
+	public function nice_format (float $amount = 0) : string {
+    	return number_format($amount, 2, ',', ' ');
 	}
 }

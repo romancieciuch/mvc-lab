@@ -23,6 +23,7 @@
 	define("DTO_DIR",			MODELS_DIR. "DTO/");
 
 	define("ENV",				$_CONFIG["ENV"]);
+	define("DEBUG",				$_CONFIG["DEBUG"]);
 	define("URL",				$_CONFIG["URL"]);
 
 	require_once("global.php");
@@ -40,8 +41,12 @@
 	$_MAIL = new App\Models\Mail([
 		"host" => $_CONFIG["SMTP_HOST"],
 		"port" => $_CONFIG["SMTP_PORT"],
+		"user" => $_CONFIG["SMTP_USER"],
+		"password" => $_CONFIG["SMTP_PASSWORD"],
 		"from" => $_CONFIG["MAIL_FROM"],
-		"auth" => $_CONFIG["SMTP_AUTH"]
+		"from_name" => $_CONFIG["MAIL_FROM_NAME"],
+		"auth" => $_CONFIG["SMTP_AUTH"],
+		"env" => $_CONFIG["ENV"]
 	]);
 
 	// Formularze
@@ -57,6 +62,9 @@
 	$_APP = new App\Models\App();
 	$_ROUTING = $_APP->route($_SERVER["REQUEST_URI"]);
 	$controller = CONTROLLERS_DIR . $_ROUTING["controller"] . ".php";
+
+	// Kursy walut
+	$currency_rates = $_APP->get_currency_rates(CACHE_DIR . "api/nbp.json");
 
 	if (file_exists($controller))
 		require_once $controller;

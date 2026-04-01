@@ -4,6 +4,11 @@ Roman Cieciuch
 
 ---
 
+
+**TODO:**
+* filtrowanie, szukanie?
+
+
 ## Wybór projektu
 **Zadanie 13** – System monitorowania wydatków domowych
 

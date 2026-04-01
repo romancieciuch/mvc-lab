@@ -1,5 +1,5 @@
-<div class="page-width page-width__narrow">
-	<h1 class="page-title acenter">
+<article class="article page-width__narrow">
+	<h1 class="article-title">
 		Odzyskiwanie hasła
 	</h1>
 
@@ -36,4 +36,4 @@
 	</form>
 
 	<p class="acenter">Przejdź do <strong><a href="/login/">logowania</a></strong></p>
-</div>
+</article>
