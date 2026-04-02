@@ -33,7 +33,7 @@ readonly class TransactionDTO {
 			$errors["amount"] = "Podaj kwotę transakcji";
 
 		if (empty($name))
-			$errors["description"] = "Podaj nazwę transakcji";
+			$errors["name"] = "Podaj nazwę transakcji";
 
         return new self($account_id, $category_id, $amount, $name, $description, $transaction_date, $errors);
     }

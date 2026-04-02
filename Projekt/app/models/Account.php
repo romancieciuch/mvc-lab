@@ -14,12 +14,11 @@ class Account {
 
 	public function create_account (int $user_id, AccountDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, balance, currency)
-				VALUES (:user_id, :name, :balance, :currency)",
+			"INSERT INTO accounts (user_id, name, currency)
+				VALUES (:user_id, :name, :currency)",
 			[
 				"user_id" => $user_id,
 				"name" => $dto->name,
-				"balance" => $dto->balance,
 				"currency" => $dto->currency
 			]
 		);
@@ -57,11 +56,13 @@ class Account {
 				a.balance,
 				a.currency,
 				a.created_at,
+				a.updated_at,
 				COALESCE(AVG(t.amount), 0) AS avg_transaction
 			FROM accounts a
 			LEFT JOIN transactions t ON a.id = t.account_id
 			WHERE a.user_id = :user_id
-			GROUP BY a.id",
+			GROUP BY a.id
+			ORDER BY a.name ASC",
 			[
 				"user_id" => $user_id
 			]

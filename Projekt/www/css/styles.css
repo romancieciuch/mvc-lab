@@ -520,6 +520,18 @@ input.input-error:focus {
 	flex: 1;
 }
 
+.article-title-actions {
+	display: flex;
+	gap: 0.5rem 1rem;
+}
+
+@media (max-width: 440px) {
+	.article-title-actions {
+		justify-content: space-between;
+		flex: 0 0 100%;
+	}
+}
+
 .article-body {
     background-color: var(--bg-surface);
     padding: 2rem 1.5rem;

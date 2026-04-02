@@ -19,6 +19,7 @@
 
 	// Wszystko OK
 	if (!empty($categorydata) && empty($errors)) {
-		header("Location: /dashboard/");
+		$account_id = $_GET["account-id"] ?? 0;
+		header("Location: /account/{$account_id}/transactions/");
 		exit;
 	}

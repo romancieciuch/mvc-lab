@@ -38,7 +38,7 @@
 	<?php if (!empty($data[0]["description"])): ?>
 		<div class="article-body">
 			<h2>Opis transakcji</h2>
-			<p><?php echo $data[0]["description"]; ?></p>
+			<p><?php echo nl2br($data[0]["description"]); ?></p>
 		</div>
 	<?php endif; ?>
 

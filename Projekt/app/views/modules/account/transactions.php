@@ -7,6 +7,7 @@
 
 		<div class="article-title-actions">
 			<a href="/transaction/0/create/?account-id=<?php echo $data[0]["id"]; ?>" class="button">Nowa transakcja</a>
+			<a href="/account/<?php echo $data[0]["id"]; ?>/categories/" class="button button-accent">Kategorie</a>
 		</div>
 	</div>
 

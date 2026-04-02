@@ -65,7 +65,7 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
+	<p class="acenter"><a class="back-button" href="/account/<?php echo $_GET["account-id"] ?? 0; ?>/transactions/">Powrót</a></p>
 </article>
 
 <script>
