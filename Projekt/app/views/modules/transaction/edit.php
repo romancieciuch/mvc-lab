@@ -1,7 +1,7 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
 		<small class="article-title-breadcrumb">Edycja transakcji:</small>
-		<?php echo $data[0]["description"]; ?>
+		<?php echo $data[0]["name"]; ?>
 	</h1>
 
 	<form class="form" id="account-form" method="POST">
