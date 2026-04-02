@@ -20,6 +20,11 @@
 	// Wszystko OK
 	if (!empty($categorydata) && empty($errors)) {
 		$account_id = $_GET["account-id"] ?? 0;
-		header("Location: /account/{$account_id}/transactions/");
+
+		if ($account_id)
+			header("Location: /account/{$account_id}/categories/");
+		else
+			header("Location: /dashboard/");
+
 		exit;
 	}

@@ -31,9 +31,9 @@
 							</td>
 							<td><?php echo $v["created_at"]; ?></td>
 							<td class="table-options">
-								<a href="/category/<?php echo $v["id"]; ?>/details/">Szczegóły</a>
-								<a href="/category/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
-								<a class="accent" href="/category/<?php echo $v["id"]; ?>/delete/">Usuń</a>
+								<a href="/category/<?php echo $v["id"]; ?>/details/?account-id=<?php echo $data[0]["id"]; ?>">Szczegóły</a>
+								<a href="/category/<?php echo $v["id"]; ?>/edit/?account-id=<?php echo $data[0]["id"]; ?>">Edytuj</a>
+								<a class="accent" href="/category/<?php echo $v["id"]; ?>/delete/?account-id=<?php echo $data[0]["id"]; ?>">Usuń</a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
