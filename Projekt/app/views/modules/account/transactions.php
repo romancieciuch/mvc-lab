@@ -156,7 +156,7 @@
 							<td class="table-options">
 								<a href="/transaction/<?php echo $v["transaction_id"]; ?>/details/">Szczegóły</a>
 								<a href="/transaction/<?php echo $v["transaction_id"]; ?>/edit/">Edytuj</a>
-								<a class="accent" href="/transaction/<?php echo $v["transaction_id"]; ?>/delete/">Usuń</a>
+								<a class="accent" href="/transaction/<?php echo $v["transaction_id"]; ?>/delete/?account-id=<?php echo $data[0]["id"]; ?>">Usuń</a>
 							</td>
 						</tr>
 					<?php endforeach; ?>

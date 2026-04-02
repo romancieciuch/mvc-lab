@@ -1250,3 +1250,17 @@ input.input-error:focus {
 		align-items: flex-start;
     }
 }
+
+.colors {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 0.5rem;
+	margin: 1.5rem 0;
+}
+
+.colors button {
+	display: block;
+	aspect-ratio: 1.5 / 1;
+	border: none;
+	border-radius: var(--border-radius);
+}

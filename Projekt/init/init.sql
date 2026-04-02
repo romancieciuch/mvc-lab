@@ -17,8 +17,9 @@ CREATE TABLE IF NOT EXISTS accounts (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
-    balance DECIMAL(15, 2) DEFAULT 0.00,
+    balance DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
 	currency VARCHAR(3) NOT NULL,
+	priority TINYINT NOT NULL DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_account_user
@@ -121,10 +122,10 @@ INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `token`, `active`) 
 (1, 'Jan Kowalski', 'jan.kowalski@gmail.com', '$2y$10$ZdJacckGfs4lrr87hRIgUOpQwZesKTC3H7EamTSIB3x9qEPbKWNoe', NULL, 1);
 
 -- 1. Tworzymy dwa konta dla użytkownika o id = 1
-INSERT INTO accounts (id, user_id, name, balance, currency) VALUES
-(1, 1, 'Konto bieżące', 0.00, 'PLN'),
-(2, 1, 'Konto oszczędnościowe', 0.00, 'PLN'),
-(3, 1, 'Konto walutowe', 0.00, 'EUR');
+INSERT INTO accounts (id, user_id, name, balance, currency, priority) VALUES
+(1, 1, 'Konto bieżące', 0.00, 'PLN', 57),
+(2, 1, 'Konto oszczędnościowe', 0.00, 'PLN', 65),
+(3, 1, 'Konto walutowe', 0.00, 'EUR', 71);
 
 -- 2. Dodajemy kategorie dla konta bieżącego (account_id = 1)
 INSERT INTO categories (id, account_id, name, color) VALUES

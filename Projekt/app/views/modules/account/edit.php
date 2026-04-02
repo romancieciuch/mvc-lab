@@ -33,6 +33,12 @@
 			<?php echo $_FORM->field_error($dto->errors["currency"] ?? ""); ?>
 		</div>
 
+		<div class="form-row">
+			<label for="priority">Priorytet</label>
+			<input type="number" id="priority" name="priority" value="<?php echo intval($data[0]["priority"] ?? 0); ?>" min="0" max="100" step="1">
+			<?php echo $_FORM->field_error($dto->errors["priority"] ?? ""); ?>
+		</div>
+
 		<input type="hidden" name="form-sent" value="1">
 
 		<div class="form-row">
