@@ -123,6 +123,11 @@ class Transaction {
             $params['amount_max'] = (float)$search['amount_max'];
         }
 
+		if (!empty($search['category_id'])) {
+            $whereSql .= " AND (t.category_id = :category_id)";
+			$params['category_id'] = $search['category_id'];
+        }
+
         $countSql = "SELECT
 					COUNT(t.id) AS total,
 					SUM(t.amount) AS total_amount,

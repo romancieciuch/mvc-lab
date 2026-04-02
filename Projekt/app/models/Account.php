@@ -14,19 +14,28 @@ class Account {
 
 	public function create_account (int $user_id, AccountDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, balance, currency)
-				VALUES (:user_id, :name, :balance, :currency)",
+			"INSERT INTO accounts (user_id, name, currency, priority, balance)
+				VALUES (:user_id, :name, :currency, :priority, :balance)",
 			[
 				"user_id" => $user_id,
 				"name" => $dto->name,
-				"balance" => $dto->balance,
-				"currency" => $dto->currency
+				"currency" => $dto->currency,
+				"priority" => $dto->priority,
+				"balance" => 0
 			]
 		);
 	}
 
 	public function get_account (int $user_id = 0, int $account_id = 0) {
-		return $this->db->query(
+		$categories = $this->db->query(
+			"SELECT id, name, color FROM categories
+				WHERE account_id = :account_id",
+			[
+				"account_id" => $account_id
+			]
+		);
+
+		$res = $this->db->query(
 			"SELECT * FROM accounts
 				WHERE id = :account_id AND user_id = :user_id
 					LIMIT 1",
@@ -35,6 +44,10 @@ class Account {
 				"user_id" => $user_id
 			]
 		);
+
+		$res["categories"] = $categories;
+
+		return $res;
 	}
 
 	public function get_accounts (int $user_id = 0) {
@@ -45,11 +58,13 @@ class Account {
 				a.balance,
 				a.currency,
 				a.created_at,
+				a.updated_at,
 				COALESCE(AVG(t.amount), 0) AS avg_transaction
 			FROM accounts a
 			LEFT JOIN transactions t ON a.id = t.account_id
 			WHERE a.user_id = :user_id
-			GROUP BY a.id",
+			GROUP BY a.id
+			ORDER BY a.priority DESC",
 			[
 				"user_id" => $user_id
 			]
@@ -83,15 +98,15 @@ class Account {
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
 		return $this->db->query(
 			"UPDATE accounts
-				SET name = :name, balance = :balance, currency = :currency
+				SET name = :name, currency = :currency, priority = :priority
 					WHERE id = :account_id AND user_id = :user_id
 						LIMIT 1",
 			[
 				"user_id" => $user_id,
 				"account_id" => $account_id,
 				"name" => $dto->name,
-				"balance" => $dto->balance,
-				"currency" => $dto->currency
+				"currency" => $dto->currency,
+				"priority" => $dto->priority
 			]
 		);
 	}

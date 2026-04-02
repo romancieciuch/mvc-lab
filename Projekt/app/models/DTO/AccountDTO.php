@@ -6,15 +6,15 @@ namespace App\Models\DTO;
 readonly class AccountDTO {
     private function __construct (
         public string $name,
-        public float  $balance,
         public string $currency,
+		public int    $priority,
 		public array  $errors
     ) {}
 
 	public static function parse (array $data = []) : self {
 		$name		= $data["name"] ?? "";
-		$balance	= floatval($data["balance"]) ?? 0;
         $currency	= $data["currency"] ?? "";
+		$priority	= intval($data["priority"] ?? 0);
 		$errors		= [];
 
         if (empty($name) || empty($currency))
@@ -26,6 +26,9 @@ readonly class AccountDTO {
 		if (empty($currency))
 			$errors["currency"] = "Wybierz walutę rozliczeniową";
 
-        return new self($name, $balance, $currency, $errors);
+		if ($priority < 0 || $priority > 100)
+			$errors["priority"] = "Ustal priorytet od 0 do 100";
+
+        return new self($name, $currency, $priority, $errors);
     }
 }

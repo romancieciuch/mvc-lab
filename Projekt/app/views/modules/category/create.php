@@ -22,13 +22,28 @@
 			<label for="color">Kolor</label>
 			<input type="color" id="color" name="color" value="<?php echo htmlspecialchars($_POST["color"] ?? ""); ?>">
 			<?php echo $_FORM->field_error($dto->errors["color"] ?? ""); ?>
+
+			<?php if (!empty($_APP->predefined_colors())): ?>
+				<div class="colors">
+					<?php foreach ($_APP->predefined_colors() as $color): ?>
+						<button
+							data-color="<?php echo $color; ?>"
+							style="background-color: <?php echo $color; ?>"
+							type="button"
+							onclick="document.querySelector('#color').value = this.getAttribute('data-color')"
+						></button>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="form-row">
 			<label for="account_id">Przypisz do konta</label>
 			<select name="account_id" id="account_id" data-account>
 				<?php foreach ($accounts as $account): ?>
-					<option value="<?php echo $account["id"]; ?>"><?php echo $account["name"]; ?></option>
+					<option value="<?php echo $account["id"]; ?>"<?php if ($account["id"] === intval($_GET["account-id"] ?? 0)) echo ' selected'; ?>>
+						<?php echo $account["name"]; ?>
+					</option>
 				<?php endforeach; ?>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["account_id"] ?? ""); ?>
@@ -43,5 +58,5 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
+	<p class="acenter"><a class="back-button" href="/account/<?php echo $_GET["account-id"] ?? 0; ?>/transactions/">Powrót</a></p>
 </article>

@@ -6,7 +6,7 @@
 		</h1>
 
 		<div class="article-title-actions">
-			<a href="/category/0/create/" class="button">Nowa kategoria</a>
+			<a href="/category/0/create/?account-id=<?php echo $data[0]["id"]; ?>" class="button">Nowa kategoria</a>
 		</div>
 	</div>
 

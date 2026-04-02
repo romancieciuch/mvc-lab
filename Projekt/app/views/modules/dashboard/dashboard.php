@@ -34,7 +34,7 @@
 				<thead>
 					<tr>
 						<th>Konto</th>
-						<th>Data utworzenia</th>
+						<th>Ostatnia transakcja</th>
 						<th class="aright">Saldo</th>
 						<th>Akcje</th>
 					</tr>
@@ -48,7 +48,7 @@
 								</a>
 							</td>
 							<td>
-								<?php echo date("Y-m-d", strtotime($v["created_at"])); ?>
+								<?php echo date("Y-m-d", strtotime($v["updated_at"])); ?>
 							</td>
 							<td class="cell-balance">
 								<span class="balance-amount<?php if ($v["balance"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($v["balance"]); ?></span>

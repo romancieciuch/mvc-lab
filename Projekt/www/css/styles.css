@@ -171,7 +171,7 @@ h1 {
 }
 
 h2 {
-    font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
 }
 
 h3 {
@@ -309,6 +309,42 @@ button {
 
 .alert-error-text {
     color: #b91c1c;
+    margin: 0;
+}
+
+.alert-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: var(--bg-main); /* Chłodne, jasne tło */
+    border: 1px solid var(--border-color); /* Spójna ramka z resztą interfejsu */
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-info-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--primary); /* Twój główny niebieski akcent na ikonę */
+}
+
+.alert-info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.alert-info-title {
+    font-weight: 600;
+    color: var(--text-main); /* Ciemny, mocny kolor tekstu dla czytelności */
+    margin-bottom: 0.25rem;
+}
+
+.alert-info-text {
+    color: var(--text-muted); /* Wyciszony szary do dłuższego opisu */
     margin: 0;
 }
 
@@ -518,6 +554,18 @@ input.input-error:focus {
 	text-align: left;
 	margin: 0;
 	flex: 1;
+}
+
+.article-title-actions {
+	display: flex;
+	gap: 0.5rem 1rem;
+}
+
+@media (max-width: 440px) {
+	.article-title-actions {
+		justify-content: space-between;
+		flex: 0 0 100%;
+	}
 }
 
 .article-body {
@@ -849,6 +897,11 @@ input.input-error:focus {
 	opacity: 0.8;
 }
 
+.category.is-active {
+	outline: 4px solid var(--primary);
+	outline-offset: 2px;
+}
+
 /* Kontener całej paginacji */
 .pagination-container {
     display: flex;
@@ -990,6 +1043,15 @@ input.input-error:focus {
     gap: 0.75rem;
 }
 
+.filter-categories {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	flex: 0 0 100%;
+	gap: 0.5rem 1rem;
+}
+
 /* Stylizacja przycisków */
 .btn-filter-primary, .btn-filter-secondary {
     padding: 0.5rem 1rem;
@@ -1080,6 +1142,10 @@ input.input-error:focus {
 
 	.filter-actions button {
 		flex: 1;
+	}
+
+	.filter-categories label {
+		flex: 0 0 100%;
 	}
 }
 
@@ -1183,4 +1249,18 @@ input.input-error:focus {
         flex-direction: column;
 		align-items: flex-start;
     }
+}
+
+.colors {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 0.5rem;
+	margin: 1.5rem 0;
+}
+
+.colors button {
+	display: block;
+	aspect-ratio: 1.5 / 1;
+	border: none;
+	border-radius: var(--border-radius);
 }

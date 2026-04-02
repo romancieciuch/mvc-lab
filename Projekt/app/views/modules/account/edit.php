@@ -20,12 +20,6 @@
 		</div>
 
 		<div class="form-row">
-			<label for="balance">Saldo początkowe</label>
-			<input type="number" id="balance" name="balance" value="<?php echo htmlspecialchars($data[0]["balance"]); ?>" step="0.01">
-			<?php echo $_FORM->field_error($dto->errors["balance"] ?? ""); ?>
-		</div>
-
-		<div class="form-row">
 			<label for="currency">Waluta rozliczeniowa</label>
 			<select name="currency" id="currency">
 				<option value="PLN"<?php if ($data[0]["currency"] === "PLN") echo ' selected'; ?>>polski złoty (PLN)</option>
@@ -37,6 +31,12 @@
 				<?php endforeach; ?>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["currency"] ?? ""); ?>
+		</div>
+
+		<div class="form-row">
+			<label for="priority">Priorytet</label>
+			<input type="number" id="priority" name="priority" value="<?php echo intval($data[0]["priority"] ?? 0); ?>" min="0" max="100" step="1">
+			<?php echo $_FORM->field_error($dto->errors["priority"] ?? ""); ?>
 		</div>
 
 		<input type="hidden" name="form-sent" value="1">
