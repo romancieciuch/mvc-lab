@@ -23,6 +23,19 @@
 			<label for="color">Kolor</label>
 			<input type="color" id="color" name="color" value="<?php echo htmlspecialchars($data[0]["color"] ?? ""); ?>">
 			<?php echo $_FORM->field_error($dto->errors["color"] ?? ""); ?>
+
+			<?php if (!empty($_APP->predefined_colors())): ?>
+				<div class="colors">
+					<?php foreach ($_APP->predefined_colors() as $color): ?>
+						<button
+							data-color="<?php echo $color; ?>"
+							style="background-color: <?php echo $color; ?>"
+							type="button"
+							onclick="document.querySelector('#color').value = this.getAttribute('data-color')"
+						></button>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="form-row">
