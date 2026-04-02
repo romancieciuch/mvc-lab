@@ -19,6 +19,12 @@
 
 	// Wszystko OK
 	if (!empty($transactiondata) && empty($errors)) {
-		header("Location: /dashboard/");
+		$account_id = $_GET["account-id"] ?? 0;
+
+		if ($account_id)
+			header("Location: /account/{$account_id}/transactions/");
+		else
+			header("Location: /dashboard/");
+
 		exit;
 	}
