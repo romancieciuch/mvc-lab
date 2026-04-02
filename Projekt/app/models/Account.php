@@ -26,7 +26,15 @@ class Account {
 	}
 
 	public function get_account (int $user_id = 0, int $account_id = 0) {
-		return $this->db->query(
+		$categories = $this->db->query(
+			"SELECT id, name, color FROM categories
+				WHERE account_id = :account_id",
+			[
+				"account_id" => $account_id
+			]
+		);
+
+		$res = $this->db->query(
 			"SELECT * FROM accounts
 				WHERE id = :account_id AND user_id = :user_id
 					LIMIT 1",
@@ -35,6 +43,10 @@ class Account {
 				"user_id" => $user_id
 			]
 		);
+
+		$res["categories"] = $categories;
+
+		return $res;
 	}
 
 	public function get_accounts (int $user_id = 0) {

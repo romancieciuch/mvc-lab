@@ -19,12 +19,6 @@
 		</div>
 
 		<div class="form-row">
-			<label for="balance">Saldo początkowe</label>
-			<input type="number" id="balance" name="balance" value="<?php echo htmlspecialchars($_POST["balance"] ?? ""); ?>" step="0.01">
-			<?php echo $_FORM->field_error($dto->errors["balance"] ?? ""); ?>
-		</div>
-
-		<div class="form-row">
 			<label for="currency">Waluta rozliczeniowa</label>
 			<select name="currency" id="currency">
 				<option value="PLN">polski złoty (PLN)</option>

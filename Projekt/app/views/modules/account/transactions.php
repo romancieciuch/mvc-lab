@@ -10,45 +10,6 @@
 		</div>
 	</div>
 
-	<div class="filter-panel">
-		<button type="button" class="filter-toggle-btn" id="filter-toggle">
-			<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-			</svg>
-			<span id="filter-toggle-text">Pokaż filtry</span>
-		</button>
-
-		<form class="filter-form" id="filter-form" method="GET" action="">
-			<div class="filter-group filter-search">
-				<label for="searchQuery">Wyszukaj</label>
-				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, opis, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
-			</div>
-
-			<div class="filter-group">
-				<label>Zakres dat</label>
-				<div class="filter-row filter-row__date">
-					<input type="date" name="date-from" aria-label="Data od" value="<?php echo htmlspecialchars($_GET["date-from"] ?? ""); ?>">
-					<span class="filter-separator">-</span>
-					<input type="date" name="date-to" aria-label="Data do" value="<?php echo htmlspecialchars($_GET["date-to"] ?? ""); ?>">
-				</div>
-			</div>
-
-			<div class="filter-group">
-				<label>Kwota</label>
-				<div class="filter-row filter-row__amount">
-					<input type="number" step="0.01" name="amount-min" placeholder="Od" aria-label="Kwota od" value="<?php echo htmlspecialchars($_GET["amount-min"] ?? ""); ?>">
-					<span class="filter-separator">-</span>
-					<input type="number" step="0.01" name="amount-max" placeholder="Do" aria-label="Kwota do" value="<?php echo htmlspecialchars($_GET["amount-max"] ?? ""); ?>">
-				</div>
-			</div>
-
-			<div class="filter-actions">
-				<button type="reset" class="btn-filter-secondary">Wyczyść</button>
-				<button type="submit" class="btn-filter-primary">Szukaj</button>
-			</div>
-		</form>
-	</div>
-
 	<div class="summary-grid">
 		<?php $sumClass = ($transactions["total_amount"] < 0) ? 'text-expense' : 'text-income'; ?>
 
@@ -94,6 +55,61 @@
 		</div>
 	</div>
 
+	<div class="filter-panel">
+		<button type="button" class="filter-toggle-btn" id="filter-toggle">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+			</svg>
+			<span id="filter-toggle-text">Pokaż filtry</span>
+		</button>
+
+		<form class="filter-form" id="filter-form" method="GET" action="">
+			<div class="filter-group filter-search">
+				<label for="searchQuery">Wyszukaj</label>
+				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, opis, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
+			</div>
+
+			<div class="filter-group">
+				<label>Zakres dat</label>
+				<div class="filter-row filter-row__date">
+					<input type="date" name="date-from" aria-label="Data od" value="<?php echo htmlspecialchars($_GET["date-from"] ?? ""); ?>">
+					<span class="filter-separator">-</span>
+					<input type="date" name="date-to" aria-label="Data do" value="<?php echo htmlspecialchars($_GET["date-to"] ?? ""); ?>">
+				</div>
+			</div>
+
+			<div class="filter-group">
+				<label>Kwota</label>
+				<div class="filter-row filter-row__amount">
+					<input type="number" step="0.01" name="amount-min" placeholder="Od" aria-label="Kwota od" value="<?php echo htmlspecialchars($_GET["amount-min"] ?? ""); ?>">
+					<span class="filter-separator">-</span>
+					<input type="number" step="0.01" name="amount-max" placeholder="Do" aria-label="Kwota do" value="<?php echo htmlspecialchars($_GET["amount-max"] ?? ""); ?>">
+				</div>
+			</div>
+
+			<div class="filter-actions">
+				<button type="reset" class="btn-filter-secondary">Wyczyść</button>
+				<button type="submit" class="btn-filter-primary">Szukaj</button>
+			</div>
+
+			<?php if (!empty($data["categories"])): ?>
+				<div class="filter-group filter-categories">
+					<label>Kategorie</label>
+					<?php
+						foreach ($data["categories"] as $category):
+							$active = ($category["id"] === intval($_GET["category-id"] ?? 0)) ? " is-active" : "";
+							if ($active)
+								echo '<input type="hidden" name="category-id" value="'.$category["id"].'">';
+					?>
+						<a class="category<?php echo $active; ?>" href="<?php echo ($active ? "?" : "?category-id=".$category["id"]) ; ?>" style="background-color: <?php echo $category["color"]; ?>">
+							<?php echo $category["name"]; ?>
+						</a>
+					<?php endforeach; ?>
+				</div>
+			<?php endif;  ?>
+		</form>
+	</div>
+
 	<?php if (!empty($transactions["data"])): ?>
 		<div class="table-container">
 			<table class="table table__mobile-friendly">
@@ -115,7 +131,7 @@
 								</a>
 							</td>
 							<td>
-								<a class="category" style="background: <?php echo $v["category_color"] ?? "#444"; ?>" href="/account/<?php echo $data[0]["id"]; ?>/transactions/category/<?php echo $v["category_id"] ?? 0; ?>/">
+								<a class="category" style="background: <?php echo $v["category_color"] ?? "#444"; ?>" href="?category-id=<?php echo $v["category_id"] ?? 0; ?>">
 									<?php echo $v["category_name"] ?? "Bez kategorii"; ?>
 								</a>
 							</td>

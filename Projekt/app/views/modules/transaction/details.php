@@ -31,15 +31,16 @@
 						<?php echo $data[0]["transaction_date"]; ?>
 					</td>
 				</tr>
-				<tr>
-					<th>Opis transakcji</th>
-					<td>
-						<?php echo $data[0]["description"]; ?>
-					</td>
-				</tr>
 			</tbody>
 		</table>
 	</div>
+
+	<?php if (!empty($data[0]["description"])): ?>
+		<div class="article-body">
+			<h2>Opis transakcji</h2>
+			<p><?php echo $data[0]["description"]; ?></p>
+		</div>
+	<?php endif; ?>
 
 	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>
