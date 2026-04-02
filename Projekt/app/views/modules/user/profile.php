@@ -26,6 +26,11 @@
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
+		<?php echo $_FORM->global_info([
+			"title" => "Jeśli nie chcesz zmieniać hasła - zostaw pola puste.",
+			"desc" => ""
+		]); ?>
+
 		<div class="form-row">
 			<label for="password">Nowe hasło</label>
 			<input type="password" id="password" name="password">

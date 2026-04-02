@@ -312,6 +312,42 @@ button {
     margin: 0;
 }
 
+.alert-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: var(--bg-main); /* Chłodne, jasne tło */
+    border: 1px solid var(--border-color); /* Spójna ramka z resztą interfejsu */
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-info-icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--primary); /* Twój główny niebieski akcent na ikonę */
+}
+
+.alert-info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.alert-info-title {
+    font-weight: 600;
+    color: var(--text-main); /* Ciemny, mocny kolor tekstu dla czytelności */
+    margin-bottom: 0.25rem;
+}
+
+.alert-info-text {
+    color: var(--text-muted); /* Wyciszony szary do dłuższego opisu */
+    margin: 0;
+}
+
 [data-theme="dark"] .alert-error {
     background-color: rgba(127, 29, 29, 0.2);
     color: #fca5a5;
