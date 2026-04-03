@@ -15,13 +15,13 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa kategorii</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="color">Kolor</label>
-			<input type="color" id="color" name="color" value="<?php echo htmlspecialchars($data[0]["color"] ?? ""); ?>">
+			<input type="color" id="color" name="color" value="<?php echo htmlspecialchars($data[0]["color"] ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["color"] ?? ""); ?>
 
 			<?php if (!empty($_APP->predefined_colors())): ?>
@@ -40,7 +40,7 @@
 
 		<div class="form-row">
 			<label for="account_id">Przypisz do konta</label>
-			<select name="account_id" id="account_id" data-account>
+			<select name="account_id" id="account_id" data-account required>
 				<?php foreach ($accounts as $account): ?>
 					<option value="<?php echo $account["id"]; ?>"<?php echo ($data[0]["account_id"] === $account["id"]) ? " selected" : ""; ?>>
 						<?php echo $account["name"]; ?>

@@ -14,13 +14,13 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa konta</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST["name"] ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST["name"] ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="currency">Waluta rozliczeniowa</label>
-			<select name="currency" id="currency">
+			<select name="currency" id="currency" required>
 				<option value="PLN">polski złoty (PLN)</option>
 				<?php foreach ($currency_rates["rates"] as $currency): ?>
 					<option value="<?php echo $currency["code"]; ?>">
@@ -33,7 +33,7 @@
 
 		<div class="form-row">
 			<label for="priority">Priorytet</label>
-			<input type="number" id="priority" name="priority" value="<?php echo intval($_POST["priority"] ?? 0); ?>" min="0" max="100" step="1">
+			<input type="number" id="priority" name="priority" value="<?php echo intval($_POST["priority"] ?? 0); ?>" min="0" max="100" step="1" required>
 			<?php echo $_FORM->field_error($dto->errors["priority"] ?? ""); ?>
 		</div>
 
