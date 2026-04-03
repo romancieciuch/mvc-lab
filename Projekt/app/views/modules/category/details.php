@@ -28,5 +28,9 @@
 		</table>
 	</div>
 
+	<p class="acenter">
+		<a class="button" href="/category/<?php echo $category_id; ?>/edit/">Edytuj</a>
+	</p>
+
 	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
 </article>
