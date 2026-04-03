@@ -269,6 +269,73 @@ INSERT INTO transactions (account_id, category_id, amount, name, transaction_dat
 (3, 7, -8.50, 'Kawa i przekąski na lotnisku', '2026-05-10'),
 (3, 6, -112.99, 'Zakupy - elektronika AliExpress', '2026-05-18');
 
+
+-- 8. ZASILENIE HISTORII KONT (10 dni z rzędu dla każdego)
+
+INSERT INTO account_history (account_id, balance, log_date) VALUES
+-- Konto 1: Bieżące (Symulacja wahań salda po wypłacie w marcu)
+(1, 5000.00, '2026-03-10'),
+(1, 4849.50, '2026-03-12'),
+(1, 4649.50, '2026-03-15'),
+(1, 4599.50, '2026-03-16'),
+(1, 4369.10, '2026-03-18'),
+(1, 4219.10, '2026-03-20'),
+(1, 4173.11, '2026-03-21'),
+(1, 4053.11, '2026-03-22'),
+(1, 3732.61, '2026-03-25'),
+(1, 4232.61, '2026-03-28'),
+
+-- Konto 2: Oszczędnościowe (Symulacja rosnącego kapitału)
+(2, 1000.00, '2026-03-10'),
+(2, 1000.00, '2026-03-11'),
+(2, 1500.00, '2026-03-15'),
+(2, 1500.00, '2026-03-16'),
+(2, 1700.00, '2026-03-20'),
+(2, 1700.00, '2026-03-21'),
+(2, 1715.50, '2026-03-28'),
+(2, 1715.50, '2026-03-29'),
+(2, 2715.50, '2026-03-30'),
+(2, 3015.50, '2026-04-05'),
+
+-- Konto 3: Walutowe (Symulacja mniejszych operacji w EUR)
+(3, 300.00, '2026-03-05'),
+(3, 300.00, '2026-03-06'),
+(3, 285.01, '2026-03-12'),
+(3, 285.01, '2026-03-15'),
+(3, 239.51, '2026-03-18'),
+(3, 239.51, '2026-03-20'),
+(3, 739.51, '2026-03-25'),
+(3, 739.51, '2026-03-30'),
+(3, 619.51, '2026-04-02'),
+(3, 584.51, '2026-04-15');
+
+
+-- 9. ZASILENIE HISTORII TRANSAKCJI (Poprawki użytkownika)
+INSERT INTO transaction_history (transaction_id, amount, log_date) VALUES
+-- Transakcja 14 (Konto bieżące - Wypłata za kwiecień, docelowo: 5000.00)
+-- Symulujemy, że użytkownik najpierw wpisał kwotę netto, potem dodawał premie
+(14, 4200.00, '2026-04-10'),
+(14, 4500.00, '2026-04-11'),
+(14, 4800.50, '2026-04-12'),
+(14, 5100.00, '2026-04-13'),
+(14, 5000.00, '2026-04-14'),
+
+-- Transakcja 26 (Konto oszcz. - Przelew nadwyżki maj, docelowo: 600.00)
+-- Symulujemy codzienne edytowanie planowanej kwoty przelewu
+(26, 200.00, '2026-05-30'),
+(26, 350.00, '2026-05-31'),
+(26, 500.00, '2026-06-01'),
+(26, 750.00, '2026-06-02'),
+(26, 600.00, '2026-06-03'),
+
+-- Transakcja 36 (Konto walutowe - Zakupy AliExpress, docelowo: -112.99)
+-- Symulujemy korekty wynikające ze zmiany kursu przewalutowania
+(36, -100.00, '2026-05-18'),
+(36, -105.50, '2026-05-19'),
+(36, -110.00, '2026-05-20'),
+(36, -115.20, '2026-05-21'),
+(36, -112.99, '2026-05-22');
+
 -- 6. Przeliczenie sald (dzieje się automatycznie)
 -- UPDATE accounts a
 -- LEFT JOIN (

@@ -55,6 +55,35 @@ class Transaction {
 		);
 	}
 
+	public function calculate_history (array $data = [], bool $desc = true) {
+		if ($desc) $reversed = array_reverse($data);
+
+		$previous_balance = null;
+
+		foreach ($reversed as &$row) {
+			if ($previous_balance === null)
+				$row["change"] = 0.00;
+			else
+				$row["change"] = round($row["amount"] - $previous_balance, 2);
+
+			// Klasy CSS
+			$row["change_class"] = "is-neutral";
+			if ($row["change"] > 0) $row["change_class"] = "is-positive";
+			if ($row["change"] < 0) $row["change_class"] = "is-negative";
+
+			// Znak z przodu
+			$row["change_with_sign"] = $row["change"];
+			if ($row["change"] >  0) $row["change_with_sign"] = "+{$row["change_with_sign"]}";
+
+			$previous_balance = $row["amount"];
+		}
+
+		unset($row);
+
+		if ($desc) $reversed = array_reverse($reversed);
+		return $reversed;
+	}
+
 	public function get_transactions (int $account_id, int $user_id, int $limit, int $offset) {
 		$total = $this->db->query("
 			SELECT COUNT(t.id) AS total

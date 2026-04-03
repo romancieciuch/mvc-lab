@@ -67,6 +67,35 @@ class Account {
 		return $res;
 	}
 
+	public function calculate_history (array $data = [], bool $desc = true) {
+		if ($desc) $reversed = array_reverse($data);
+
+		$previous_balance = null;
+
+		foreach ($reversed as &$row) {
+			if ($previous_balance === null)
+				$row["change"] = 0.00;
+			else
+				$row["change"] = round($row["balance"] - $previous_balance, 2);
+
+			// Klasy CSS
+			$row["change_class"] = "is-neutral";
+			if ($row["change"] > 0) $row["change_class"] = "is-positive";
+			if ($row["change"] < 0) $row["change_class"] = "is-negative";
+
+			// Znak z przodu
+			$row["change_with_sign"] = $row["change"];
+			if ($row["change"] >  0) $row["change_with_sign"] = "+{$row["change_with_sign"]}";
+
+			$previous_balance = $row["balance"];
+		}
+
+		unset($row);
+
+		if ($desc) $reversed = array_reverse($reversed);
+		return $reversed;
+	}
+
 	public function get_accounts (int $user_id = 0) {
 		return $this->db->query(
 			"SELECT
