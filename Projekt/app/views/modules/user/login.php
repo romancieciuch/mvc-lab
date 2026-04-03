@@ -14,13 +14,13 @@
 
 		<div class="form-row">
 			<label for="email">Adres e-mail</label>
-			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>" autocomplete="username">
+			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>" autocomplete="email" required>
 			<?php echo $_FORM->field_error($dto->errors["email"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="password">Hasło</label>
-			<input type="password" id="password" name="password" autocomplete="current-password">
+			<input type="password" id="password" name="password" autocomplete="current-password" required>
 			<?php echo $_FORM->field_error($dto->errors["password"] ?? ""); ?>
 		</div>
 

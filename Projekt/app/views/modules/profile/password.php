@@ -30,13 +30,13 @@
 
 		<div class="form-row">
 			<label for="password">Nowe hasło</label>
-			<input type="password" id="password" name="password">
+			<input type="password" id="password" name="password" autocomplete="new-password" required>
 			<?php echo $_FORM->field_error($dto->errors["password"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="password2">Powtórz nowe hasło</label>
-			<input type="password" id="password2" name="password2">
+			<input type="password" id="password2" name="password2" autocomplete="new-password" required>
 			<?php echo $_FORM->field_error($dto->errors["password2"] ?? ""); ?>
 		</div>
 
