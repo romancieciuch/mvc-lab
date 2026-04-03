@@ -6,7 +6,6 @@
 
 	$transaction = new App\Models\Transaction($_DB);
 	$data = $transaction->get_transaction($transaction_id);
-	$history = $transaction->get_history($transaction_id);
 
 	$account = new App\Models\Account($_DB);
 	$accounts = $account->get_accounts($user->id);
@@ -30,6 +29,10 @@
 	// Usuwanie transakcji
 	if ($action === "delete" && isset($_GET["delete"]))
 		require_once("transaction/delete.php");
+
+	// Szczegóły transakcji
+	if ($action === "details")
+		require_once("transaction/details.php");
 
 
 	// Wczytanie widoku

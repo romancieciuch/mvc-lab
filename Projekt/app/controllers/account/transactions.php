@@ -17,3 +17,9 @@
 		$pagination["offset"],
 		$search
 	);
+
+	$history = $account->get_history($user->id, $account_id);
+	$history = array_reverse($history);
+
+	$chart = new App\Models\Chart(["currency" => $data[0]["currency"]]);
+	$chart_html = $chart->draw($history, "log_date", "balance");

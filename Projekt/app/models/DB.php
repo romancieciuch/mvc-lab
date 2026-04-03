@@ -104,4 +104,8 @@ class DB {
 	public function nice_format (float $amount = 0) : string {
     	return number_format($amount, 2, ',', ' ');
 	}
+
+	public function add_plus (float $amount = 0) : string {
+    	return ($amount > 0) ? "+{$amount}" : $amount;
+	}
 }

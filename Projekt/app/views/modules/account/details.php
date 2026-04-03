@@ -44,32 +44,25 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php
-						$last_amount = end($history)["balance"] ?? 0;
-						$i = 0;
-
-						foreach ($history as $transaction):
-							$change = $transaction["balance"] - $last_amount;
-							if ($i === count($history) - 1) $change = 0;
-					?>
-							<tr>
-								<td>
-									<?php echo $transaction["log_date"]; ?>
-								</td>
-								<td>
-									<span class="<?php echo ($change < 0) ? "is-negative" : "is-positive"; ?>">
-										<?php echo $_DB->nice_format($change); ?> <?php echo $data[0]["currency"]; ?>
-									</span>
-								</td>
-								<td>
-									<?php echo $_DB->nice_format($transaction["balance"]); ?> <?php echo $data[0]["currency"]; ?>
-								</td>
-							</tr>
-					<?php
-							$last_amount = $transaction["balance"];
-							$i++;
-						endforeach;
-					?>
+					<?php foreach ($history as $transaction): ?>
+						<tr>
+							<td>
+								<?php echo $transaction["log_date"]; ?>
+							</td>
+							<td>
+								<span class="<?php echo $transaction["change_class"]; ?>">
+									<?php
+										echo ($transaction["change"] > 0 ? "+" : "")
+											. $_DB->nice_format($transaction["change"])
+												. " " . $data[0]["currency"];
+									?>
+								</span>
+							</td>
+							<td>
+								<?php echo $_DB->nice_format($transaction["balance"]); ?> <?php echo $data[0]["currency"]; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>
