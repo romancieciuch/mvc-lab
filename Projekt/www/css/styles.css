@@ -508,8 +508,8 @@ input.input-error:focus {
 }
 
 .form-row label:has(+ input[required])::after {
-  content: " *";
-  color: var(--color-expense);
+	content: " *";
+	color: var(--color-expense);
 }
 
 .form-row input,
