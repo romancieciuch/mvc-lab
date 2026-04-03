@@ -67,7 +67,7 @@
 							<td class="table-options">
 								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
 								<a href="/account/<?php echo $v["id"]; ?>/categories/">Kategorie</a>
-								<a href="/account/<?php echo $v["id"]; ?>/details/">Historia</a>
+								<a href="/account/<?php echo $v["id"]; ?>/details/">Szczegóły</a>
 								<a class="accent" href="/account/<?php echo $v["id"]; ?>/delete/">Usuń</a>
 							</td>
 						</tr>
