@@ -22,7 +22,7 @@
 
 		<div class="form-row">
 			<label for="email">Adres e-mail</label>
-			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>">
+			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>" autocomplete="email" required>
 			<?php echo $_FORM->field_error($dto->errors["email"] ?? ""); ?>
 		</div>
 
