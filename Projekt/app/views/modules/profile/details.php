@@ -3,6 +3,14 @@
 		Twoje dane
 	</h1>
 
+	<div class="tabs-container">
+		<nav class="tabs-nav" aria-label="Nawigacja">
+			<a href="/profile/" class="tab-item active" aria-current="page">Twoje dane</a>
+			<a href="/profile/password/" class="tab-item">Zmiana hasła</a>
+			<a href="/profile/2fa/" class="tab-item">Logowanie dwuetapowe</a>
+		</nav>
+	</div>
+
 	<form class="form" id="profile-form" method="POST">
 		<?php
 			if (!empty($errors["global"]))
@@ -40,12 +48,6 @@
 		<?php echo $_FORM->generate_recaptcha_v3("profile-form"); ?>
 	</form>
 
-	<p class="acenter">
-		<a href="/profile/password/" class="button">Zmień hasło</a>
-	</p>
-	<p class="acenter">
-		<a href="/profile/2fa/" class="button button-accent">Logowanie dwuetapowe</a>
-	</p>
 	<p class="acenter">
 		<strong><a class="accent" href="/delete/">Usuń konto</a></strong>
 	</p>
