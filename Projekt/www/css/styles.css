@@ -1306,3 +1306,9 @@ input.input-error:focus {
     border-radius: var(--border-radius);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
+
+.qrcode {
+	width: 250px;
+	max-width: 100%;
+	margin: 1.5rem auto;
+}

@@ -1,6 +1,6 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		Twoje dane
+		Zmiana hasła
 	</h1>
 
 	<form class="form" id="profile-form" method="POST">
@@ -19,17 +19,6 @@
 					// "desc" => $message["global"]
 				]);
 		?>
-
-		<div class="form-row">
-			<label for="name">Nazwa użytkownika</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user->name ?? ""); ?>">
-			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
-		</div>
-
-		<?php echo $_FORM->global_info([
-			"title" => "Jeśli nie chcesz zmieniać hasła - zostaw pola puste.",
-			"desc" => ""
-		]); ?>
 
 		<div class="form-row">
 			<label for="password">Nowe hasło</label>
@@ -52,9 +41,5 @@
 		<?php echo $_FORM->generate_recaptcha_v3("profile-form"); ?>
 	</form>
 
-	<p class="acenter">
-		<strong>
-			<a class="accent" href="/delete/">Usuń konto</a>
-		</strong>
-	</p>
+	<p class="acenter"><a class="back-button" href="/profile/">Powrót</a></p>
 </article>

@@ -1,0 +1,3 @@
+<?php
+
+	// tu generujemy obrazek

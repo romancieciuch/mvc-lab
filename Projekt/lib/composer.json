@@ -1,7 +1,9 @@
 {
-    "name": "twoja/aplikacja",
-    "description": "Czysty projekt PHP",
+    "name": "flow/app",
+    "description": "Aplikacja FLOW",
     "require": {
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+		"chillerlan/php-qrcode": "^5.0",
+		"spomky-labs/otphp": "^11.3"
     }
 }
