@@ -50,18 +50,33 @@ class Account {
 		return $res;
 	}
 
-	public function get_history (int $user_id = 0, int $account_id = 0) {
+	public function get_history (int $user_id = 0, int $account_id = 0, string $start_date = "", string $end_date = "") {
+		$params = [
+			"account_id" => $account_id,
+			"user_id" => $user_id
+		];
+
+		$start_date_sql = "";
+		if (!empty($start_date)) {
+			$start_date_sql = " AND log_date >= :start_date";
+			$params["start_date"] = $start_date;
+		}
+
+		$end_date_sql = "";
+		if (!empty($end_date)) {
+			$end_date_sql = " AND log_date < :end_date";
+			$params["end_date"] = $end_date;
+		}
+
 		$res = $this->db->query(
 			"SELECT balance, log_date
 				FROM account_history ac
 					WHERE ac.account_id = :account_id
+						{$start_date_sql} {$end_date_sql}
 						AND ac.account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
 							ORDER BY log_date DESC
 				",
-			[
-				"account_id" => $account_id,
-				"user_id" => $user_id
-			]
+			$params
 		);
 
 		return $res;

@@ -3,6 +3,14 @@
 		Zmiana hasła
 	</h1>
 
+	<div class="tabs-container">
+		<nav class="tabs-nav" aria-label="Nawigacja">
+			<a href="/profile/" class="tab-item">Twoje dane</a>
+			<a href="/profile/password/" class="tab-item active" aria-current="page">Zmiana hasła</a>
+			<a href="/profile/2fa/" class="tab-item">Logowanie dwuetapowe</a>
+		</nav>
+	</div>
+
 	<form class="form" id="profile-form" method="POST">
 		<?php
 			if (!empty($errors["global"]))

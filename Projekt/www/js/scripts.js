@@ -56,3 +56,25 @@
 		});
 	}
 }
+
+/* Czyszczenie formularza */
+{
+	document.addEventListener('DOMContentLoaded', () => {
+		const forms = document.querySelectorAll('form');
+
+		forms.forEach(form => {
+			const resetButton = form.querySelector('button[type="reset"]');
+
+			if (resetButton)
+				resetButton.addEventListener('click', (e) => {
+					// Blokujemy natywne zachowanie przycisku reset w HTML
+					e.preventDefault();
+
+					const inputs = form.querySelectorAll('input');
+					inputs.forEach(input => {
+						input.value = '';
+					});
+				});
+		});
+	});
+}

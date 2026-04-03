@@ -18,7 +18,7 @@
 		$search
 	);
 
-	$history = $account->get_history($user->id, $account_id);
+	$history = $account->get_history($user->id, $account_id, $search["date_from"], $search["date_to"]);
 	$history = array_reverse($history);
 
 	$chart = new App\Models\Chart(["currency" => $data[0]["currency"]]);

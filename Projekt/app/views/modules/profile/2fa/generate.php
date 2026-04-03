@@ -3,6 +3,14 @@
 		Logowanie dwuetapowe
 	</h1>
 
+	<div class="tabs-container">
+		<nav class="tabs-nav" aria-label="Nawigacja">
+			<a href="/profile/" class="tab-item">Twoje dane</a>
+			<a href="/profile/password/" class="tab-item">Zmiana hasła</a>
+			<a href="/profile/2fa/" class="tab-item active" aria-current="page">Logowanie dwuetapowe</a>
+		</nav>
+	</div>
+
 	<div class="article-body">
 		<h2 class="acenter">Zeskanuj ten kod w aplikacji Google Authenticator</h2>
 

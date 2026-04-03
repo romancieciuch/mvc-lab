@@ -235,6 +235,7 @@ button {
     justify-content: center;
     background-color: var(--primary);
     color: #ffffff;
+	font-size: 15px;
     font-weight: 700;
     padding: 0.5rem 1.5rem;
     border: none;
@@ -1311,4 +1312,59 @@ input.input-error:focus {
 	width: 250px;
 	max-width: 100%;
 	margin: 1.5rem auto;
+}
+
+.tabs-container {
+    border-bottom: 1px solid var(--border-color);
+    margin: 1.5rem auto;
+}
+
+.tabs-nav {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+.tabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 0.25rem; /* Zostawiamy mały padding po bokach, żeby ramka była lekko szersza niż tekst */
+
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent; /* Niewidoczna ramka przygotowana pod hover/active */
+
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--text-muted);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.tab-item:hover:not(.active) {
+    color: var(--text-main);
+    border-bottom-color: var(--border-color); /* Delikatnie podświetla dolną krawędź na szaro */
+}
+
+.tab-item.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-item:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 2px; /* Lekkie zaokrąglenie samego outline'u */
 }
