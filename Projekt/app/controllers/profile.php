@@ -1,30 +1,32 @@
 <?php
 	$_USER->restricted_area($user);
 
-	// Czy formularz wysłany
-	if (!empty($_POST["form-sent"])) {
-		$grecaptcha = $_FORM->validate_recaptcha_v3($_POST["g-recaptcha-response"] ?? "");
+	$action = $_ROUTING["params"][1] ?? "details";
+	$sub_action = $_ROUTING["params"][2] ?? "";
+
+
+	if ($action === "details")
+		require_once("profile/details.php");
+
+	if ($action === "password")
+		require_once("profile/password.php");
+
+	if ($action === "2fa" && empty($sub_action))
+		require_once("profile/2fa.php");
+
+	if ($action === "2fa" && $sub_action === "generate") {
+		$action = "2fa/generate";
+		require_once("profile/2fa/generate.php");
 	}
 
-	// Czy Grecaptcha OK
-	if (!empty($_POST["form-sent"]) && !empty($grecaptcha)) {
-		$dto = App\Models\DTO\UpdateUserDTO::parse($_DB->sanitize_array($_POST) + ["id" => $user->id]);
-		$errors = $dto->errors;
+	if ($action === "2fa" && $sub_action === "deactivate") {
+		$action = "2fa/deactivate";
+		require_once("profile/2fa/deactivate.php");
 	}
 
-	// Czy wszystko OK
-	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
-		$userdata = $_USER->update($dto);
-		$errors = $userdata["errors"] ?? [];
-
-		if (empty($errors)) {
-			$user = App\Models\DTO\UserDTO::parse($_USER->me($user));
-			$message["global"] = "Dane zostały zaktualizowane";
-		}
-	}
 
 	$modules = [
-		VIEWS_DIR . "modules/user/profile.php"
+		VIEWS_DIR . "modules/profile/{$action}.php"
 	];
 
 	require_once VIEWS_DIR . "global/page.php";

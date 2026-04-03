@@ -21,8 +21,14 @@
 	}
 
 	// Wszystko OK
-	if (!empty($userdata) && empty($errors)) {
+	if (!empty($userdata) && empty($errors) && empty($userdata["data"]["two_factor_auth"])) {
 		header("Location: /dashboard/");
+		exit;
+	}
+
+	// Logowanie 2FA
+	if (!empty($userdata) && empty($errors) && !empty($userdata["data"]["two_factor_auth"])) {
+		header("Location: /2fa/");
 		exit;
 	}
 

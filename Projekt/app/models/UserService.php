@@ -10,6 +10,7 @@ use App\Models\DTO\UpdateUserDTO;
 use App\Models\DTO\DeleteUserDTO;
 use App\Models\DTO\ActivateUserDTO;
 use App\Models\DTO\PasswordRecoveryDTO;
+use App\Models\DTO\ChangePasswordDTO;
 
 class UserService {
 	private DB $db;
@@ -147,6 +148,37 @@ class UserService {
 			]
 		);
 
+		if ($res === 0)
+			return [
+				"success" => false,
+				"data" => [],
+				"errors" => ["global" => "Nic się nie zmieniło."]
+			];
+
+		if ($res === false)
+			return [
+				"success" => false,
+				"data" => [],
+				"errors" => ["global" => "Problem z aktualizacją danych."]
+			];
+
+		return [
+			"success" => true,
+			"data" => $res,
+			"errors" => $errors
+		];
+	}
+
+	public function change_password (ChangePasswordDTO $dto) {
+		$errors = [];
+
+		if (!empty($dto->errors))
+			$errors["global"] = "Dane użytkownika zawierają błędy.";
+
+		// Czy użytkownik istnieje
+		if (!$this->user_exists($dto->id, "id"))
+			$errors["global"] = "Użytkownik nie istnieje.";
+
 		// Jeśli zmiana hasła
 		if (!empty($dto->password))
 			$res = $this->db->query(
@@ -245,6 +277,30 @@ class UserService {
 		];
 	}
 
+	public function update_two_factor_secret (int $user_id, string $secret) {
+		return $this->db->query(
+			"UPDATE users SET two_factor_secret = :secret
+				WHERE id = :user_id
+					LIMIT 1",
+			[
+				"secret" => $secret,
+				"user_id" => $user_id
+			]
+		);
+	}
+
+	public function get_user_secret (int $user_id) {
+		return $this->db->query(
+			"SELECT two_factor_secret
+				FROM users
+					WHERE id = :user_id
+						LIMIT 1",
+			[
+				"user_id" => $user_id
+			]
+		);
+	}
+
 	public function delete (DeleteUserDTO $dto) {
 		// Usuwamy
 		$res = $this->db->query(
@@ -282,13 +338,17 @@ class UserService {
 				"errors" => ["global" => "Błąd pobierania danych o użytkowniku"]
 			];
 
-		return [
-			"logged_in" => true,
+		$_SESSION["USER"] = [
+			"logged_in" => $_SESSION["USER"]["logged_in"],
+			"logged_in_2FA" => $_SESSION["USER"]["logged_in_2FA"],
 			"id" => $res[0]["id"],
 			"name" => $res[0]["name"],
 			"email" => $res[0]["email"],
+			"two_factor_auth" => (bool) $res[0]["two_factor_secret"],
 			"created_at" => $res[0]["created_at"]
 		];
+
+		return $_SESSION["USER"];
 	}
 
 	public function login (LoginUserDTO $dto) {
@@ -330,9 +390,11 @@ class UserService {
 
 		$_SESSION["USER"] = [
 			"logged_in" => true,
+			"logged_in_2FA" => false,
 			"id" => $res[0]["id"],
 			"name" => $res[0]["name"],
 			"email" => $res[0]["email"],
+			"two_factor_auth" => (bool) $res[0]["two_factor_secret"],
 			"created_at" => $res[0]["created_at"]
 		];
 
@@ -343,11 +405,21 @@ class UserService {
 		];
 	}
 
+	public function login_2fa () {
+		$_SESSION["USER"]["logged_in_2FA"] = true;
+	}
+
 	public function logout () {
 		unset($_SESSION["USER"]);
 	}
 
 	public function restricted_area (UserDTO $dto) {
+		if (!empty($dto->two_factor_auth) && empty($dto->logged_in_2FA)) {
+			http_response_code(401);
+			header("Location: /");
+			exit;
+		}
+
 		if (empty($dto->logged_in)) {
 			http_response_code(401);
 			header("Location: /");

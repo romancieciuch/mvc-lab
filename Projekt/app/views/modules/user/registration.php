@@ -14,25 +14,25 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa użytkownika</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST["name"] ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST["name"] ?? ""); ?>" autocomplete="name">
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="email">Adres e-mail</label>
-			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>">
+			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>" autocomplete="email">
 			<?php echo $_FORM->field_error($dto->errors["email"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="password">Hasło</label>
-			<input type="password" id="password" name="password">
+			<input type="password" id="password" name="password" autocomplete="new-password">
 			<?php echo $_FORM->field_error($dto->errors["password"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="password2">Powtórz hasło</label>
-			<input type="password" id="password2" name="password2">
+			<input type="password" id="password2" name="password2" autocomplete="new-password">
 			<?php echo $_FORM->field_error($dto->errors["password2"] ?? ""); ?>
 		</div>
 
