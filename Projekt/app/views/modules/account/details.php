@@ -28,12 +28,9 @@
 		</table>
 	</div>
 
-	<?php if (!empty($data[0]["description"])): ?>
-		<div class="article-body">
-			<h2>Opis transakcji</h2>
-			<p><?php echo nl2br($data[0]["description"]); ?></p>
-		</div>
-	<?php endif; ?>
+	<p class="acenter">
+		<a class="button" href="/account/<?php echo $data[0]["id"]; ?>/edit/">Edytuj</a>
+	</p>
 
 	<?php if (!empty($history)): ?>
 		<h2>Zapis zmian</h2>

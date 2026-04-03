@@ -35,6 +35,10 @@
 		</table>
 	</div>
 
+	<p class="acenter">
+		<a class="button" href="/transaction/<?php echo $transaction_id; ?>/edit/">Edytuj</a>
+	</p>
+
 	<?php if (!empty($data[0]["description"])): ?>
 		<div class="article-body">
 			<h2>Opis transakcji</h2>
