@@ -63,6 +63,32 @@ CREATE TABLE IF NOT EXISTS transactions (
         ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela historii transakcji
+CREATE TABLE IF NOT EXISTS transaction_history (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    transaction_id INT UNSIGNED NOT NULL,
+    amount DECIMAL(15, 2) NOT NULL,
+    log_date DATE NOT NULL,
+    UNIQUE KEY unique_transaction_date (transaction_id, log_date),
+    CONSTRAINT fk_history_transaction
+        FOREIGN KEY (transaction_id)
+        REFERENCES transactions(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabela historii sald kont
+CREATE TABLE IF NOT EXISTS account_history (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    account_id INT UNSIGNED NOT NULL,
+    balance DECIMAL(15, 2) NOT NULL,
+    log_date DATE NOT NULL,
+    UNIQUE KEY unique_account_date (account_id, log_date),
+    CONSTRAINT fk_history_account
+        FOREIGN KEY (account_id)
+        REFERENCES accounts(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- Wyzwalacze - automatyczna aktualizacja salda konta po dowolnych operacjach na tym koncie
 -- Zmiana znaku końca zapytania, aby MySQL nie przerwał tworzenia triggera w połowie
@@ -73,9 +99,16 @@ CREATE TRIGGER po_dodaniu_transakcji
 AFTER INSERT ON transactions
 FOR EACH ROW
 BEGIN
+
+	-- Historia transakcji: Dodajemy pierwszy wpis historyczny z dzisiejszą datą
+    INSERT INTO transaction_history (transaction_id, amount, log_date)
+    VALUES (NEW.id, NEW.amount, CURDATE());
+
+	-- Aktualizacja salda
     UPDATE accounts
     SET balance = balance + NEW.amount
     WHERE id = NEW.account_id;
+
 END //
 
 -- 2. Wyzwalacz po usunięciu transakcji (DELETE)
@@ -83,9 +116,11 @@ CREATE TRIGGER po_usunieciu_transakcji
 AFTER DELETE ON transactions
 FOR EACH ROW
 BEGIN
+
     UPDATE accounts
     SET balance = balance - OLD.amount
     WHERE id = OLD.account_id;
+
 END //
 
 -- 3. Wyzwalacz po edycji transakcji (UPDATE)
@@ -93,6 +128,14 @@ CREATE TRIGGER po_edycji_transakcji
 AFTER UPDATE ON transactions
 FOR EACH ROW
 BEGIN
+
+	-- Historia transakcji: Uruchamiamy tylko, jeśli kwota faktycznie uległa zmianie
+    IF OLD.amount != NEW.amount THEN
+        INSERT INTO transaction_history (transaction_id, amount, log_date)
+        VALUES (NEW.id, NEW.amount, CURDATE())
+        ON DUPLICATE KEY UPDATE amount = NEW.amount;
+    END IF;
+
     -- Sprawdzamy, czy transakcja została przeniesiona na inne konto
     IF OLD.account_id = NEW.account_id THEN
         -- Jeśli konto jest to samo, aktualizujemy tylko różnicę kwot
@@ -109,10 +152,47 @@ BEGIN
         SET balance = balance + NEW.amount
         WHERE id = NEW.account_id;
     END IF;
+
 END //
+
+
+-- --------------------------------------------------------
+-- 4. Wyzwalacz po dodaniu nowego konta (INSERT)
+-- --------------------------------------------------------
+DROP TRIGGER IF EXISTS po_dodaniu_konta //
+CREATE TRIGGER po_dodaniu_konta
+AFTER INSERT ON accounts
+FOR EACH ROW
+BEGIN
+    -- Logujemy początkowe saldo (zazwyczaj 0.00, ale warto mieć to na osi czasu)
+    INSERT INTO account_history (account_id, balance, log_date)
+    VALUES (NEW.id, NEW.balance, CURDATE());
+END //
+
+-- --------------------------------------------------------
+-- 5. Wyzwalacz po edycji konta (UPDATE)
+-- --------------------------------------------------------
+DROP TRIGGER IF EXISTS po_edycji_konta //
+CREATE TRIGGER po_edycji_konta
+AFTER UPDATE ON accounts
+FOR EACH ROW
+BEGIN
+    -- Sprawdzamy, czy saldo faktycznie uległo zmianie
+    -- (żeby nie tworzyć logów, gdy edytujesz tylko nazwę konta)
+    IF OLD.balance != NEW.balance THEN
+
+        -- Mechanizm "Upsert" - wstawia nowy dzień lub aktualizuje dzisiejszą końcówkę
+        INSERT INTO account_history (account_id, balance, log_date)
+        VALUES (NEW.id, NEW.balance, CURDATE())
+        ON DUPLICATE KEY UPDATE balance = NEW.balance;
+
+    END IF;
+END //
+
 
 -- Przywrócenie standardowego średnika jako separatora
 DELIMITER ;
+
 
 
 -- Dane startowe
@@ -144,7 +224,7 @@ INSERT INTO categories (id, account_id, name, color) VALUES
 (7, 3, 'Berlin', '#2563eb');
 
 -- 5. Rejestrujemy transakcje dla konta bieżącego
-INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
+INSERT INTO transactions (account_id, category_id, amount, name, transaction_date) VALUES
 (1, 1, 5000.00, 'Wypłata za marzec', '2026-03-10'),
 (1, 2, -150.50, 'Zakupy w Biedronce', '2026-03-12'),
 (1, 3, -200.00, 'Tankowanie na Orlenie', '2026-03-15'),
@@ -162,7 +242,7 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (1, 1, 5000.00, 'Wypłata za kwiecień', '2026-04-10');
 
 -- 6. Rejestrujemy transakcje dla konta oszczędnościowego
-INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
+INSERT INTO transactions (account_id, category_id, amount, name, transaction_date) VALUES
 (2, 5, 1000.00, 'Przelew nadwyżki z bieżącego', '2026-03-10'),
 (2, 4, 15.50, 'Kapitalizacja odsetek', '2026-03-28'),
 (2, 5, 500.00, 'Regularne oszczędzanie - marzec', '2026-03-15'),
@@ -177,7 +257,7 @@ INSERT INTO transactions (account_id, category_id, amount, description, transact
 (2, 5, 600.00, 'Przelew nadwyżki - maj', '2026-05-30');
 
 -- 7. 10 transakcji dla konta walutowego (account_id = 3)
-INSERT INTO transactions (account_id, category_id, amount, description, transaction_date) VALUES
+INSERT INTO transactions (account_id, category_id, amount, name, transaction_date) VALUES
 (3, 6, 300.00, 'Zasilenie z kantoru internetowego', '2026-03-05'),
 (3, 6, -14.99, 'Subskrypcja oprogramowania', '2026-03-12'),
 (3, NULL, -45.50, 'Zakupy zagraniczne - Amazon', '2026-03-18'),

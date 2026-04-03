@@ -33,6 +33,10 @@
 	if ($action === "categories")
 		require_once("account/categories.php");
 
+	// Szczegóły konta
+	if ($action === "details")
+		require_once("account/details.php");
+
 
 	// Wczytanie widoku
 	$modules = [

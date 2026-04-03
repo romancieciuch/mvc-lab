@@ -50,6 +50,23 @@ class Account {
 		return $res;
 	}
 
+	public function get_history (int $user_id = 0, int $account_id = 0) {
+		$res = $this->db->query(
+			"SELECT balance, log_date
+				FROM account_history ac
+					WHERE ac.account_id = :account_id
+						AND ac.account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
+							ORDER BY log_date DESC
+				",
+			[
+				"account_id" => $account_id,
+				"user_id" => $user_id
+			]
+		);
+
+		return $res;
+	}
+
 	public function get_accounts (int $user_id = 0) {
 		return $this->db->query(
 			"SELECT

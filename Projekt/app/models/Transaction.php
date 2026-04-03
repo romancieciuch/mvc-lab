@@ -43,6 +43,18 @@ class Transaction {
 		);
 	}
 
+	public function get_history (int $transaction_id) {
+		return $this->db->query(
+			"SELECT amount, log_date
+				FROM transaction_history
+					WHERE transaction_id = :transaction_id
+						ORDER BY log_date DESC",
+			[
+				"transaction_id" => $transaction_id
+			]
+		);
+	}
+
 	public function get_transactions (int $account_id, int $user_id, int $limit, int $offset) {
 		$total = $this->db->query("
 			SELECT COUNT(t.id) AS total

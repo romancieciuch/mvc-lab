@@ -16,14 +16,14 @@
 		<div class="summary-card">
 			<div class="summary-label">Średnia transakcja</div>
 			<div class="summary-value <?php echo $sumClass; ?>">
-				<?php echo $_DB->nice_format($summary["avg_amount"]); ?> <?php echo $data[0]["currency"]; ?>
+				<?php echo $_DB->nice_format($summary["avg_amount"]); ?> PLN
 			</div>
 		</div>
 
 		<div class="summary-card">
 			<div class="summary-label">Łączna wartość</div>
 			<div class="summary-value <?php echo $sumClass; ?>">
-				<?php echo $_DB->nice_format($summary["total_balance"]); ?> <?php echo $data[0]["currency"]; ?>
+				<?php echo $_DB->nice_format($summary["total_balance"]); ?> PLN
 			</div>
 		</div>
 	</div>
@@ -67,6 +67,7 @@
 							<td class="table-options">
 								<a href="/account/<?php echo $v["id"]; ?>/edit/">Edytuj</a>
 								<a href="/account/<?php echo $v["id"]; ?>/categories/">Kategorie</a>
+								<a href="/account/<?php echo $v["id"]; ?>/details/">Historia</a>
 								<a class="accent" href="/account/<?php echo $v["id"]; ?>/delete/">Usuń</a>
 							</td>
 						</tr>

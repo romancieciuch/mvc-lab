@@ -248,6 +248,12 @@ button {
     box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--accent);
 }
 
+@media (max-width: 440px) {
+	.button {
+		padding: 0.5rem 1rem;
+	}
+}
+
 .page-width {
     width: 1400px;
     max-width: 100%;
@@ -953,7 +959,7 @@ input.input-error:focus {
 
 /* Separator (wielokropek) gdy stron jest dużo */
 .page-ellipsis {
-    color: var(--page-disabled-text);
+    color: var(--label-color);
     padding: 0 0.5rem;
     font-weight: 500;
 }
@@ -1196,7 +1202,7 @@ input.input-error:focus {
 }
 
 /* Opcjonalnie: klasa dla ujemnego salda, narzucana z poziomu PHP */
-.balance-amount.is-negative {
+.is-negative {
     color: var(--color-expense); /* Użycie zmiennej dla czerwonego koloru */
 }
 

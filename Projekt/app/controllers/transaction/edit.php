@@ -19,7 +19,8 @@
 
 	// Wszystko OK
 	if (!empty($transactiondata) && empty($errors)) {
-		$account_id = $_GET["account-id"] ?? 0;
+		$data = $transaction->get_transaction($transaction_id);
+		$account_id = $data[0]["account_id"];
 
 		if ($account_id)
 			header("Location: /account/{$account_id}/transactions/");

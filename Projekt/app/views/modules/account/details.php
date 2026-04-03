@@ -1,6 +1,6 @@
 <article class="article page-width__narrow">
 	<h1 class="article-title">
-		<small class="article-title-breadcrumb">Szczegóły transakcji:</small>
+		<small class="article-title-breadcrumb">Szczegóły konta:</small>
 		<?php echo $data[0]["name"]; ?>
 	</h1>
 
@@ -9,26 +9,19 @@
 			<tbody>
 				<tr>
 					<th>Konto</th>
-					<td><?php echo $data[0]["account_name"]; ?></td>
+					<td><?php echo $data[0]["name"]; ?></td>
 				</tr>
 				<tr>
-					<th>Kategoria</th>
+					<th>Saldo</th>
 					<td>
-						<span class="color-box" style="background-color: <?php echo $data[0]["color"] ?? "#444"; ?>;"></span>
-						<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
-					</td>
-				</tr>
-				<tr>
-					<th>Kwota</th>
-					<td>
-						<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
+						<span class="balance-amount<?php if ($data[0]["balance"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["balance"]); ?></span>
 						<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
 					</td>
 				</tr>
 				<tr>
-					<th>Data transakcji</th>
+					<th>Priorytet</th>
 					<td>
-						<?php echo $data[0]["transaction_date"]; ?>
+						<?php echo $data[0]["priority"]; ?> / 100
 					</td>
 				</tr>
 			</tbody>
@@ -55,11 +48,11 @@
 				</thead>
 				<tbody>
 					<?php
-						$last_amount = end($history)["amount"] ?? 0;
+						$last_amount = end($history)["balance"] ?? 0;
 						$i = 0;
 
 						foreach ($history as $transaction):
-							$change = $transaction["amount"] - $last_amount;
+							$change = $transaction["balance"] - $last_amount;
 							if ($i === count($history) - 1) $change = 0;
 					?>
 							<tr>
@@ -72,11 +65,11 @@
 									</span>
 								</td>
 								<td>
-									<?php echo $_DB->nice_format($transaction["amount"]); ?> <?php echo $data[0]["currency"]; ?>
+									<?php echo $_DB->nice_format($transaction["balance"]); ?> <?php echo $data[0]["currency"]; ?>
 								</td>
 							</tr>
 					<?php
-							$last_amount = $transaction["amount"];
+							$last_amount = $transaction["balance"];
 							$i++;
 						endforeach;
 					?>
@@ -85,5 +78,5 @@
 		</div>
 	<?php endif; ?>
 
-	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
+	<p class="acenter"><a class="back-button" href="/dashboard/">Powrót</a></p>
 </article>
