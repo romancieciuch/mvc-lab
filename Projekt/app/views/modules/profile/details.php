@@ -30,7 +30,7 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa użytkownika</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user->name ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user->name ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 

@@ -15,7 +15,7 @@
 
 		<div class="form-row">
 			<label for="name">Nazwa transakcji</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>">
+			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
 		</div>
 
@@ -27,19 +27,19 @@
 
 		<div class="form-row">
 			<label for="amount">Kwota</label>
-			<input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($data[0]["amount"] ?? ""); ?>" step="0.01">
+			<input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($data[0]["amount"] ?? ""); ?>" step="0.01" required>
 			<?php echo $_FORM->field_error($dto->errors["amount"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="transaction_date">Data transakcji</label>
-			<input type="date" id="transaction_date" name="transaction_date" value="<?php echo htmlspecialchars($data[0]["transaction_date"] ?? date("Y-m-d")); ?>">
+			<input type="date" id="transaction_date" name="transaction_date" value="<?php echo htmlspecialchars($data[0]["transaction_date"] ?? date("Y-m-d")); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["transaction_date"] ?? ""); ?>
 		</div>
 
 		<div class="form-row">
 			<label for="account_id">Przypisz do konta</label>
-			<select name="account_id" id="account_id" data-account>
+			<select name="account_id" id="account_id" data-account required>
 				<?php
 					foreach ($accounts as $account):
 						$selected = ($account["id"] === $data[0]["account_id"]) ? true : false;
@@ -54,7 +54,7 @@
 
 		<div class="form-row">
 			<label for="category_id">Przypisz do kategorii</label>
-			<select name="category_id" id="category_id" data-categories>
+			<select name="category_id" id="category_id" data-categories required>
 				<option value="NULL">Bez kategorii</option>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["category_id"] ?? ""); ?>
