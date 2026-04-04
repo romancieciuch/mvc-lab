@@ -50,7 +50,7 @@
 
 		<div class="form-row">
 			<label for="category_id">Przypisz do kategorii</label>
-			<select name="category_id" id="category_id" data-categories required>
+			<select name="category_id" id="category_id" data-categories>
 				<option value="NULL">Bez kategorii</option>
 			</select>
 			<?php echo $_FORM->field_error($dto->errors["category_id"] ?? ""); ?>
@@ -65,7 +65,7 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><a class="back-button" href="/account/<?php echo $_GET["account-id"] ?? 0; ?>/transactions/">Powrót</a></p>
+	<p class="acenter"><a class="back-button" href="<?php echo $_APP->prev_page; ?>">Powrót</a></p>
 </article>
 
 <script>
