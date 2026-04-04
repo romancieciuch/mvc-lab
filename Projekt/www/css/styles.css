@@ -698,6 +698,10 @@ input.input-error:focus {
 	font-weight: 700;
 }
 
+.table .table-name a {
+	text-decoration: none;
+}
+
 .table-options a {
 	display: block;
 	font-weight: 700;
