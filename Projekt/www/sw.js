@@ -1,10 +1,10 @@
-const CACHE_NAME = 'flow-app-v2';
+const CACHE_NAME = 'flow-app-v5';
 const ASSETS_TO_CACHE = [
     '/',
     '/manifest.json',
     '/css/styles.css',
     '/js/scripts.js',
-	'/images/flow-white-bcg.svg'
+	'/images/flow.svg'
 ];
 
 self.addEventListener('install', event => {
