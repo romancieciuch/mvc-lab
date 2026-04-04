@@ -416,7 +416,7 @@ class UserService {
 			["user_id" => $user_id]
 		);
 
-		return json_decode($res[0]["settings"] ?? [], true);
+		return json_decode($res[0]["settings"] ?? "", true) ?? [];
 	}
 
 	public function update_user_settings (int $user_id, UserSettingsDTO $dto) {
