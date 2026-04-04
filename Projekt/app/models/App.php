@@ -214,4 +214,31 @@ class App {
 			'#0EA5E9','#2563EB'
 		];
 	}
+
+	public function months_difference (string $date) : int {
+		$from = new \DateTime($date);
+		$to = new \DateTime();
+		$diff = $from->diff($to);
+
+		return ($diff->y * 12) + $diff->m;
+	}
+
+	function money_lasts (float $balance, float $monthlyUsage) : array {
+		if ($monthlyUsage <= 0) $monthlyUsage = 1;
+		$totalMonths = (int) floor($balance / $monthlyUsage);
+
+		$years = intdiv($totalMonths, 12);
+		$months = $totalMonths % 12;
+
+		$summary = "";
+		if ($years > 0) $summary .= "{$years} L ";
+		$summary .= "{$months} M";
+
+		return [
+			'years' => $years,
+			'months' => $months,
+			'total_months' => $totalMonths,
+			'summary' => $summary
+		];
+	}
 }

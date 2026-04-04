@@ -21,5 +21,12 @@
 	$history = $account->get_history($user->id, $account_id, $search["date_from"], $search["date_to"]);
 	$history = array_reverse($history);
 
-	$chart = new App\Models\Chart(["currency" => $data[0]["currency"]]);
-	$chart_html = $chart->draw($history, "log_date", "balance");
+	if (empty($_GET["search"]) && empty($_GET["amount-min"]) && empty($_GET["amount-max"]) && empty($_GET["category-id"])) {
+		$chart = new App\Models\Chart(["currency" => $data[0]["currency"]]);
+		$chart_html = $chart->draw($history, "log_date", "balance");
+	}
+
+	$pln_value = $_APP->exchange($transactions["total_amount"], $data[0]["currency"] ?? "PLN", "PLN");
+
+	// Opcje użytkownika
+	$settings = $_USER->get_user_settings($user->id);
