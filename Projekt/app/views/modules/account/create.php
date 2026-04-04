@@ -22,7 +22,7 @@
 			<label for="currency">Waluta rozliczeniowa</label>
 			<select name="currency" id="currency" required>
 				<option value="PLN">polski złoty (PLN)</option>
-				<?php foreach ($currency_rates["rates"] as $currency): ?>
+				<?php foreach ($_APP->currency_rates as $currency): ?>
 					<option value="<?php echo $currency["code"]; ?>">
 						<?php echo $currency["currency"]; ?> (<?php echo $currency["code"]; ?>)
 					</option>
