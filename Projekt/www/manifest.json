@@ -8,14 +8,14 @@
   "theme_color": "#fff",
   "icons": [
     {
-      "src": "/images/flow-icon.svg",
+      "src": "/images/flow.png",
       "sizes": "192x192",
-      "type": "image/svg"
+      "type": "image/png"
     },
     {
-      "src": "/images/flow-icon.svg",
+      "src": "/images/flow.png",
       "sizes": "512x512",
-      "type": "image/svg"
+      "type": "image/png"
     }
   ]
 }
