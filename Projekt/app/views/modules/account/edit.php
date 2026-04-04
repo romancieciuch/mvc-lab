@@ -24,7 +24,7 @@
 			<select name="currency" id="currency" required>
 				<option value="PLN"<?php if ($data[0]["currency"] === "PLN") echo ' selected'; ?>>polski złoty (PLN)</option>
 
-				<?php foreach ($currency_rates["rates"] as $currency): ?>
+				<?php foreach ($_APP->currency_rates as $currency): ?>
 					<option value="<?php echo $currency["code"]; ?>"<?php if ($data[0]["currency"] === $currency["code"]) echo ' selected'; ?>>
 						<?php echo $currency["currency"]; ?> (<?php echo $currency["code"]; ?>)
 					</option>
