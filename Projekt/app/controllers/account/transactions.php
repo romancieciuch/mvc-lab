@@ -25,3 +25,8 @@
 		$chart = new App\Models\Chart(["currency" => $data[0]["currency"]]);
 		$chart_html = $chart->draw($history, "log_date", "balance");
 	}
+
+	$pln_value = $_APP->exchange($transactions["total_amount"], $data[0]["currency"] ?? "PLN", "PLN");
+
+	// Opcje użytkownika
+	$settings = $_USER->get_user_settings($user->id);

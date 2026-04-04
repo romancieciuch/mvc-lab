@@ -4,6 +4,7 @@
 	$account = new App\Models\Account($_DB);
 	$data = $account->get_accounts($user->id);
 	$summary = $account->get_accounts_summary($user->id);
+	$settings = $_USER->get_user_settings($user->id);
 
 	// Dla kont o różnych walutach - potrzebna rekalkulacja
 	if ($account->has_different_currencies($data)) {

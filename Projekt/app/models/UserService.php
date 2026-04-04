@@ -11,6 +11,7 @@ use App\Models\DTO\DeleteUserDTO;
 use App\Models\DTO\ActivateUserDTO;
 use App\Models\DTO\PasswordRecoveryDTO;
 use App\Models\DTO\ChangePasswordDTO;
+use App\Models\DTO\UserSettingsDTO;
 
 class UserService {
 	private DB $db;
@@ -407,6 +408,30 @@ class UserService {
 
 	public function login_2fa () {
 		$_SESSION["USER"]["logged_in_2FA"] = true;
+	}
+
+	public function get_user_settings (int $user_id) {
+		$res = $this->db->query(
+			"SELECT settings FROM users WHERE id = :user_id LIMIT 1",
+			["user_id" => $user_id]
+		);
+
+		return json_decode($res[0]["settings"] ?? [], true);
+	}
+
+	public function update_user_settings (int $user_id, UserSettingsDTO $dto) {
+		$settings = array_merge($this->get_user_settings($user_id), $dto->fields);
+
+		return $this->db->query(
+			"UPDATE users
+				SET settings = :settings
+					WHERE id = :user_id
+						LIMIT 1",
+			[
+				"user_id" => $user_id,
+				"settings" => json_encode($settings, JSON_UNESCAPED_UNICODE)
+			]
+		);
 	}
 
 	public function logout () {

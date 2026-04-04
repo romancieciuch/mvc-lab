@@ -1,4 +1,4 @@
-<article class="article page-width__narrow">
+<article class="article page-width__midi">
 	<h1 class="article-title">
 		Zmiana hasła
 	</h1>
@@ -8,10 +8,11 @@
 			<a href="/profile/" class="tab-item">Twoje dane</a>
 			<a href="/profile/password/" class="tab-item active" aria-current="page">Zmiana hasła</a>
 			<a href="/profile/2fa/" class="tab-item">Logowanie dwuetapowe</a>
+			<a href="/profile/statistics/" class="tab-item">Statystyka</a>
 		</nav>
 	</div>
 
-	<form class="form" id="profile-form" method="POST">
+	<form class="form page-width__narrow" id="profile-form" method="POST">
 		<?php
 			if (!empty($errors["global"]))
 				echo $_FORM->global_error([

@@ -11,6 +11,9 @@
 	if ($action === "password")
 		require_once("profile/password.php");
 
+	if ($action === "statistics")
+		require_once("profile/statistics.php");
+
 	if ($action === "2fa" && empty($sub_action))
 		require_once("profile/2fa.php");
 

@@ -47,13 +47,29 @@
 			<?php if ($data[0]["currency"] !== "PLN"): ?>
 				<small class="balance-exchange">
 					<?php
-						echo $_DB->nice_format(
-							$_APP->exchange($transactions["total_amount"], $data[0]["currency"], "PLN")
-						);
+						echo $_DB->nice_format($pln_value);
 					?> PLN
 				</small>
 			<?php endif; ?>
 		</div>
+
+		<?php if (!empty($settings["world_ends"])): ?>
+			<div class="summary-card">
+				<div class="summary-label">Koniec świata: <?php echo $settings["world_ends"]; ?></div>
+				<div class="summary-value">
+					<?php echo $_DB->nice_format($pln_value / $_APP->months_difference($settings["world_ends"])); ?> PLN / M
+				</div>
+			</div>
+		<?php endif; ?>
+
+		<?php if (!empty($settings["monthly_expenses"])): ?>
+			<div class="summary-card">
+				<div class="summary-label">Przy zużyciu: <?php echo $settings["monthly_expenses"]; ?> PLN / M</div>
+				<div class="summary-value">
+					<?php echo $_APP->money_lasts($pln_value, $settings["monthly_expenses"])["summary"]; ?>
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="filter-panel">
