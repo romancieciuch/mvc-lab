@@ -5,9 +5,12 @@ namespace App\Models;
 
 class App {
 	public array $currency_rates = [];
+	public string $prev_page = "";
+	public string $current_page = "";
 
 	public function __construct () {
 		$this->currency_rates = $this->get_currency_rates(CACHE_DIR . "api/nbp.json");
+		$this->browse_history();
 	}
 
 	public function route (string $uri = "") : array {
@@ -17,6 +20,24 @@ class App {
 			"controller" => !empty($arr[0]) ? $arr[0] : "home",
 			"params" => $arr
 		];
+	}
+
+	public function browse_history () {
+
+		if (empty($_SESSION["history"]["current"])) {
+			$this->prev_page = $_SESSION["history"]["prev"] = "";
+			$this->current_page = $_SESSION["history"]["current"] = $_SERVER["REQUEST_URI"];
+
+		} else if ($_SERVER["REQUEST_URI"] !== $_SESSION["history"]["current"]) {
+			$_SESSION["history"]["prev"] = $this->prev_page = $_SESSION["history"]["current"];
+			$_SESSION["history"]["current"] = $this->current_page = $_SERVER["REQUEST_URI"];
+
+		} else {
+
+			$this->prev_page = $_SESSION["history"]["prev"];
+			$this->current_page = $_SERVER["REQUEST_URI"];
+		}
+
 	}
 
 	public function pagination (int $page = 0, int $per_page = 0) : array {

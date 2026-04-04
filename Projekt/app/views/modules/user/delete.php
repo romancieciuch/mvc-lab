@@ -18,5 +18,5 @@
 		<?php endif;?>
 	</div>
 
-	<p class="acenter"><button class="back-button" onclick="history.back()">Powrót</button></p>
+	<p class="acenter"><a class="back-button" href="<?php echo $_APP->prev_page; ?>">Powrót</a></p>
 </article>
