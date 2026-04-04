@@ -42,6 +42,8 @@
 				<?php echo $_FORM->field_error($dto->errors["world_ends"] ?? ""); ?>
 			</div>
 
+			<hr>
+
 			<?php
 				echo $_FORM->global_info([
 					"title" => "Poduszka finansowa",

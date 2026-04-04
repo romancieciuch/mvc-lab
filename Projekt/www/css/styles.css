@@ -280,6 +280,12 @@ button {
 	}
 }
 
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+}
+
 .page-width {
     width: 1400px;
     max-width: 100%;
