@@ -29,11 +29,16 @@
 									<?php echo $v["name"]; ?>
 								</a>
 							</td>
-							<td><?php echo $v["created_at"]; ?></td>
-							<td class="table-options">
-								<a href="/category/<?php echo $v["id"]; ?>/details/?account-id=<?php echo $data[0]["id"]; ?>">Szczegóły</a>
-								<a href="/category/<?php echo $v["id"]; ?>/edit/?account-id=<?php echo $data[0]["id"]; ?>">Edytuj</a>
-								<a class="accent" href="/category/<?php echo $v["id"]; ?>/delete/?account-id=<?php echo $data[0]["id"]; ?>">Usuń</a>
+							<td>
+								<?php echo $v["created_at"]; ?>
+							</td>
+							<td class="table-options table-options-has-menu">
+								<div class="table-options-menu">
+									<a href="/category/<?php echo $v["id"]; ?>/details/?account-id=<?php echo $data[0]["id"]; ?>">Szczegóły</a>
+									<a href="/category/<?php echo $v["id"]; ?>/edit/?account-id=<?php echo $data[0]["id"]; ?>">Edytuj</a>
+									<a class="accent" href="/category/<?php echo $v["id"]; ?>/delete/?account-id=<?php echo $data[0]["id"]; ?>">Usuń</a>
+								</div>
+								<button class="table-options-button"></button>
 							</td>
 						</tr>
 					<?php endforeach; ?>
