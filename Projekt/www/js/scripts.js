@@ -78,3 +78,15 @@
 		});
 	});
 }
+
+/* Menu mobilne w tabelach */
+{
+	document.addEventListener('DOMContentLoaded', () => {
+		const table_menu_buttons = document.querySelectorAll('.table-options-button');
+
+		for (let el of table_menu_buttons)
+			el.addEventListener("click", () => {
+				el.closest("tr").classList.toggle("is-open");
+			});
+	});
+}
