@@ -290,21 +290,21 @@ hr {
     width: 1400px;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
 }
 
 .page-width__midi {
 	width: 800px;
     max-width: 100%;
     margin: 0 auto;
-	padding: 0 1.5rem;
+	padding: 0 1rem;
 }
 
 .page-width__narrow {
     width: 480px;
 	max-width: 100%;
     margin: 0 auto;
-	padding: 0 1.5rem;
+	padding: 0 1rem;
 }
 
 .acenter {
