@@ -157,7 +157,7 @@ class Account {
 	}
 
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
-		return $this->db->query(
+		$res = $this->db->query(
 			"UPDATE accounts
 				SET name = :name, currency = :currency, priority = :priority
 					WHERE id = :account_id AND user_id = :user_id
@@ -170,6 +170,14 @@ class Account {
 				"priority" => $dto->priority
 			]
 		);
+
+		if (empty($res))
+			$errors["global"] = "Nie wprowadzono żadnych zmian.";
+
+		return [
+			"success" => (bool) $res,
+			"errors" => $errors ?? []
+		];
 	}
 
 	public function delete_account (int $user_id = 0, int $account_id = 0) {

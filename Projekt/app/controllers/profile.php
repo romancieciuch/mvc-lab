@@ -27,6 +27,8 @@
 		require_once("profile/2fa/deactivate.php");
 	}
 
+	$prev_page = "/profile/";
+
 
 	$modules = [
 		VIEWS_DIR . "modules/profile/{$action}.php"

@@ -18,6 +18,15 @@
 		$_USER->verify_user($user->id, $data[0]["account_id"] ?? 0, $transaction_id ?? 0);
 
 
+	$prev_page = "/dashboard/";
+
+	if (!empty($_GET["account-id"]))
+		$prev_page = "/account/" . intval($_GET["account-id"]) . "/transactions/";
+
+	if (!empty($data[0]["account_id"]))
+		$prev_page = "/account/" . intval($data[0]["account_id"]) . "/transactions/";
+
+
 	// Tworzenie transakcji
 	if ($action === "create")
 		require_once("transaction/create.php");

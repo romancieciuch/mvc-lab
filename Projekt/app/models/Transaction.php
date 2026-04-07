@@ -212,7 +212,7 @@ class Transaction {
     }
 
 	public function update_transaction (int $transaction_id, TransactionDTO $dto) {
-		return $this->db->query(
+		$res = $this->db->query(
 			"UPDATE transactions
 				SET account_id = :account_id, category_id = :category_id,
 					amount = :amount, name = :name, description = :description, transaction_date = :transaction_date
@@ -228,6 +228,14 @@ class Transaction {
 				"transaction_date" => $dto->transaction_date
 			]
 		);
+
+		if (empty($res))
+			$errors["global"] = "Nie wprowadzono żadnych zmian.";
+
+		return [
+			"success" => (bool) $res,
+			"errors" => $errors ?? []
+		];
 	}
 
 	public function delete_transaction (int $transaction_id) {

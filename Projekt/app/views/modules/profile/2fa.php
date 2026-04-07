@@ -45,5 +45,5 @@
 		</p>
 	</div>
 
-	<p class="acenter"><a class="back-button" href="<?php echo $_APP->prev_page; ?>">Powrót</a></p>
+	<p class="acenter"><a class="back-button" href="<?php echo $prev_page; ?>">Powrót</a></p>
 </article>
