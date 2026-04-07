@@ -83,7 +83,7 @@
 		<form class="filter-form" id="filter-form" method="GET" action="">
 			<div class="filter-group filter-search">
 				<label for="searchQuery">Wyszukaj</label>
-				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, opis, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
+				<input type="text" id="searchQuery" name="search" placeholder="Nazwa transakcji, kategoria..." value="<?php echo htmlspecialchars($_GET["search"] ?? ""); ?>">
 			</div>
 
 			<div class="filter-group">
