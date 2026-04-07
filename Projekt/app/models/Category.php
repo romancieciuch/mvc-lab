@@ -68,7 +68,7 @@ class Category {
 	}
 
 	public function update_category (int $category_id, CategoryDTO $dto) {
-		return $this->db->query(
+		$res = $this->db->query(
 			"UPDATE categories
 				SET name = :name, color = :color, account_id = :account_id
 					WHERE id = :category_id
@@ -80,6 +80,14 @@ class Category {
 				"color" => $dto->color
 			]
 		);
+
+		if (empty($res))
+			$errors["global"] = "Nie wprowadzono żadnych zmian.";
+
+		return [
+			"success" => (bool) $res,
+			"errors" => $errors ?? []
+		];
 	}
 
 	public function delete_category (int $category_id = 0) {

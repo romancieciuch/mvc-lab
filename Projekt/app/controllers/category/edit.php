@@ -14,7 +14,7 @@
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
 		$categorydata = $category->update_category($category_id, $dto);
-		$errors = $userdata["errors"] ?? [];
+		$errors = $categorydata["errors"] ?? [];
 	}
 
 	// Wszystko OK

@@ -12,6 +12,9 @@
 
 	$pagination = $_APP->pagination();
 
+	$prev_page = "/dashboard/";
+	if (!empty($_GET["account-id"]))
+		$prev_page = "/account/" . intval($_GET["account-id"]) . "/transactions/";
 
 	// Tworzenie konta
 	if ($action === "create")

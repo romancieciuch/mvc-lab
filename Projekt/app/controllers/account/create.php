@@ -14,7 +14,7 @@
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
 		$accountdata = $account->create_account($user->id, $dto);
-		$errors = $userdata["errors"] ?? [];
+		$errors = $accountdata["errors"] ?? [];
 	}
 
 	// Wszystko OK

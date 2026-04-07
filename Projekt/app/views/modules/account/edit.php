@@ -8,7 +8,7 @@
 		<?php
 			if (!empty($errors["global"]))
 				echo $_FORM->global_error([
-					"title" => "Wystąpił problem z tworzeniem konta",
+					"title" => "Wystąpił problem z edycją konta",
 					"desc" => $errors["global"]
 				]);
 		?>
@@ -48,5 +48,5 @@
 		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
 	</form>
 
-	<p class="acenter"><a class="back-button" href="<?php echo $_APP->prev_page; ?>">Powrót</a></p>
+	<p class="acenter"><a class="back-button" href="<?php echo $prev_page; ?>">Powrót</a></p>
 </article>

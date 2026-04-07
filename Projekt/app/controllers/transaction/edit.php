@@ -14,7 +14,7 @@
 	// Czy wszystko OK
 	if (!empty($_POST["form-sent"]) && !empty($grecaptcha) && empty($dto->errors)) {
 		$transactiondata = $transaction->update_transaction($transaction_id, $dto);
-		$errors = $userdata["errors"] ?? [];
+		$errors = $transactiondata["errors"] ?? [];
 	}
 
 	// Wszystko OK
