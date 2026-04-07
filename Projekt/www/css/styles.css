@@ -101,9 +101,13 @@
 	--color-income: #10b981; /* jaśniejszy emerald-500 dla czytelności na ciemnym */
     --color-expense: #f43f5e;/* jaśniejszy rose-500 */
 
-    body {
+    /* body {
         background-image: url("/images/bcg-dark.webp");
-    }
+    } */
+	body::before {
+		/*filter: invert(1) hue-rotate(180deg);*/
+		filter: invert(1) hue-rotate(270deg);
+	}
 }
 
 * {
@@ -119,8 +123,6 @@ html {
 
 body {
     background-color: var(--bg-main);
-    background-image: url("/images/bcg.webp");
-    background-repeat: repeat;
     color: var(--text-main);
     transition: background-color 0.3s ease, color 0.3s ease;
     font-size: 16px;
@@ -131,6 +133,19 @@ body {
 	flex-direction: column;
 	height: 100%;
 	overflow: auto;
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+    background-color: var(--bg-main);
+    background-image: url("/images/bcg-universal.webp");
+    background-repeat: repeat;
 }
 
 body > * {
