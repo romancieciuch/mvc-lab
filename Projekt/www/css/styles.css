@@ -1052,6 +1052,10 @@ input.input-error:focus {
 	outline-offset: 2px;
 }
 
+.category.color-light {
+	color: #000;
+}
+
 /* Kontener całej paginacji */
 .pagination-container {
     display: flex;
@@ -1435,10 +1439,39 @@ input.input-error:focus {
 }
 
 .colors button {
-	display: block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	aspect-ratio: 1.5 / 1;
 	border: none;
 	border-radius: var(--border-radius);
+}
+
+.colors button:focus {
+	outline: none;
+	border-color: var(--primary);
+	box-shadow: 0 0 0 1px var(--primary);
+}
+
+.colors button::before {
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.colors button:focus::before {
+	content: "ABC";
+}
+
+.colors button.color-light::before {
+	color: #000;
+}
+
+@media (max-width: 440px) {
+	.colors button::before {
+		font-size: 10px;
+	}
 }
 
 .chart-container {

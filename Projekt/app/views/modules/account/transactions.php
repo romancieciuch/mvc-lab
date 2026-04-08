@@ -118,7 +118,7 @@
 							if ($active)
 								echo '<input type="hidden" name="category-id" value="'.$category["id"].'">';
 					?>
-						<a class="category<?php echo $active; ?>" href="<?php echo ($active ? "?" : "?category-id=".$category["id"]) ; ?>" style="background-color: <?php echo $category["color"]; ?>">
+						<a class="category<?php echo $active; ?> color-<?php echo $_APP->color_lightness($category["color"] ?? '#444'); ?>" href="<?php echo ($active ? "?" : "?category-id=".$category["id"]) ; ?>" style="background-color: <?php echo $category["color"] ?? '#444'; ?>">
 							<?php echo $category["name"]; ?>
 						</a>
 					<?php endforeach; ?>
@@ -150,7 +150,7 @@
 								</a>
 							</td>
 							<td>
-								<a class="category" style="background: <?php echo $v["category_color"] ?? "#444"; ?>" href="?category-id=<?php echo $v["category_id"] ?? 0; ?>">
+								<a class="category color-<?php echo $_APP->color_lightness($v["category_color"] ?? "#444"); ?>" style="background: <?php echo $v["category_color"] ?? "#444"; ?>" href="?category-id=<?php echo $v["category_id"] ?? 0; ?>">
 									<?php echo $v["category_name"] ?? "Bez kategorii"; ?>
 								</a>
 							</td>
