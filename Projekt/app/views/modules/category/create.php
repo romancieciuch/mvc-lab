@@ -28,6 +28,7 @@
 					<?php foreach ($_APP->predefined_colors() as $color): ?>
 						<button
 							data-color="<?php echo $color; ?>"
+							class="color-<?php echo $_APP->color_lightness($color); ?>"
 							style="background-color: <?php echo $color; ?>"
 							type="button"
 							onclick="document.querySelector('#color').value = this.getAttribute('data-color')"

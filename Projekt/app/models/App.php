@@ -206,11 +206,31 @@ class App {
 
 	public function predefined_colors () {
 		return [
-			'#999999', '#f9cb9c', '#ffd966', '#b6d7a8', '#9fc5e8', '#b4a7d6', '#d5a6bd', '#ea9999',
-			'#666666', '#f6b26b', '#ffcc33', '#93c47d', '#6fa8dc', '#8e7cc3', '#c27ba0', '#e06666',
-			'#333333', '#e69138', '#ffbf00', '#6aa84f', '#3d85c6', '#674ea7', '#a64d79', '#cc0000',
-			'#000000', '#b45f06', '#cc9900', '#38761d', '#0b5394', '#351c75', '#741b47', '#990000'
+			'#999999', '#f9cb9c', '#fee599', '#b6d7a8', '#9fc5e8', '#b4a7d6', '#d5a6bd', '#ea9999',
+			'#666666', '#f6b26b', '#ffd965', '#93c47d', '#6fa8dc', '#8e7cc3', '#c27ba0', '#e06666',
+			'#333333', '#e69138', '#bf9000', '#6aa84f', '#3d85c6', '#674ea7', '#a64d79', '#cc0000',
+			'#000000', '#b45f06', '#7f6000', '#38761d', '#0b5394', '#351c75', '#741b47', '#990000'
 		];
+	}
+
+	public function color_lightness (string $hexColor) : string {
+		$hexColor = ltrim($hexColor, '#');
+
+		if (strlen($hexColor) === 3) {
+			$r = hexdec(str_repeat($hexColor[0], 2));
+			$g = hexdec(str_repeat($hexColor[1], 2));
+			$b = hexdec(str_repeat($hexColor[2], 2));
+		} else {
+			$r = hexdec(substr($hexColor, 0, 2));
+			$g = hexdec(substr($hexColor, 2, 2));
+			$b = hexdec(substr($hexColor, 4, 2));
+		}
+
+		// Liczymy jasność wg standardu ITU-R BT.601
+		$brightness = ($r * 299 + $g * 587 + $b * 114) / 1000;
+
+		// Jasny kolor = brightness > 128
+		return ($brightness > 170) ? "light" : "dark";
 	}
 
 	public function months_difference (string $date) : int {
