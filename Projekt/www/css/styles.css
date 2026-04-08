@@ -322,6 +322,11 @@ hr {
 	padding: 0 1rem;
 }
 
+.page-width .page-width__midi,
+.page-width .page-width__narrow {
+	padding: 0;
+}
+
 .acenter {
     text-align: center;
 }
