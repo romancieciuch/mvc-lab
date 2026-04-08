@@ -14,7 +14,7 @@
 
 		<div class="form-row">
 			<label for="code">Kod z aplikacji uwierzytelniającej</label>
-			<input type="text" id="code" name="code" value="<?php echo htmlspecialchars($_POST["code"] ?? ""); ?>" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="123456" autocomplete="off" required>
+			<input type="text" id="code" name="code" value="<?php echo htmlspecialchars($_POST["code"] ?? ""); ?>" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="123456" autocomplete="off" autofocus required>
 			<?php echo $_FORM->field_error($errors["code"] ?? ""); ?>
 		</div>
 
