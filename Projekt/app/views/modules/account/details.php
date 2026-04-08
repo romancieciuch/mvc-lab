@@ -1,31 +1,33 @@
-<article class="article page-width__narrow">
+<article class="article page-width">
 	<h1 class="article-title">
 		<small class="article-title-breadcrumb">Szczegóły konta:</small>
 		<?php echo $data[0]["name"]; ?>
 	</h1>
 
-	<div class="table-container">
-		<table class="table">
-			<tbody>
-				<tr>
-					<th>Konto</th>
-					<td><?php echo $data[0]["name"]; ?></td>
-				</tr>
-				<tr>
-					<th>Saldo</th>
-					<td>
-						<span class="balance-amount<?php if ($data[0]["balance"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["balance"]); ?></span>
-						<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
-					</td>
-				</tr>
-				<tr>
-					<th>Priorytet</th>
-					<td>
-						<?php echo $data[0]["priority"]; ?> / 100
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="page-width__narrow">
+		<div class="table-container">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Konto</th>
+						<td><?php echo $data[0]["name"]; ?></td>
+					</tr>
+					<tr>
+						<th>Saldo</th>
+						<td>
+							<span class="balance-amount<?php if ($data[0]["balance"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["balance"]); ?></span>
+							<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
+						</td>
+					</tr>
+					<tr>
+						<th>Priorytet</th>
+						<td>
+							<?php echo $data[0]["priority"]; ?> / 100
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	<p class="acenter">

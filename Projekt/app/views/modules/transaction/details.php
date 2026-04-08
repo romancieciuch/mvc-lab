@@ -1,39 +1,41 @@
 <article class="article">
-	<div class="page-width__narrow">
+	<div class="page-width">
 		<h1 class="article-title">
 			<small class="article-title-breadcrumb">Szczegóły transakcji:</small>
 			<?php echo $data[0]["name"]; ?>
 		</h1>
 
-		<div class="table-container">
-			<table class="table">
-				<tbody>
-					<tr>
-						<th>Konto</th>
-						<td><?php echo $data[0]["account_name"]; ?></td>
-					</tr>
-					<tr>
-						<th>Kategoria</th>
-						<td>
-							<span class="color-box" style="background-color: <?php echo $data[0]["color"] ?? "#444"; ?>;"></span>
-							<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
-						</td>
-					</tr>
-					<tr>
-						<th>Kwota</th>
-						<td>
-							<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
-							<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
-						</td>
-					</tr>
-					<tr>
-						<th>Data transakcji</th>
-						<td>
-							<?php echo $data[0]["transaction_date"]; ?>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="page-width__narrow">
+			<div class="table-container">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Konto</th>
+							<td><?php echo $data[0]["account_name"]; ?></td>
+						</tr>
+						<tr>
+							<th>Kategoria</th>
+							<td>
+								<span class="color-box" style="background-color: <?php echo $data[0]["color"] ?? "#444"; ?>;"></span>
+								<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
+							</td>
+						</tr>
+						<tr>
+							<th>Kwota</th>
+							<td>
+								<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
+								<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
+							</td>
+						</tr>
+						<tr>
+							<th>Data transakcji</th>
+							<td>
+								<?php echo $data[0]["transaction_date"]; ?>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 		<p class="acenter">

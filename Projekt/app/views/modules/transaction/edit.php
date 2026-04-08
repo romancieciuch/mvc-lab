@@ -1,73 +1,75 @@
-<article class="article page-width__narrow">
+<article class="article page-width">
 	<h1 class="article-title">
 		<small class="article-title-breadcrumb">Edycja transakcji:</small>
 		<?php echo $data[0]["name"]; ?>
 	</h1>
 
-	<form class="form" id="account-form" method="POST">
-		<?php
-			if (!empty($errors["global"]))
-				echo $_FORM->global_error([
-					"title" => "Wystąpił problem z tworzeniem transakcji",
-					"desc" => $errors["global"]
-				]);
-		?>
+	<div class="page-width__narrow">
+		<form class="form" id="account-form" method="POST">
+			<?php
+				if (!empty($errors["global"]))
+					echo $_FORM->global_error([
+						"title" => "Wystąpił problem z tworzeniem transakcji",
+						"desc" => $errors["global"]
+					]);
+			?>
 
-		<div class="form-row">
-			<label for="name">Nazwa transakcji</label>
-			<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>" required>
-			<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="name">Nazwa transakcji</label>
+				<input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data[0]["name"] ?? ""); ?>" required>
+				<?php echo $_FORM->field_error($dto->errors["name"] ?? ""); ?>
+			</div>
 
-		<div class="form-row">
-			<label for="description">Opis transakcji</label>
-			<textarea id="description" name="description"><?php echo $data[0]["description"] ?? ""; ?></textarea>
-			<?php echo $_FORM->field_error($dto->errors["description"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="description">Opis transakcji</label>
+				<textarea id="description" name="description"><?php echo $data[0]["description"] ?? ""; ?></textarea>
+				<?php echo $_FORM->field_error($dto->errors["description"] ?? ""); ?>
+			</div>
 
-		<div class="form-row">
-			<label for="amount">Kwota</label>
-			<input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($data[0]["amount"] ?? ""); ?>" step="0.01" required>
-			<?php echo $_FORM->field_error($dto->errors["amount"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="amount">Kwota</label>
+				<input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($data[0]["amount"] ?? ""); ?>" step="0.01" required>
+				<?php echo $_FORM->field_error($dto->errors["amount"] ?? ""); ?>
+			</div>
 
-		<div class="form-row">
-			<label for="transaction_date">Data transakcji</label>
-			<input type="date" id="transaction_date" name="transaction_date" value="<?php echo htmlspecialchars($data[0]["transaction_date"] ?? date("Y-m-d")); ?>" required>
-			<?php echo $_FORM->field_error($dto->errors["transaction_date"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="transaction_date">Data transakcji</label>
+				<input type="date" id="transaction_date" name="transaction_date" value="<?php echo htmlspecialchars($data[0]["transaction_date"] ?? date("Y-m-d")); ?>" required>
+				<?php echo $_FORM->field_error($dto->errors["transaction_date"] ?? ""); ?>
+			</div>
 
-		<div class="form-row">
-			<label for="account_id">Przypisz do konta</label>
-			<select name="account_id" id="account_id" data-account required>
-				<?php
-					foreach ($accounts as $account):
-						$selected = ($account["id"] === $data[0]["account_id"]) ? true : false;
-				?>
-					<option value="<?php echo $account["id"]; ?>"<?php echo $selected ? " selected" : ""; ?>>
-						<?php echo $account["name"]; ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-			<?php echo $_FORM->field_error($dto->errors["account_id"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="account_id">Przypisz do konta</label>
+				<select name="account_id" id="account_id" data-account required>
+					<?php
+						foreach ($accounts as $account):
+							$selected = ($account["id"] === $data[0]["account_id"]) ? true : false;
+					?>
+						<option value="<?php echo $account["id"]; ?>"<?php echo $selected ? " selected" : ""; ?>>
+							<?php echo $account["name"]; ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+				<?php echo $_FORM->field_error($dto->errors["account_id"] ?? ""); ?>
+			</div>
 
-		<div class="form-row">
-			<label for="category_id">Przypisz do kategorii</label>
-			<select name="category_id" id="category_id" data-categories>
-				<option value="NULL">Bez kategorii</option>
-			</select>
-			<?php echo $_FORM->field_error($dto->errors["category_id"] ?? ""); ?>
-		</div>
+			<div class="form-row">
+				<label for="category_id">Przypisz do kategorii</label>
+				<select name="category_id" id="category_id" data-categories>
+					<option value="NULL">Bez kategorii</option>
+				</select>
+				<?php echo $_FORM->field_error($dto->errors["category_id"] ?? ""); ?>
+			</div>
 
-		<input type="hidden" name="form-sent" value="1">
+			<input type="hidden" name="form-sent" value="1">
 
-		<div class="form-row">
-			<button class="button" type="submit">Zapisz transakcję</button>
-		</div>
+			<div class="form-row">
+				<button class="button" type="submit">Zapisz transakcję</button>
+			</div>
 
-		<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
-	</form>
+			<?php echo $_FORM->generate_recaptcha_v3("account-form"); ?>
+		</form>
+	</div>
 
 	<p class="acenter"><a class="back-button" href="<?php echo $prev_page; ?>">Powrót</a></p>
 </article>
