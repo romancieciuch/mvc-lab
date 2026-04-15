@@ -61,12 +61,15 @@
 					<?php foreach ($data as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
-								<a href="/account/<?php echo $v["id"]; ?>/transactions/">
-									<?php echo $v["name"]; ?>
-								</a>
-								<?php if (empty($v["include_in_total"])): ?>
-									<br><small class="small muted">[WYKLUCZONE ZE STATYSTYK]</small>
-								<?php endif; ?>
+								<div class="account-title-wrapper">
+									<a class="account-name" href="/account/<?php echo $v["id"]; ?>/transactions/">
+										<?php echo $v["name"]; ?>
+									</a>
+
+									<?php if (empty($v["include_in_total"])): ?>
+										<span class="badge-excluded">Pominięte</span>
+									<?php endif; ?>
+								</div>
 							</td>
 							<td>
 								<?php echo date("Y-m-d", strtotime($v["updated_at"])); ?>

@@ -738,6 +738,28 @@ input.input-error:focus {
 	display: none;
 }
 
+.table-row__muted {
+	opacity: 0.75;
+	background: var(--bg-main);
+}
+
+.account-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-excluded {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px; /* Kształt idealnej pigułki */
+    background-color: transparent;
+    color: var(--text-muted); /* Twój zmienny, szary kolor z poprzednich zadań */
+    border: 1px dashed var(--border-color); /* Przerywana ramka fajnie sugeruje "wykluczenie" */
+}
 
 @media (max-width: 760px) {
 	.table tr:has(.table-options-has-menu) {
