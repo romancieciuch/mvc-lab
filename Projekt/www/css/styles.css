@@ -738,6 +738,11 @@ input.input-error:focus {
 	display: none;
 }
 
+.table-row__muted {
+	opacity: 0.75;
+	background: var(--bg-main);
+}
+
 
 @media (max-width: 760px) {
 	.table tr:has(.table-options-has-menu) {

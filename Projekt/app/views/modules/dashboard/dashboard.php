@@ -59,7 +59,7 @@
 				</thead>
 				<tbody>
 					<?php foreach ($data as $k=>$v): ?>
-						<tr>
+						<tr<?php echo empty($v["include_in_total"]) ? ' class="table-row__muted"' : ''; ?>>
 							<td class="table-name">
 								<a href="/account/<?php echo $v["id"]; ?>/transactions/">
 									<?php echo $v["name"]; ?>
