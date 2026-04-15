@@ -8,6 +8,7 @@ readonly class AccountDTO {
         public string $name,
         public string $currency,
 		public int    $priority,
+		public bool   $include_in_total,
 		public array  $errors
     ) {}
 
@@ -15,6 +16,7 @@ readonly class AccountDTO {
 		$name		= $data["name"] ?? "";
         $currency	= $data["currency"] ?? "";
 		$priority	= intval($data["priority"] ?? 0);
+		$include_in_total = boolval($data["include_in_total"] ?? true);
 		$errors		= [];
 
         if (empty($name) || empty($currency))
@@ -29,6 +31,6 @@ readonly class AccountDTO {
 		if ($priority < 0 || $priority > 100)
 			$errors["priority"] = "Ustal priorytet od 0 do 100";
 
-        return new self($name, $currency, $priority, $errors);
+        return new self($name, $currency, $priority, $include_in_total, $errors);
     }
 }

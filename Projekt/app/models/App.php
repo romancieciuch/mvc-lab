@@ -183,6 +183,11 @@ class App {
 			$account["balance_pln"] = $this->exchange(floatval($account["balance"]), $account["currency"], "PLN");
 			$account["avg_transaction_pln"] = $this->exchange(floatval($account["avg_transaction"]), $account["currency"], "PLN");
 
+			if (empty($account["include_in_total"])) {
+				$account["balance_pln"] = 0;
+				$account["avg_transaction_pln"] = 0;
+			}
+
 			$temp[] = $account;
 		}
 
@@ -198,7 +203,7 @@ class App {
 			$total_balance += $account["balance_pln"];
 		}
 
-		$summary["avg_amount"] = array_sum($avg_amount) / count($avg_amount);
+		$summary["avg_amount"] = !empty($avg_amount) ? (array_sum($avg_amount) / count($avg_amount)) : 0;
 		$summary["total_balance"] = $total_balance;
 
 		return $summary;
