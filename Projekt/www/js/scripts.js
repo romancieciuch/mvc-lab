@@ -5,8 +5,20 @@
 		const rootElement = document.documentElement;
 
 		const savedTheme = localStorage.getItem('theme');
-		if (savedTheme === 'dark') {
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+		if (savedTheme === null && !prefersDark) {
+			localStorage.setItem('theme', 'light');
+			rootElement.setAttribute('data-theme', 'light');
+		}
+
+		if (savedTheme === null && prefersDark) {
+			localStorage.setItem('theme', 'dark');
 			rootElement.setAttribute('data-theme', 'dark');
+		}
+
+		if (savedTheme !== null) {
+			rootElement.setAttribute('data-theme', savedTheme);
 		}
 
 		themeToggle.addEventListener('click', () => {

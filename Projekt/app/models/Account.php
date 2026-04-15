@@ -14,13 +14,14 @@ class Account {
 
 	public function create_account (int $user_id, AccountDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, currency, priority, balance)
-				VALUES (:user_id, :name, :currency, :priority, :balance)",
+			"INSERT INTO accounts (user_id, name, currency, priority, include_in_total, balance)
+				VALUES (:user_id, :name, :currency, :priority, :include_in_total, :balance)",
 			[
 				"user_id" => $user_id,
 				"name" => $dto->name,
 				"currency" => $dto->currency,
 				"priority" => $dto->priority,
+				"include_in_total" => (int) $dto->include_in_total,
 				"balance" => 0
 			]
 		);
@@ -118,6 +119,7 @@ class Account {
 				a.name,
 				a.balance,
 				a.currency,
+				a.include_in_total,
 				a.created_at,
 				a.updated_at,
 				COALESCE(AVG(t.amount), 0) AS avg_transaction
@@ -138,14 +140,14 @@ class Account {
 					AVG(t.amount) AS avg_amount
 				FROM transactions t
 				INNER JOIN accounts a ON t.account_id = a.id
-				WHERE a.user_id = :user_id";
+				WHERE a.user_id = :user_id AND a.include_in_total = 1";
 
 		$txStats = $this->db->query($txSql, ["user_id" => $user_id]);
 
 		$balanceSql = "SELECT
 						SUM(balance) AS total_balance
 					FROM accounts
-					WHERE user_id = :user_id";
+					WHERE user_id = :user_id AND include_in_total = 1";
 
 		$balanceStats = $this->db->query($balanceSql, ["user_id" => $user_id]);
 
@@ -159,7 +161,7 @@ class Account {
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
 		$res = $this->db->query(
 			"UPDATE accounts
-				SET name = :name, currency = :currency, priority = :priority
+				SET name = :name, currency = :currency, priority = :priority, include_in_total = :include_in_total
 					WHERE id = :account_id AND user_id = :user_id
 						LIMIT 1",
 			[
@@ -167,7 +169,8 @@ class Account {
 				"account_id" => $account_id,
 				"name" => $dto->name,
 				"currency" => $dto->currency,
-				"priority" => $dto->priority
+				"priority" => $dto->priority,
+				"include_in_total" => (int) $dto->include_in_total
 			]
 		);
 

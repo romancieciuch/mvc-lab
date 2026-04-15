@@ -37,6 +37,15 @@
 			<?php echo $_FORM->field_error($dto->errors["priority"] ?? ""); ?>
 		</div>
 
+		<div class="form-row">
+			<label for="include_in_total">Uwzględnij w liczeniu statystyk całościowych</label>
+			<select id="include_in_total" name="include_in_total">
+				<option value="1"<?php if (!empty($_POST["include_in_total"])) echo ' selected'; ?>>Tak</option>
+				<option value="0">Nie</option>
+			</select>
+			<?php echo $_FORM->field_error($dto->errors["include_in_total"] ?? ""); ?>
+		</div>
+
 		<input type="hidden" name="form-sent" value="1">
 
 		<div class="form-row">

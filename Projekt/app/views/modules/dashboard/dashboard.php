@@ -64,6 +64,9 @@
 								<a href="/account/<?php echo $v["id"]; ?>/transactions/">
 									<?php echo $v["name"]; ?>
 								</a>
+								<?php if (empty($v["include_in_total"])): ?>
+									<br><small class="small muted">[WYKLUCZONE ZE STATYSTYK]</small>
+								<?php endif; ?>
 							</td>
 							<td>
 								<?php echo date("Y-m-d", strtotime($v["updated_at"])); ?>
