@@ -188,8 +188,10 @@
 		<?php echo $_APP->pagination_html($pagination["page"], $pagination["limit"], $transactions["total"], $_GET); ?>
 
 	<?php else: ?>
-		<div class="article-body page-width__narrow">
-			<p>Brak transakcji spełniających kryteria.</p>
+		<div class="page-width__narrow">
+			<div class="article-body">
+				<p>Brak transakcji spełniających kryteria.</p>
+			</div>
 		</div>
 	<?php endif; ?>
 
