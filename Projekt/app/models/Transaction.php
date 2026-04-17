@@ -190,6 +190,7 @@ class Transaction {
                         t.transaction_date,
                         c.id AS category_id,
                         c.name AS category_name,
+						c.category_type,
                         c.color AS category_color,
                         a.currency
                     FROM transactions t
