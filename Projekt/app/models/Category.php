@@ -14,11 +14,12 @@ class Category {
 
 	public function create_category (CategoryDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO categories (account_id, name, color)
-				VALUES (:account_id, :name, :color)",
+			"INSERT INTO categories (account_id, name, category_type, color)
+				VALUES (:account_id, :name, :category_type, :color)",
 			[
 				"account_id" => $dto->account_id,
 				"name" => $dto->name,
+				"category_type" => $dto->category_type,
 				"color" => $dto->color
 			]
 		);
@@ -26,7 +27,7 @@ class Category {
 
 	public function get_category (int $category_id = 0) {
 		return $this->db->query(
-			"SELECT c.id, c.name, c.color, c.created_at,
+			"SELECT c.id, c.name, c.category_type, c.color, c.created_at,
 					a.id AS account_id, a.name AS account_name
 				FROM categories c, accounts a
 					WHERE c.id = :category_id AND c.account_id = a.id
@@ -70,12 +71,13 @@ class Category {
 	public function update_category (int $category_id, CategoryDTO $dto) {
 		$res = $this->db->query(
 			"UPDATE categories
-				SET name = :name, color = :color, account_id = :account_id
+				SET name = :name, category_type = :category_type, color = :color, account_id = :account_id
 					WHERE id = :category_id
 						LIMIT 1",
 			[
 				"category_id" => $category_id,
 				"name" => $dto->name,
+				"category_type" => $dto->category_type,
 				"account_id" => $dto->account_id,
 				"color" => $dto->color
 			]

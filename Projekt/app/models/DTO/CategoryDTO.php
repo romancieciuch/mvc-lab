@@ -7,6 +7,7 @@ readonly class CategoryDTO {
     private function __construct (
         public int		$account_id,
 		public string	$name,
+		public string	$category_type,
 		public string	$color,
 		public array	$errors
     ) {}
@@ -15,6 +16,7 @@ readonly class CategoryDTO {
 		$account_id = intval($data["account_id"] ?? 0);
 		$name		= $data["name"] ?? "";
 		$color		= $data["color"] ?? "";
+		$category_type = $data["category_type"] ?? "default";
 		$errors		= [];
 
         if (empty($name) || empty($account_id))
@@ -26,6 +28,9 @@ readonly class CategoryDTO {
 		if (empty($account_id))
 			$errors["account_id"] = "Wybierz konto";
 
-        return new self($account_id, $name, $color, $errors);
+		if (!in_array($category_type, ["default", "income", "expense", "tax"]))
+			$errors["category_type"] = "Wybierz rodzaj kategorii";
+
+        return new self($account_id, $name, $category_type, $color, $errors);
     }
 }

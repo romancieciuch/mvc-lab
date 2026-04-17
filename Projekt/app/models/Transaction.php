@@ -14,12 +14,14 @@ class Transaction {
 
 	public function create_transaction (TransactionDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO transactions (account_id, category_id, amount, name, description, transaction_date)
+			"INSERT INTO transactions (account_id, category_id, amount, vat_rate, income_tax_rate name, description, transaction_date)
 				VALUES (:account_id, :category_id, :amount, :name, :description, :transaction_date)",
 			[
 				"account_id" => $dto->account_id,
 				"category_id" => $dto->category_id,
 				"amount" => $dto->amount,
+				"vat_rate" => $dto->vat_rate,
+				"income_tax_rate" => $dto->income_tax_rate,
 				"name" => $dto->name,
 				"description" => $dto->description,
 				"transaction_date" => $dto->transaction_date
@@ -29,9 +31,9 @@ class Transaction {
 
 	public function get_transaction (int $transaction_id) {
 		return $this->db->query(
-			"SELECT t.amount, t.name, t.description, t.transaction_date,
+			"SELECT t.amount, t.vat_rate, t.income_tax_rate, t.name, t.description, t.transaction_date,
 					c.id AS category_id, c.name AS category_name, c.color,
-					a.name AS account_name, a.balance, a.currency, a.id AS account_id
+					a.name AS account_name, account_type, a.balance, a.currency, a.id AS account_id
 				FROM transactions t
 					INNER JOIN accounts a ON t.account_id = a.id
 					LEFT JOIN categories c ON t.category_id = c.id
@@ -182,12 +184,13 @@ class Transaction {
 
         $dataSql = "SELECT
                         t.id AS transaction_id,
-                        t.amount,
+                        t.amount, t.vat_rate, t.income_tax_rate,
                         t.name,
 						t.description,
                         t.transaction_date,
                         c.id AS category_id,
                         c.name AS category_name,
+						c.category_type,
                         c.color AS category_color,
                         a.currency
                     FROM transactions t
@@ -215,7 +218,8 @@ class Transaction {
 		$res = $this->db->query(
 			"UPDATE transactions
 				SET account_id = :account_id, category_id = :category_id,
-					amount = :amount, name = :name, description = :description, transaction_date = :transaction_date
+					amount = :amount, vat_rate = :vat_rate, income_tax_rate = :income_tax_rate,
+					name = :name, description = :description, transaction_date = :transaction_date
 						WHERE id = :transaction_id
 							LIMIT 1",
 			[
@@ -223,6 +227,8 @@ class Transaction {
 				"account_id" => $dto->account_id,
 				"category_id" => $dto->category_id,
 				"amount" => $dto->amount,
+				"vat_rate" => $dto->vat_rate,
+				"income_tax_rate" => $dto->income_tax_rate,
 				"name" => $dto->name,
 				"description" => $dto->description,
 				"transaction_date" => $dto->transaction_date

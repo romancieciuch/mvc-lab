@@ -8,6 +8,7 @@
 		<div class="article-title-actions">
 			<a href="/transaction/0/create/?account-id=<?php echo $data[0]["id"]; ?>" class="button">Nowa transakcja</a>
 			<a href="/account/<?php echo $data[0]["id"]; ?>/categories/" class="button button-accent">Kategorie</a>
+			<a href="/account/<?php echo $data[0]["id"]; ?>/details/" class="button button-black">Szczegóły</a>
 		</div>
 	</div>
 
@@ -71,6 +72,38 @@
 			</div>
 		<?php endif; ?>
 	</div>
+
+	<?php if ($data[0]["account_type"] === "business"): ?>
+		<div class="summary-grid">
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Zarobki w okresie</div>
+				<div class="summary-value text-income">
+					<?php echo $_DB->nice_format($summary["income"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+				</div>
+			</div>
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Wydatki w okresie</div>
+				<div class="summary-value text-expense">
+					<?php echo $_DB->nice_format($summary["expense"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+				</div>
+			</div>
+
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Podatki w okresie</div>
+				<div class="summary-value text-tax">
+					<?php echo $_DB->nice_format($summary["tax"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+				</div>
+			</div>
+
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Automatyczne podatki</div>
+				<div class="summary-value summary-value__normal">
+					VAT: <?php echo $_DB->nice_format($taxes["vat"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+					<br>PIT: <?php echo $_DB->nice_format($taxes["income_tax"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
 
 	<div class="filter-panel">
 		<button type="button" class="filter-toggle-btn" id="filter-toggle">

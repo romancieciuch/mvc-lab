@@ -13,6 +13,12 @@
 						<td><?php echo $data[0]["account_name"]; ?></td>
 					</tr>
 					<tr>
+						<th>Typ</th>
+						<td>
+							<?php echo $category_types[$data[0]["category_type"]] ?? "Domyślny"; ?>
+						</td>
+					</tr>
+					<tr>
 						<th>Kolor</th>
 						<td>
 							<span class="color-box" style="background: <?php echo $data[0]["color"]; ?>"></span>

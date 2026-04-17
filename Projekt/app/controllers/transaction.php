@@ -17,6 +17,8 @@
 	if ($action !== "create")
 		$_USER->verify_user($user->id, $data[0]["account_id"] ?? 0, $transaction_id ?? 0);
 
+	$account_id = $_GET["account-id"] ?? $data["0"]["account_id"] ?? 0;
+	$account_info = $account->get_account($user->id, $account_id);
 
 	$prev_page = "/dashboard/";
 

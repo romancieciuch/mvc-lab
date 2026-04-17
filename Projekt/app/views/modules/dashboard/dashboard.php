@@ -61,13 +61,17 @@
 					<?php foreach ($data as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
-								<div class="account-title-wrapper">
+								<div class="title-wrapper">
 									<a class="account-name" href="/account/<?php echo $v["id"]; ?>/transactions/">
 										<?php echo $v["name"]; ?>
 									</a>
 
 									<?php if (empty($v["include_in_total"])): ?>
-										<span class="badge-excluded">Pominięte</span>
+										<span class="badge badge__excluded">Pominięte</span>
+									<?php endif; ?>
+
+									<?php if ("business" === $v["account_type"]): ?>
+										<span class="badge badge__company">Firmowe</span>
 									<?php endif; ?>
 								</div>
 							</td>
@@ -103,8 +107,10 @@
 			</table>
 		</div>
 	<?php else: ?>
-		<div class="article-body page-width__narrow">
-			<p>Nie masz jeszcze żadnych kont. Dodaj coś.</p>
+		<div class="page-width__narrow">
+			<div class="article-body">
+				<p>Nie masz jeszcze żadnych kont. Dodaj coś.</p>
+			</div>
 		</div>
 	<?php endif; ?>
 

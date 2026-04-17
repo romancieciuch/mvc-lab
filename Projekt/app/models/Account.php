@@ -14,14 +14,15 @@ class Account {
 
 	public function create_account (int $user_id, AccountDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, currency, priority, include_in_total, balance)
-				VALUES (:user_id, :name, :currency, :priority, :include_in_total, :balance)",
+			"INSERT INTO accounts (user_id, name, currency, priority, include_in_total, account_type, balance)
+				VALUES (:user_id, :name, :currency, :priority, :include_in_total, :account_type, :balance)",
 			[
 				"user_id" => $user_id,
 				"name" => $dto->name,
 				"currency" => $dto->currency,
 				"priority" => $dto->priority,
 				"include_in_total" => (int) $dto->include_in_total,
+				"account_type" => $dto->account_type,
 				"balance" => 0
 			]
 		);
@@ -57,30 +58,90 @@ class Account {
 			"user_id" => $user_id
 		];
 
-		$start_date_sql = "";
+		$date_filters = "";
 		if (!empty($start_date)) {
-			$start_date_sql = " AND log_date >= :start_date";
+			$date_filters .= " AND log_date >= :start_date";
 			$params["start_date"] = $start_date;
 		}
 
-		$end_date_sql = "";
 		if (!empty($end_date)) {
-			$end_date_sql = " AND log_date < :end_date";
+			$date_filters .= " AND log_date <= :end_date";
 			$params["end_date"] = $end_date;
 		}
 
+		// CTE (Z tabeli tymczasowej wyliczamy saldo chronologicznie)
 		$res = $this->db->query(
-			"SELECT balance, log_date
-				FROM account_history ac
-					WHERE ac.account_id = :account_id
-						{$start_date_sql} {$end_date_sql}
-						AND ac.account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
-							ORDER BY log_date DESC
-				",
+			"WITH AccountBalance AS (
+				SELECT
+					t.id,
+					t.transaction_date AS log_date,
+					SUM(t.amount) OVER (
+						ORDER BY t.transaction_date ASC, t.id ASC
+					) AS balance
+				FROM transactions t
+				JOIN accounts a ON t.account_id = a.id
+				WHERE t.account_id = :account_id
+				AND a.user_id = :user_id
+			)
+			SELECT log_date, balance
+			FROM AccountBalance
+			WHERE 1=1 {$date_filters}
+			ORDER BY log_date DESC, id DESC",
 			$params
 		);
 
 		return $res;
+	}
+
+	public function get_period_summary (int $user_id = 0, int $account_id = 0, string $start_date = "", string $end_date = "") {
+		$params = [
+			"account_id" => $account_id,
+			"user_id" => $user_id
+		];
+
+		$date_filters = "";
+		if (!empty($start_date)) {
+			$date_filters .= " AND t.transaction_date >= :start_date";
+			$params["start_date"] = $start_date;
+		}
+
+		if (!empty($end_date)) {
+			$date_filters .= " AND t.transaction_date <= :end_date";
+			$params["end_date"] = $end_date;
+		}
+
+		$res = $this->db->query(
+			"SELECT category_type, SUM(t.amount) AS total_amount
+				FROM transactions t
+					JOIN accounts a ON t.account_id = a.id
+						LEFT JOIN categories c ON t.category_id = c.id
+							WHERE t.account_id = :account_id
+								AND a.user_id = :user_id
+									{$date_filters}
+										GROUP BY category_type",
+			$params
+		);
+
+		$summary = [
+			'income'  => 0.00,
+			'expense' => 0.00,
+			'tax'     => 0.00,
+			'default' => 0.00
+		];
+
+		if (is_array($res) || is_iterable($res)) {
+			foreach ($res as $row) {
+				$type = is_object($row) ? $row->category_type : $row['category_type'];
+				$amount = is_object($row) ? $row->total_amount : $row['total_amount'];
+
+				if (array_key_exists($type, $summary))
+					$summary[$type] = (float) $amount;
+				else
+					$summary['default'] += (float) $amount;
+			}
+		}
+
+		return $summary;
 	}
 
 	public function calculate_history (array $data = [], bool $desc = true) {
@@ -120,6 +181,7 @@ class Account {
 				a.balance,
 				a.currency,
 				a.include_in_total,
+				a.account_type,
 				a.created_at,
 				a.updated_at,
 				COALESCE(AVG(t.amount), 0) AS avg_transaction
@@ -161,7 +223,8 @@ class Account {
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
 		$res = $this->db->query(
 			"UPDATE accounts
-				SET name = :name, currency = :currency, priority = :priority, include_in_total = :include_in_total
+				SET name = :name, currency = :currency, priority = :priority,
+					include_in_total = :include_in_total, account_type = :account_type
 					WHERE id = :account_id AND user_id = :user_id
 						LIMIT 1",
 			[
@@ -170,7 +233,8 @@ class Account {
 				"name" => $dto->name,
 				"currency" => $dto->currency,
 				"priority" => $dto->priority,
-				"include_in_total" => (int) $dto->include_in_total
+				"include_in_total" => (int) $dto->include_in_total,
+				"account_type" => $dto->account_type
 			]
 		);
 
@@ -203,5 +267,27 @@ class Account {
 				return true;
 
 		return false;
+	}
+
+	public function calculate_taxes (array $transactions, array $summary) : array {
+		$income_vat = 0;
+		$income_tax = 0;
+		$expense_vat = 0;
+
+		foreach ($transactions as $transaction) {
+			if ($transaction["category_type"] === "income") {
+				$income_vat += $transaction["amount"] * ($transaction["vat_rate"] / 100);
+				$income_tax += $transaction["amount"] * ($transaction["income_tax_rate"] / 100);
+			}
+
+			if ($transaction["category_type"] === "expense") {
+				$expense_vat += $transaction["amount"] * $transaction["vat_rate"];
+			}
+		}
+
+		return [
+			"vat" => round($income_vat - $expense_vat, 2),
+			"income_tax" => round($income_tax, 2)
+		];
 	}
 }
