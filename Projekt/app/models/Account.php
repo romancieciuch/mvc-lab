@@ -58,30 +58,90 @@ class Account {
 			"user_id" => $user_id
 		];
 
-		$start_date_sql = "";
+		$date_filters = "";
 		if (!empty($start_date)) {
-			$start_date_sql = " AND log_date >= :start_date";
+			$date_filters .= " AND log_date >= :start_date";
 			$params["start_date"] = $start_date;
 		}
 
-		$end_date_sql = "";
 		if (!empty($end_date)) {
-			$end_date_sql = " AND log_date < :end_date";
+			$date_filters .= " AND log_date <= :end_date";
 			$params["end_date"] = $end_date;
 		}
 
+		// CTE (Z tabeli tymczasowej wyliczamy saldo chronologicznie)
 		$res = $this->db->query(
-			"SELECT balance, log_date
-				FROM account_history ac
-					WHERE ac.account_id = :account_id
-						{$start_date_sql} {$end_date_sql}
-						AND ac.account_id IN (SELECT id FROM accounts WHERE user_id = :user_id)
-							ORDER BY log_date DESC
-				",
+			"WITH AccountBalance AS (
+				SELECT
+					t.id,
+					t.transaction_date AS log_date,
+					SUM(t.amount) OVER (
+						ORDER BY t.transaction_date ASC, t.id ASC
+					) AS balance
+				FROM transactions t
+				JOIN accounts a ON t.account_id = a.id
+				WHERE t.account_id = :account_id
+				AND a.user_id = :user_id
+			)
+			SELECT log_date, balance
+			FROM AccountBalance
+			WHERE 1=1 {$date_filters}
+			ORDER BY log_date DESC, id DESC",
 			$params
 		);
 
 		return $res;
+	}
+
+	public function get_period_summary (int $user_id = 0, int $account_id = 0, string $start_date = "", string $end_date = "") {
+		$params = [
+			"account_id" => $account_id,
+			"user_id" => $user_id
+		];
+
+		$date_filters = "";
+		if (!empty($start_date)) {
+			$date_filters .= " AND t.transaction_date >= :start_date";
+			$params["start_date"] = $start_date;
+		}
+
+		if (!empty($end_date)) {
+			$date_filters .= " AND t.transaction_date <= :end_date";
+			$params["end_date"] = $end_date;
+		}
+
+		$res = $this->db->query(
+			"SELECT category_type, SUM(t.amount) AS total_amount
+				FROM transactions t
+					JOIN accounts a ON t.account_id = a.id
+						LEFT JOIN categories c ON t.category_id = c.id
+							WHERE t.account_id = :account_id
+								AND a.user_id = :user_id
+									{$date_filters}
+										GROUP BY category_type",
+			$params
+		);
+
+		$summary = [
+			'income'  => 0.00,
+			'expense' => 0.00,
+			'tax'     => 0.00,
+			'default' => 0.00
+		];
+
+		if (is_array($res) || is_iterable($res)) {
+			foreach ($res as $row) {
+				$type = is_object($row) ? $row->category_type : $row['category_type'];
+				$amount = is_object($row) ? $row->total_amount : $row['total_amount'];
+
+				if (array_key_exists($type, $summary))
+					$summary[$type] = (float) $amount;
+				else
+					$summary['default'] += (float) $amount;
+			}
+		}
+
+		return $summary;
 	}
 
 	public function calculate_history (array $data = [], bool $desc = true) {
@@ -207,5 +267,14 @@ class Account {
 				return true;
 
 		return false;
+	}
+
+	public function calculate_taxes (array $arr = []) : array {
+		// ....
+
+		return [
+			"vat" => 123,
+			"income_tax" => 456
+		];
 	}
 }

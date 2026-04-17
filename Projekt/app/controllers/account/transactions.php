@@ -26,6 +26,9 @@
 		$chart_html = $chart->draw($history, "log_date", "balance");
 	}
 
+	$summary = $account->get_period_summary($user->id, $account_id, $search["date_from"], $search["date_to"]);
+	$taxes = $account->calculate_taxes($summary);
+
 	$pln_value = $_APP->exchange($transactions["total_amount"], $data[0]["currency"] ?? "PLN", "PLN");
 
 	// Opcje użytkownika

@@ -42,7 +42,7 @@ class DB {
 			"SELECT", "SHOW"	=> $stmt->fetchAll(),
 			"INSERT"			=> $this->pdo->lastInsertId(),
 			"UPDATE", "DELETE"	=> $stmt->rowCount(),
-			default				=> true
+			default				=> $stmt->fetchAll() ?? true
 		};
 	}
 

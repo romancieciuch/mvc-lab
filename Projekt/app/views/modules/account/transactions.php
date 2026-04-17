@@ -78,28 +78,28 @@
 			<div class="summary-card summary-card__company">
 				<div class="summary-label">Zarobki w okresie</div>
 				<div class="summary-value text-income">
-					15 000,00 PLN
+					<?php echo $_DB->nice_format($summary["income"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
 				</div>
 			</div>
 			<div class="summary-card summary-card__company">
 				<div class="summary-label">Wydatki w okresie</div>
 				<div class="summary-value text-expense">
-					-15 000,00 PLN
+					<?php echo $_DB->nice_format($summary["expense"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
 				</div>
 			</div>
 
 			<div class="summary-card summary-card__company">
 				<div class="summary-label">Podatki w okresie</div>
 				<div class="summary-value text-tax">
-					-15 000,00 PLN
+					<?php echo $_DB->nice_format($summary["tax"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
 				</div>
 			</div>
 
 			<div class="summary-card summary-card__company">
 				<div class="summary-label">Automatyczne podatki</div>
 				<div class="summary-value summary-value__normal">
-					VAT: 1 500,00 PLN
-					<br>PIT: 1 000,00 PLN
+					VAT: <?php echo $_DB->nice_format($taxes["vat"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+					<br>PIT: <?php echo $_DB->nice_format($taxes["income_tax"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
 				</div>
 			</div>
 		</div>
