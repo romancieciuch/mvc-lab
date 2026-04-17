@@ -61,7 +61,7 @@
 					<?php foreach ($data as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
-								<div class="account-title-wrapper">
+								<div class="title-wrapper">
 									<a class="account-name" href="/account/<?php echo $v["id"]; ?>/transactions/">
 										<?php echo $v["name"]; ?>
 									</a>

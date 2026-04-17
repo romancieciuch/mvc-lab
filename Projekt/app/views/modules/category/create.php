@@ -19,6 +19,17 @@
 		</div>
 
 		<div class="form-row">
+			<label for="category_type">Typ kategorii</label>
+			<select name="category_type" id="category_type" data-account required>
+				<?php foreach ($category_types as $k=>$v): ?>
+					<option value="<?php echo $k; ?>"<?php echo (!empty($_POST["category_type"]) && $_POST["category_type"] === $k) ? " selected" : ""; ?>>
+						<?php echo $v; ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+
+		<div class="form-row">
 			<label for="color">Kolor</label>
 			<input type="color" id="color" name="color" value="<?php echo htmlspecialchars($_POST["color"] ?? ""); ?>" required>
 			<?php echo $_FORM->field_error($dto->errors["color"] ?? ""); ?>

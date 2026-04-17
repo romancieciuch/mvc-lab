@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 	currency VARCHAR(3) NOT NULL,
 	priority TINYINT NOT NULL DEFAULT 0,
 	include_in_total TINYINT NOT NULL DEFAULT 1,
-	account_type VARCHAR(30) NOT NULL DEFAULT 'personal' COMMENT 'np. personal, business, saving',
+	account_type VARCHAR(20) NOT NULL DEFAULT 'personal' COMMENT '[personal, business, saving]',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_account_user
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS categories (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     account_id INT UNSIGNED NOT NULL,
     name VARCHAR(100) NOT NULL,
+	category_type VARCHAR(20) NOT NULL DEFAULT 'default' COMMENT '[default, income, expense, tax]',
 	color VARCHAR(7) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

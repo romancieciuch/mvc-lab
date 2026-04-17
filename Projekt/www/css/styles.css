@@ -772,7 +772,8 @@ input.input-error:focus {
 	}
 }
 
-.account-title-wrapper {
+.title-wrapper,
+.title-wrapper {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -793,6 +794,21 @@ input.input-error:focus {
 .badge__company {
     color: var(--company-color);
 	background-color: var(--company-background-color);
+}
+
+.badge__income {
+    color: #15803d;
+	background-color: #dcfce7;
+}
+
+.badge__expense {
+    color: #b91c1c;
+	background-color: #fee2e2;
+}
+
+.badge__tax {
+    color: #c2410c;
+	background-color: #ffedd5;
 }
 
 @media (max-width: 760px) {

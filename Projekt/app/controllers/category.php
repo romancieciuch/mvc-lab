@@ -14,6 +14,13 @@
 	$category = new App\Models\Category($_DB);
 	$data = $category->get_category($category_id);
 
+	$category_types = [
+		"default"	=> "Domyślny",
+		"income"	=> "Zarobki",
+		"expense"	=> "Wydatki",
+		"tax"		=> "Podatki"
+	];
+
 	$prev_page = "/dashboard/";
 	if (!empty($_GET["account-id"]))
 		$prev_page = "/account/" . intval($_GET["account-id"]) . "/transactions/";

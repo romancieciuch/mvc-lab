@@ -24,10 +24,18 @@
 					<?php foreach ($categories as $k=>$v): ?>
 						<tr>
 							<td class="table-name">
-								<span class="color-box" style="background-color: <?php echo $v["color"]; ?>;"></span>
-								<a href="/category/<?php echo $v["id"]; ?>/details/">
-									<?php echo $v["name"]; ?>
-								</a>
+								<div class="title-wrapper">
+									<span class="color-box" style="background-color: <?php echo $v["color"]; ?>;"></span>
+									<a href="/category/<?php echo $v["id"]; ?>/details/">
+										<?php echo $v["name"]; ?>
+									</a>
+
+									<?php if ($v["category_type"] !== "default"): ?>
+										<span class="badge badge__<?php echo $v["category_type"]; ?>">
+											<?php echo $category_types[$v["category_type"]]; ?>
+										</span>
+									<?php endif; ?>
+								</div>
 							</td>
 							<td>
 								<?php echo $v["created_at"]; ?>
