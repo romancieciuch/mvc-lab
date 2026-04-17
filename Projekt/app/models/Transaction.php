@@ -15,7 +15,7 @@ class Transaction {
 	public function create_transaction (TransactionDTO $dto) {
 		return $this->db->query(
 			"INSERT INTO transactions (account_id, category_id, amount, vat_rate, income_tax_rate, name, description, transaction_date)
-				VALUES (:account_id, :category_id, :amount, :name, :description, :transaction_date)",
+				VALUES (:account_id, :category_id, :amount, :vat_rate, :income_tax_rate, :name, :description, :transaction_date)",
 			[
 				"account_id" => $dto->account_id,
 				"category_id" => $dto->category_id,
