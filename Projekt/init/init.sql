@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 	currency VARCHAR(3) NOT NULL,
 	priority TINYINT NOT NULL DEFAULT 0,
 	include_in_total TINYINT NOT NULL DEFAULT 1,
+	account_type VARCHAR(30) NOT NULL DEFAULT 'personal' COMMENT 'np. personal, business, saving',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_account_user
@@ -51,6 +52,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     account_id INT UNSIGNED NOT NULL,
     category_id INT UNSIGNED NULL,
     amount DECIMAL(15, 2) NOT NULL,
+	vat_rate DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+	income_tax_rate DECIMAL(5,2) NOT NULL DEFAULT 0.00,
     name VARCHAR(255) NULL,
 	description TEXT NULL,
     transaction_date DATE NOT NULL,

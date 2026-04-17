@@ -46,8 +46,10 @@
 			</table>
 		</div>
 	<?php else: ?>
-		<div class="article-body page-width__narrow">
-			<p>Nie masz jeszcze żadnych kategorii. Dodaj coś.</p>
+		<div class="page-width__narrow">
+			<div class="article-body">
+				<p>Nie masz jeszcze żadnych kategorii. Dodaj coś.</p>
+			</div>
 		</div>
 	<?php endif; ?>
 

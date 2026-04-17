@@ -46,8 +46,12 @@
     --btn-sec-text: #374151;
     --btn-sec-hover: #e5e7eb;
 
-    --color-income: #059669; /* tailwind emerald-600 */
-    --color-expense: #e11d48;/* tailwind rose-600 */
+    --color-income: #059669;
+    --color-expense: #e11d48;
+	--color-tax: #e1891d;
+
+	--company-color: #0369A1;
+	--company-background-color: #E0F2FE;
 }
 
 [data-theme="dark"] {
@@ -98,8 +102,12 @@
     --btn-sec-text: #d1d5db;
     --btn-sec-hover: #4b5563;
 
-	--color-income: #10b981; /* jaśniejszy emerald-500 dla czytelności na ciemnym */
-    --color-expense: #f43f5e;/* jaśniejszy rose-500 */
+	--color-income: #10b981;
+    --color-expense: #f43f5e;
+	--color-tax: #e1891d;
+
+	--company-color: #bae6fd;
+	--company-background-color: #0C4A6E;
 
     /* body {
         background-image: url("/images/bcg-dark.webp");
@@ -287,6 +295,10 @@ button {
 
 .button-accent:focus {
     box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--accent);
+}
+
+.button-black {
+    background-color: var(--text-main);
 }
 
 @media (max-width: 440px) {
@@ -602,6 +614,14 @@ input.input-error:focus {
     box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--primary);
 }
 
+.form-row__account-type-business {
+	display: none;
+}
+
+[data-account-type="business"] .form-row__account-type-business {
+	display: block;
+}
+
 .article {
 	margin: 2.5rem auto;
 }
@@ -686,7 +706,6 @@ input.input-error:focus {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    white-space: nowrap;
 }
 
 .table th {
@@ -719,6 +738,10 @@ input.input-error:focus {
     background-color: var(--bg-main);
 }
 
+.table tbody th {
+	width: 200px;
+}
+
 .table .table-name {
 	font-size: 18px;
 	font-weight: 700;
@@ -743,13 +766,19 @@ input.input-error:focus {
 	background: var(--bg-main);
 }
 
+@media (max-width: 760px) {
+	.table tbody th {
+		width: 50%;
+	}
+}
+
 .account-title-wrapper {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.badge-excluded {
+.badge {
     font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -758,7 +787,12 @@ input.input-error:focus {
     border-radius: 9999px; /* Kształt idealnej pigułki */
     background-color: transparent;
     color: var(--text-muted); /* Twój zmienny, szary kolor z poprzednich zadań */
-    border: 1px dashed var(--border-color); /* Przerywana ramka fajnie sugeruje "wykluczenie" */
+    border: 1px solid var(--border-color); /* Przerywana ramka fajnie sugeruje "wykluczenie" */
+}
+
+.badge__company {
+    color: var(--company-color);
+	background-color: var(--company-background-color);
 }
 
 @media (max-width: 760px) {
@@ -1284,6 +1318,10 @@ input.input-error:focus {
     gap: 0.5rem; /* Odstęp między etykietą a kwotą */
 }
 
+.summary-card__company {
+	background: var(--company-background-color);
+}
+
 /* Etykieta (np. "Łącznie w okresie") */
 .summary-label {
     font-size: 0.75rem;
@@ -1299,6 +1337,10 @@ input.input-error:focus {
     font-weight: 700;
     color: var(--text-main);
     word-break: break-word; /* Zabezpieczenie przed wylaniem się gigantycznej kwoty z karty */
+}
+
+.summary-value__normal {
+	font-size: 1rem;
 }
 
 @media (max-width: 760px) {
@@ -1326,6 +1368,9 @@ input.input-error:focus {
 }
 .text-expense {
     color: var(--color-expense);
+}
+.text-tax {
+    color: var(--color-tax);
 }
 
 @media (max-width: 760px) {

@@ -5,11 +5,11 @@
 	</h1>
 
 	<div class="page-width__narrow">
-		<form class="form" id="account-form" method="POST">
+		<form class="form" id="account-form" method="POST" data-account-type="<?php echo $account_info[0]["account_type"] ?? "personal"; ?>">
 			<?php
 				if (!empty($errors["global"]))
 					echo $_FORM->global_error([
-						"title" => "Wystąpił problem z tworzeniem transakcji",
+						"title" => "Wystąpił problem z edycją transakcji",
 						"desc" => $errors["global"]
 					]);
 			?>
@@ -32,6 +32,18 @@
 				<?php echo $_FORM->field_error($dto->errors["amount"] ?? ""); ?>
 			</div>
 
+			<div class="form-row form-row__account-type-business">
+				<label for="vat_rate">Stawka podatku VAT</label>
+				<input type="number" id="vat_rate" name="vat_rate" value="<?php echo htmlspecialchars($data[0]["vat_rate"] ?? ""); ?>" step="0.01">
+				<?php echo $_FORM->field_error($dto->errors["vat_rate"] ?? ""); ?>
+			</div>
+
+			<div class="form-row form-row__account-type-business">
+				<label for="income_tax_rate">Stawka podatku dochodowego</label>
+				<input type="number" id="income_tax_rate" name="income_tax_rate" value="<?php echo htmlspecialchars($data[0]["income_tax_rate"] ?? ""); ?>" step="0.01">
+				<?php echo $_FORM->field_error($dto->errors["income_tax_rate"] ?? ""); ?>
+			</div>
+
 			<div class="form-row">
 				<label for="transaction_date">Data transakcji</label>
 				<input type="date" id="transaction_date" name="transaction_date" value="<?php echo htmlspecialchars($data[0]["transaction_date"] ?? date("Y-m-d")); ?>" required>
@@ -45,7 +57,7 @@
 						foreach ($accounts as $account):
 							$selected = ($account["id"] === $data[0]["account_id"]) ? true : false;
 					?>
-						<option value="<?php echo $account["id"]; ?>"<?php echo $selected ? " selected" : ""; ?>>
+						<option data-account-type="<?php echo $account["account_type"]; ?>" value="<?php echo $account["id"]; ?>"<?php echo $selected ? " selected" : ""; ?>>
 							<?php echo $account["name"]; ?>
 						</option>
 					<?php endforeach; ?>
@@ -76,12 +88,16 @@
 
 <script>
 	{
+		const form = document.querySelector("form");
 		const categories = <?php echo json_encode($groupped_categories, JSON_UNESCAPED_UNICODE); ?>;
 		const select_account = document.querySelector("[data-account]");
 		const select_categories = document.querySelector("[data-categories]");
 		const selected_category = <?php echo $data[0]["category_id"] ?? "null"; ?>;
 
-		select_account.addEventListener("change", update_categories);
+		select_account.addEventListener("change", () => { update_categories(); update_account_type(); });
+
+		update_categories();
+
 
 		function update_categories () {
 			const account_id = select_account.value;
@@ -98,6 +114,12 @@
 			select_categories.innerHTML = html;
 		}
 
-		update_categories();
+		function update_account_type () {
+			form.setAttribute(
+				"data-account-type",
+				select_account.options[select_account.options.selectedIndex].dataset.accountType
+			);
+		}
+
 	}
 </script>

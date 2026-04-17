@@ -9,7 +9,7 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<th>Konto</th>
+						<th style="width: 100px">Konto</th>
 						<td><?php echo $data[0]["name"]; ?></td>
 					</tr>
 					<tr>
@@ -23,6 +23,22 @@
 						<th>Priorytet</th>
 						<td>
 							<?php echo $data[0]["priority"]; ?> / 100
+						</td>
+					</tr>
+					<tr>
+						<th>Uwzględniaj w statystykach ogólnych</th>
+						<td>
+							<?php echo !empty($data[0]["include_in_total"]) ? "TAK" : "NIE"; ?>
+						</td>
+					</tr>
+					<tr>
+						<th>Typ konta</th>
+						<td>
+							<?php if ($data[0]["account_type"] === "business"): ?>
+								Firmowe
+							<?php else: ?>
+								Osobiste
+							<?php endif; ?>
 						</td>
 					</tr>
 				</tbody>

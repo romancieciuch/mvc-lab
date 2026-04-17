@@ -8,6 +8,7 @@
 		<div class="article-title-actions">
 			<a href="/transaction/0/create/?account-id=<?php echo $data[0]["id"]; ?>" class="button">Nowa transakcja</a>
 			<a href="/account/<?php echo $data[0]["id"]; ?>/categories/" class="button button-accent">Kategorie</a>
+			<a href="/account/<?php echo $data[0]["id"]; ?>/details/" class="button button-black">Szczegóły</a>
 		</div>
 	</div>
 
@@ -71,6 +72,38 @@
 			</div>
 		<?php endif; ?>
 	</div>
+
+	<?php if ($data[0]["account_type"] === "business"): ?>
+		<div class="summary-grid">
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Zarobki w okresie</div>
+				<div class="summary-value text-income">
+					15 000,00 PLN
+				</div>
+			</div>
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Wydatki w okresie</div>
+				<div class="summary-value text-expense">
+					-15 000,00 PLN
+				</div>
+			</div>
+
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Podatki w okresie</div>
+				<div class="summary-value text-tax">
+					-15 000,00 PLN
+				</div>
+			</div>
+
+			<div class="summary-card summary-card__company">
+				<div class="summary-label">Automatyczne podatki</div>
+				<div class="summary-value summary-value__normal">
+					VAT: 1 500,00 PLN
+					<br>PIT: 1 000,00 PLN
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
 
 	<div class="filter-panel">
 		<button type="button" class="filter-toggle-btn" id="filter-toggle">

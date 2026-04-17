@@ -14,14 +14,15 @@ class Account {
 
 	public function create_account (int $user_id, AccountDTO $dto) {
 		return $this->db->query(
-			"INSERT INTO accounts (user_id, name, currency, priority, include_in_total, balance)
-				VALUES (:user_id, :name, :currency, :priority, :include_in_total, :balance)",
+			"INSERT INTO accounts (user_id, name, currency, priority, include_in_total, account_type, balance)
+				VALUES (:user_id, :name, :currency, :priority, :include_in_total, :account_type, :balance)",
 			[
 				"user_id" => $user_id,
 				"name" => $dto->name,
 				"currency" => $dto->currency,
 				"priority" => $dto->priority,
 				"include_in_total" => (int) $dto->include_in_total,
+				"account_type" => $dto->account_type,
 				"balance" => 0
 			]
 		);
@@ -120,6 +121,7 @@ class Account {
 				a.balance,
 				a.currency,
 				a.include_in_total,
+				a.account_type,
 				a.created_at,
 				a.updated_at,
 				COALESCE(AVG(t.amount), 0) AS avg_transaction
@@ -161,7 +163,8 @@ class Account {
 	public function update_account (int $user_id, int $account_id, AccountDTO $dto) {
 		$res = $this->db->query(
 			"UPDATE accounts
-				SET name = :name, currency = :currency, priority = :priority, include_in_total = :include_in_total
+				SET name = :name, currency = :currency, priority = :priority,
+					include_in_total = :include_in_total, account_type = :account_type
 					WHERE id = :account_id AND user_id = :user_id
 						LIMIT 1",
 			[
@@ -170,7 +173,8 @@ class Account {
 				"name" => $dto->name,
 				"currency" => $dto->currency,
 				"priority" => $dto->priority,
-				"include_in_total" => (int) $dto->include_in_total
+				"include_in_total" => (int) $dto->include_in_total,
+				"account_type" => $dto->account_type
 			]
 		);
 

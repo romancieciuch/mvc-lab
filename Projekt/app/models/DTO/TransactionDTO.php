@@ -8,6 +8,8 @@ readonly class TransactionDTO {
         public int		$account_id,
 		public int|null	$category_id,
         public float	$amount,
+		public float	$vat_rate,
+		public float	$income_tax_rate,
 		public string	$name,
         public string	$description,
 		public string	$transaction_date,
@@ -18,6 +20,8 @@ readonly class TransactionDTO {
 		$account_id 		= intval($data["account_id"] ?? 0);
 		$category_id 		= empty($data["category_id"]) ? null : intval($data["category_id"]);
 		$amount				= floatval($data["amount"]) ?? 0;
+		$vat_rate			= floatval($data["vat_rate"]) ?? 0;
+		$income_tax_rate	= floatval($data["income_tax_rate"]) ?? 0;
 		$name				= $data["name"] ?? "";
 		$description		= $data["description"] ?? "";
         $transaction_date	= $data["transaction_date"] ?? date("Y-m-d");
@@ -35,6 +39,6 @@ readonly class TransactionDTO {
 		if (empty($name))
 			$errors["name"] = "Podaj nazwę transakcji";
 
-        return new self($account_id, $category_id, $amount, $name, $description, $transaction_date, $errors);
+        return new self($account_id, $category_id, $amount, $vat_rate, $income_tax_rate, $name, $description, $transaction_date, $errors);
     }
 }
