@@ -33,7 +33,7 @@ class Transaction {
 		return $this->db->query(
 			"SELECT t.amount, t.vat_rate, t.income_tax_rate, t.name, t.description, t.transaction_date,
 					c.id AS category_id, c.name AS category_name, c.color,
-					a.name AS account_name, a.balance, a.currency, a.id AS account_id
+					a.name AS account_name, account_type, a.balance, a.currency, a.id AS account_id
 				FROM transactions t
 					INNER JOIN accounts a ON t.account_id = a.id
 					LEFT JOIN categories c ON t.category_id = c.id
@@ -184,7 +184,7 @@ class Transaction {
 
         $dataSql = "SELECT
                         t.id AS transaction_id,
-                        t.amount,
+                        t.amount, t.vat_rate, t.income_tax_rate,
                         t.name,
 						t.description,
                         t.transaction_date,

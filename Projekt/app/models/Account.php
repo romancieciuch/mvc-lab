@@ -269,8 +269,10 @@ class Account {
 		return false;
 	}
 
-	public function calculate_taxes (array $arr = []) : array {
-		// ....
+	public function calculate_taxes (array $transactions, array $summary) : array {
+		var_dump($transactions, $summary);
+
+		// .....
 
 		return [
 			"vat" => 123,

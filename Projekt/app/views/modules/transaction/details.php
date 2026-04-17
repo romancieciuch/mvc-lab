@@ -20,6 +20,22 @@
 								<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
 							</td>
 						</tr>
+
+						<?php if ($data[0]["account_type"] === "business"): ?>
+							<tr>
+								<th>Stawka VAT</th>
+								<td>
+									<?php echo $data[0]["vat_rate"] ?? "Brak podatku"; ?>%
+								</td>
+							</tr>
+							<tr>
+								<th>Stawka podatku dochodowego</th>
+								<td>
+									<?php echo $data[0]["income_tax_rate"] ?? "Brak podatku"; ?>%
+								</td>
+							</tr>
+						<?php endif; ?>
+
 						<tr>
 							<th>Kwota</th>
 							<td>
