@@ -303,7 +303,7 @@ button {
 
 @media (max-width: 440px) {
 	.button {
-		padding: 0.5rem 1rem;
+		padding: 0.5rem;
 	}
 }
 
@@ -1375,6 +1375,10 @@ input.input-error:focus {
 
 	.summary-value {
 		font-size: 18px;
+	}
+
+	.summary-value__normal {
+		font-size: 16px;
 	}
 }
 

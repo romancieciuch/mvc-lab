@@ -269,25 +269,25 @@ class Account {
 		return false;
 	}
 
-	public function calculate_taxes (array $transactions, array $summary) : array {
+	public function calculate_taxes (array $transactions) : array {
 		$income_vat = 0;
 		$income_tax = 0;
 		$expense_vat = 0;
 
 		foreach ($transactions as $transaction) {
 			if ($transaction["category_type"] === "income") {
-				$income_vat += $transaction["amount"] * ($transaction["vat_rate"] / 100);
-				$income_tax += $transaction["amount"] * ($transaction["income_tax_rate"] / 100);
+				$income_vat += round(abs((float) $transaction["amount"]) * ((float) $transaction["vat_rate"] / 100), 2);
+				$income_tax += round(abs((float) $transaction["amount"]) * ((float) $transaction["income_tax_rate"] / 100), 2);
 			}
 
 			if ($transaction["category_type"] === "expense") {
-				$expense_vat += $transaction["amount"] * $transaction["vat_rate"];
+				$expense_vat += round(abs((float) $transaction["amount"]) * ((float) $transaction["vat_rate"] / 100), 2);
 			}
 		}
 
 		return [
-			"vat" => round($income_vat - $expense_vat, 2),
-			"income_tax" => round($income_tax, 2)
+			"vat" => round($income_vat - $expense_vat),
+			"income_tax" => round($income_tax)
 		];
 	}
 }

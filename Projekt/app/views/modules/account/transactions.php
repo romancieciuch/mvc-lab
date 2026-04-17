@@ -40,7 +40,7 @@
 		</div>
 
 		<div class="summary-card">
-			<div class="summary-label">Łącznie w okresie</div>
+			<div class="summary-label">Bilans</div>
 			<div class="summary-value <?php echo $sumClass; ?>">
 				<?php echo $_DB->nice_format($transactions["total_amount"]); ?> <?php echo $data[0]["currency"]; ?>
 			</div>
@@ -98,8 +98,8 @@
 			<div class="summary-card summary-card__company">
 				<div class="summary-label">Automatyczne podatki</div>
 				<div class="summary-value summary-value__normal">
-					VAT: <?php echo $_DB->nice_format($taxes["vat"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
-					<br>PIT: <?php echo $_DB->nice_format($taxes["income_tax"] ?? 0); ?> <?php echo $data[0]["currency"]; ?>
+					VAT: <?php echo $_DB->nice_format($taxes["vat"] ?? 0, 0); ?> <?php echo $data[0]["currency"]; ?>
+					<br>PIT: <?php echo $_DB->nice_format($taxes["income_tax"] ?? 0, 0); ?> <?php echo $data[0]["currency"]; ?>
 				</div>
 			</div>
 		</div>

@@ -17,6 +17,13 @@
 		$pagination["offset"],
 		$search
 	);
+	$transactions_no_pagination = $transaction->search_transactions(
+		$account_id,
+		$user->id,
+		PHP_INT_MAX,
+		0,
+		$search
+	);
 
 	$history = $account->get_history($user->id, $account_id, $search["date_from"], $search["date_to"]);
 	$history = array_reverse($history);
@@ -27,7 +34,7 @@
 	}
 
 	$summary = $account->get_period_summary($user->id, $account_id, $search["date_from"], $search["date_to"]);
-	$taxes = $account->calculate_taxes($transactions["data"], $summary);
+	$taxes = $account->calculate_taxes($transactions_no_pagination["data"]);
 
 	$pln_value = $_APP->exchange($transactions["total_amount"], $data[0]["currency"] ?? "PLN", "PLN");
 
