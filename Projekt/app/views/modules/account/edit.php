@@ -50,7 +50,7 @@
 			</div>
 
 			<div class="form-row">
-				<label for="account_type">Konto firmowe</label>
+				<label for="account_type">Typ konta</label>
 				<select id="account_type" name="account_type">
 					<option value="personal"<?php if ("personal" === $data[0]["account_type"]) echo ' selected'; ?>>Osobiste</option>
 					<option value="business"<?php if ("business" === $data[0]["account_type"]) echo ' selected'; ?>>Firmowe</option>
