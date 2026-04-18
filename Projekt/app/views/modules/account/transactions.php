@@ -96,7 +96,7 @@
 			</div>
 
 			<div class="summary-card summary-card__company">
-				<div class="summary-label">Automatyczne podatki</div>
+				<div class="summary-label">Automatyczne podatki: <?php echo $autotaxes_month_formatted ?? date("m/Y"); ?></div>
 				<div class="summary-value summary-value__normal">
 					VAT: <?php echo $_DB->nice_format($taxes["vat"] ?? 0, 0); ?> <?php echo $data[0]["currency"]; ?>
 					<br>PIT: <?php echo $_DB->nice_format($taxes["income_tax"] ?? 0, 0); ?> <?php echo $data[0]["currency"]; ?>
