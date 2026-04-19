@@ -507,4 +507,20 @@ class UserService {
 		$this->logout();
 		exit("Próba oszustwa!");
 	}
+
+	public function get_user_first_account_id (int $user_id = 0) {
+		$res = $this->db->query(
+			"SELECT a.id
+				FROM accounts a
+					WHERE a.user_id = :user_id
+						ORDER BY a.id ASC
+							LIMIT 1",
+			[
+				"user_id" => $user_id
+			]
+		);
+
+		if (empty($res[0]["id"])) return 0;
+		return $res[0]["id"];
+	}
 }
