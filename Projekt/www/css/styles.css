@@ -1656,7 +1656,7 @@ input.input-error:focus {
 
 @media (max-width: 760px) {
     body:has(.mobile-bottom-nav) {
-        padding-bottom: 72px;
+        padding-bottom: 65px;
     }
 
     .mobile-bottom-nav {
