@@ -6,17 +6,11 @@
 
 		"URL" => "http://localhost:8080",
 
-		// "MYSQL_HOST" => "db",
-		// "MYSQL_USER" => "dev",
-		// "MYSQL_PASSWORD" => "dev",
-		// "MYSQL_PORT" => 3306,
-		// "MYSQL_DATABASE" => "app_db",
-
-		"MYSQL_HOST" => "s163.cyber-folks.pl",
-		"MYSQL_USER" => "djrooman_codeboys_flow",
-		"MYSQL_PASSWORD" => "eI9m--nJQgav%-)0",
+		"MYSQL_HOST" => "db",
+		"MYSQL_USER" => "dev",
+		"MYSQL_PASSWORD" => "dev",
 		"MYSQL_PORT" => 3306,
-		"MYSQL_DATABASE" => "djrooman_codeboys_flow",
+		"MYSQL_DATABASE" => "app_db",
 
 		"SMTP_HOST" => "mailhog",
 		"SMTP_PORT" => 1025,
