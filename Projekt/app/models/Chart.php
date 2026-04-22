@@ -64,7 +64,8 @@ class Chart {
 					},
 					grid: {
 						top: 30,
-						bottom: 60
+						bottom: 60,
+						left: 60
 					},
 					xAxis: [
 						{
