@@ -206,10 +206,9 @@ class Account {
 
 		$txStats = $this->db->query($txSql, ["user_id" => $user_id]);
 
-		$balanceSql = "SELECT
-						SUM(balance) AS total_balance
-					FROM accounts
-					WHERE user_id = :user_id AND include_in_total = 1";
+		$balanceSql = "SELECT SUM(balance) AS total_balance
+							FROM accounts
+								WHERE user_id = :user_id AND include_in_total = 1";
 
 		$balanceStats = $this->db->query($balanceSql, ["user_id" => $user_id]);
 
@@ -275,13 +274,15 @@ class Account {
 		$expense_vat = 0;
 
 		foreach ($transactions as $transaction) {
+			$amount_net = $transaction["amount"] / (1 + ($transaction["vat_rate"] / 100));
+
 			if ($transaction["category_type"] === "income") {
-				$income_vat += round(abs((float) $transaction["amount"]) * ((float) $transaction["vat_rate"] / 100), 2);
-				$income_tax += round(abs((float) $transaction["amount"]) * ((float) $transaction["income_tax_rate"] / 100), 2);
+				$income_vat += round(abs((float) $amount_net) * ((float) $transaction["vat_rate"] / 100), 2);
+				$income_tax += round(abs((float) $amount_net) * ((float) $transaction["income_tax_rate"] / 100), 2);
 			}
 
 			if ($transaction["category_type"] === "expense") {
-				$expense_vat += round(abs((float) $transaction["amount"]) * ((float) $transaction["vat_rate"] / 100), 2);
+				$expense_vat += round(abs((float) $amount_net) * ((float) $transaction["vat_rate"] / 100), 2);
 			}
 		}
 

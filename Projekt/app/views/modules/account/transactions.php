@@ -194,6 +194,18 @@
 								<span class="balance-amount<?php if ($v["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($v["amount"]); ?></span>
 								<span class="balance-currency"><?php echo $v["currency"]; ?></span>
 
+								<?php if ($data[0]["account_type"] === "business" && $v["vat_rate"] > 0): ?>
+									<small class="balance-exchange">
+										<?php
+											echo
+												$_DB->nice_format(
+													$_APP->deduct_tax($v["amount"], $v["vat_rate"])
+												);
+											echo " " . $v["currency"];
+										?> netto
+									</small>
+								<?php endif; ?>
+
 								<?php if ($v["currency"] !== "PLN"): ?>
 									<small class="balance-exchange">
 										<?php

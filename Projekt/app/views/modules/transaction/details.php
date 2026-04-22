@@ -20,8 +20,27 @@
 								<?php echo $data[0]["category_name"] ?? "Bez kategorii"; ?>
 							</td>
 						</tr>
+						<tr>
+							<th>Kwota</th>
+							<td>
+								<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
+								<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
+							</td>
+						</tr>
 
 						<?php if ($data[0]["account_type"] === "business"): ?>
+							<tr>
+								<th>Kwota netto</th>
+								<td>
+									<?php
+										echo
+											$_DB->nice_format(
+												$_APP->deduct_tax($data[0]["amount"], $data[0]["vat_rate"])
+											);
+										echo " " . $data[0]["currency"];
+									?>
+								</td>
+							</tr>
 							<tr>
 								<th>Stawka VAT</th>
 								<td>
@@ -36,13 +55,6 @@
 							</tr>
 						<?php endif; ?>
 
-						<tr>
-							<th>Kwota</th>
-							<td>
-								<span class="balance-amount<?php if ($data[0]["amount"] < 0) echo ' is-negative' ?>"><?php echo $_DB->nice_format($data[0]["amount"]); ?></span>
-								<span class="balance-currency"><?php echo $data[0]["currency"]; ?></span>
-							</td>
-						</tr>
 						<tr>
 							<th>Data transakcji</th>
 							<td>
