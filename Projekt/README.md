@@ -40,10 +40,10 @@ Roman Cieciuch
 ### Instrukcja uruchomienia
 
 **Start projektu w terminalu:**
-```docker compose up -d --build```
+```docker-compose up -d --build```
 
 **Wyjście:**
 Ctrl + C
 
 **Wracanie do punktu zero:**
-```docker compose down -v```
+```docker-compose down -v```
