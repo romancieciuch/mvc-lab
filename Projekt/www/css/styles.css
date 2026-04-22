@@ -52,6 +52,9 @@
 
 	--company-color: #0369A1;
 	--company-background-color: #E0F2FE;
+
+	--black: #000;
+	--white: #fff;
 }
 
 [data-theme="dark"] {
@@ -108,6 +111,9 @@
 
 	--company-color: #bae6fd;
 	--company-background-color: #0C4A6E;
+
+	--black: #fff;
+	--white: #000;
 
     /* body {
         background-image: url("/images/bcg-dark.webp");
@@ -298,7 +304,8 @@ button {
 }
 
 .button-black {
-    background-color: var(--text-main);
+    background-color: var(--black);
+	color: var(--white);
 }
 
 @media (max-width: 440px) {
