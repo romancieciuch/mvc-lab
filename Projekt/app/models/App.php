@@ -45,7 +45,7 @@ class App {
 			$page = $_GET["page"] ?? 1;
 
 		if (empty($per_page))
-			$per_page = $_GET["per-page"] ?? 5;
+			$per_page = $_GET["per-page"] ?? 10;
 
 		return [
 			"page" => $page,
@@ -263,5 +263,13 @@ class App {
 			'total_months' => $totalMonths,
 			'summary' => $summary
 		];
+	}
+
+	function add_tax (float $amount = 0, float $tax_rate = 0) : float {
+		return $amount + ($amount * ($tax_rate / 100));
+	}
+
+	function deduct_tax (float $amount = 0, float $tax_rate = 0) : float {
+		return $amount / ((100 + $tax_rate) / 100);
 	}
 }
