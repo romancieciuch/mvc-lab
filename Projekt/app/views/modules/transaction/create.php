@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="form-row">
-			<label for="amount">Kwota</label>
+			<label for="amount">Kwota brutto</label>
 			<input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($_POST["amount"] ?? ""); ?>" step="0.01" required>
 			<?php echo $_FORM->field_error($dto->errors["amount"] ?? ""); ?>
 		</div>
