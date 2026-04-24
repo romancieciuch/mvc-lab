@@ -32,7 +32,7 @@ Roman Cieciuch
 * **hasło:** dev
 
 ### Zarządzanie bazą danych phpMyAdmin:
-<http://localhost:8081> (dane logowania: dev / dev)
+<http://localhost:8024> (dane logowania: dev / dev)
 
 ### Skrzynka Mailhog:
 <http://localhost:8025>

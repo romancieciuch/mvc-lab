@@ -37,6 +37,10 @@
 	if ($action === "edit")
 		require_once("transaction/edit.php");
 
+	// Klonowanie transakcji
+	if ($action === "clone")
+		require_once("transaction/clone.php");
+
 	// Usuwanie transakcji
 	if ($action === "delete" && isset($_GET["delete"]))
 		require_once("transaction/delete.php");

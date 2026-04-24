@@ -343,6 +343,92 @@ INSERT INTO transaction_history (transaction_id, amount, log_date) VALUES
 (36, -115.20, '2026-05-21'),
 (36, -112.99, '2026-05-22');
 
+-- --------------------------------------------------------
+-- 10. Dodanie konta wykluczonego i firmowego
+-- --------------------------------------------------------
+
+-- Tworzymy Konto na podatki (wykluczone z majątku) oraz Konto firmowe
+INSERT INTO accounts (id, user_id, name, balance, currency, priority, include_in_total, account_type) VALUES
+(4, 1, 'Na podatki', 0.00, 'PLN', 80, 0, 'personal'),
+(5, 1, 'Konto firmowe', 0.00, 'PLN', 90, 1, 'business');
+
+-- --------------------------------------------------------
+-- 11. Dodanie dedykowanych kategorii dla nowych kont
+-- --------------------------------------------------------
+
+-- Kategorie dla konta wykluczonego (account_id = 4)
+INSERT INTO categories (id, account_id, name, category_type, color) VALUES
+(8, 4, 'Odłożone z wypłaty', 'income', '#059669'),
+(9, 4, 'Przelew do US', 'expense', '#e11d48');
+
+-- Kategorie dla konta firmowego (account_id = 5)
+INSERT INTO categories (id, account_id, name, category_type, color) VALUES
+(10, 5, 'Faktury przychodowe', 'income', '#2563eb'),
+(11, 5, 'Koszty operacyjne', 'expense', '#ea580c'),
+(12, 5, 'Paliwo', 'expense', '#e11d48'),
+(13, 5, 'ZUS i Podatki', 'tax', '#7c3aed');
+
+-- --------------------------------------------------------
+-- 12. Zasilenie 20 transakcji dla konta WYKLUCZONEGO (id = 4)
+-- --------------------------------------------------------
+
+INSERT INTO transactions (account_id, category_id, amount, name, transaction_date) VALUES
+(4, 8, 500.00, 'Zabezpieczenie na VAT - styczeń', '2026-01-10'),
+(4, 8, 300.00, 'Zabezpieczenie na PIT - styczeń', '2026-01-12'),
+(4, 8, 150.00, 'Dodatkowa wpłata', '2026-01-15'),
+(4, 9, -500.00, 'Przelew VAT-7', '2026-01-20'),
+(4, 8, 600.00, 'Zabezpieczenie na VAT - luty', '2026-02-10'),
+(4, 8, 400.00, 'Zabezpieczenie na PIT - luty', '2026-02-12'),
+(4, 9, -600.00, 'Przelew VAT-7', '2026-02-20'),
+(4, 9, -400.00, 'Przelew PIT-5', '2026-02-20'),
+(4, 8, 200.00, 'Drobna wpłata oszczędnościowa', '2026-02-25'),
+(4, 8, 800.00, 'Zabezpieczenie na VAT - marzec', '2026-03-10'),
+(4, 8, 500.00, 'Zabezpieczenie na PIT - marzec', '2026-03-12'),
+(4, 8, 100.00, 'Korekta wpłaty', '2026-03-15'),
+(4, 9, -800.00, 'Przelew VAT-7', '2026-03-20'),
+(4, 9, -500.00, 'Przelew PIT-5', '2026-03-20'),
+(4, 8, 700.00, 'Zabezpieczenie na VAT - kwiecień', '2026-04-10'),
+(4, 8, 450.00, 'Zabezpieczenie na PIT - kwiecień', '2026-04-12'),
+(4, 8, 50.00, 'Resztówka z bieżącego', '2026-04-15'),
+(4, 9, -700.00, 'Przelew VAT-7', '2026-04-20'),
+(4, 9, -450.00, 'Przelew PIT-5', '2026-04-20'),
+(4, 8, 650.00, 'Zabezpieczenie na VAT - maj', '2026-05-10');
+
+-- --------------------------------------------------------
+-- 13. Zasilenie 20 transakcji dla konta FIRMOWEGO (id = 5) z podatkami
+-- --------------------------------------------------------
+
+INSERT INTO transactions (account_id, category_id, amount, vat_rate, income_tax_rate, name, transaction_date) VALUES
+-- Przychody (Faktury z 23% VAT i 12% Ryczałtem)
+(5, 10, 8500.00, 23.00, 12.00, 'Faktura FV 1/03/2026 - Usługi IT', '2026-03-05'),
+(5, 10, 4200.00, 23.00, 12.00, 'Faktura FV 2/03/2026 - Konsultacje', '2026-03-12'),
+(5, 10, 1200.00, 0.00, 12.00, 'Faktura FV 3/03/2026 - Klient z USA (Reverse Charge)', '2026-03-18'),
+
+-- Koszty operacyjne (Sprzęt i usługi z odliczeniem)
+(5, 11, -150.00, 23.00, 100.00, 'Abonament za telefon - Orange', '2026-03-10'),
+(5, 11, -450.00, 23.00, 100.00, 'Licencje oprogramowania (Adobe, JetBrains)', '2026-03-14'),
+(5, 11, -3200.00, 23.00, 100.00, 'Zakup nowego monitora Dell', '2026-03-16'),
+(5, 11, -85.50, 23.00, 100.00, 'Domena i hosting - nazwa.pl', '2026-03-22'),
+
+-- Koszty pojazdu (Odliczenie 50% VAT i 75% dochodowego - typowe dla aut prywatnych w firmie)
+(5, 12, -250.00, 11.50, 75.00, 'Paliwo Orlen', '2026-03-08'),
+(5, 12, -210.00, 11.50, 75.00, 'Paliwo BP', '2026-03-19'),
+(5, 12, -180.00, 11.50, 75.00, 'Paliwo Shell', '2026-03-28'),
+(5, 12, -1500.00, 11.50, 75.00, 'Wymiana opon i serwis', '2026-04-02'),
+
+-- Podatki i ZUS (Kategorie wyłączone z VAT, ale ZUS zdrowotny może być odliczany w jakiejś części)
+(5, 13, -1600.00, 0.00, 0.00, 'Składki ZUS - luty', '2026-03-15'),
+(5, 13, -1250.00, 0.00, 0.00, 'Podatek VAT-7 za luty', '2026-03-20'),
+(5, 13, -890.00, 0.00, 0.00, 'Zaliczka na podatek PIT', '2026-03-20'),
+
+-- Kolejny miesiąc (Kwiecień)
+(5, 10, 9100.00, 23.00, 12.00, 'Faktura FV 1/04/2026 - Usługi programistyczne', '2026-04-06'),
+(5, 10, 3000.00, 23.00, 12.00, 'Faktura FV 2/04/2026 - Audyt kodu', '2026-04-14'),
+(5, 11, -150.00, 23.00, 100.00, 'Abonament za telefon - Orange', '2026-04-10'),
+(5, 12, -260.00, 11.50, 75.00, 'Paliwo Orlen', '2026-04-12'),
+(5, 13, -1600.00, 0.00, 0.00, 'Składki ZUS - marzec', '2026-04-15'),
+(5, 11, -120.00, 23.00, 100.00, 'Księgowość internetowa', '2026-04-20');
+
 -- 6. Przeliczenie sald (dzieje się automatycznie)
 -- UPDATE accounts a
 -- LEFT JOIN (
