@@ -220,6 +220,7 @@
 								<div class="table-options-menu">
 									<a href="/transaction/<?php echo $v["transaction_id"]; ?>/details/">Szczegóły</a>
 									<a href="/transaction/<?php echo $v["transaction_id"]; ?>/edit/">Edytuj</a>
+									<a href="/transaction/<?php echo $v["transaction_id"]; ?>/clone/">Klonuj</a>
 									<a class="accent" href="/transaction/<?php echo $v["transaction_id"]; ?>/delete/?account-id=<?php echo $data[0]["id"]; ?>">Usuń</a>
 								</div>
 								<button class="table-options-button"></button>
