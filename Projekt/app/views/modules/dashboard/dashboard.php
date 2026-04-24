@@ -66,12 +66,12 @@
 										<?php echo $v["name"]; ?>
 									</a>
 
-									<?php if (empty($v["include_in_total"])): ?>
-										<span class="badge badge__excluded">Pominięte</span>
-									<?php endif; ?>
-
 									<?php if ("business" === $v["account_type"]): ?>
 										<span class="badge badge__company">Firmowe</span>
+									<?php endif; ?>
+
+									<?php if (empty($v["include_in_total"])): ?>
+										<span class="badge badge__excluded">Pominięte</span>
 									<?php endif; ?>
 								</div>
 							</td>
