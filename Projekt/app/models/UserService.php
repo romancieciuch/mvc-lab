@@ -24,6 +24,26 @@ class UserService {
 		$this->config = $config;
 	}
 
+	public function get_user (string|int $value = "", string $field = "email") {
+		if (empty($value)) return false;
+
+		if ($field === "email")
+			$res = $this->db->query("SELECT * FROM users WHERE email = :email LIMIT 1",
+				["email" => $value]
+			);
+
+		if ($field === "id")
+			$res = $this->db->query("SELECT * FROM users WHERE id = :id LIMIT 1",
+				["id" => $value]
+			);
+
+		if (!empty($res[0]["password_hash"])) unset($res[0]["password_hash"]);
+		if (!empty($res[0]["token"])) unset($res[0]["token"]);
+
+		if (!empty($res)) return $res;
+		return 0;
+	}
+
 	public function create (RegisterUserDTO $dto) {
 		$errors = [];
 
@@ -389,6 +409,8 @@ class UserService {
 			];
 
 
+		session_regenerate_id(true);
+
 		$_SESSION["USER"] = [
 			"logged_in" => true,
 			"logged_in_2FA" => false,
@@ -399,11 +421,106 @@ class UserService {
 			"created_at" => $res[0]["created_at"]
 		];
 
+		// Zapis tokena
+		$this->store_refresh_token($res[0]["id"]);
+
 		return [
 			"success" => false,
 			"data" => $_SESSION["USER"],
 			"errors" => $errors
 		];
+	}
+
+	public function store_refresh_token (int $user_id = 0) {
+		$token_info = $this->generate_refresh_token();
+
+		setcookie("refresh_token", $token_info["token"], [
+			"expires"  => time() + 60 * 60 * 24 * 30, // 30 dni
+			"path"     => "/",
+			"domain"   => "",
+			"secure"   => true,
+			"httponly" => true,
+			"samesite" => "Strict"
+		]);
+
+		$res = $this->db->query(
+				"INSERT INTO refresh_tokens (user_id, token_hash, expires_at, user_agent, ip_address)
+					VALUES (:user_id, :token_hash, :expires_at, :user_agent, :ip_address)",
+				[
+					"user_id" => $user_id,
+					"token_hash" => $token_info["hash"],
+					"expires_at" => date('Y-m-d H:i:s', time() + 60 * 60 * 24 * 30), // 30 dni
+					"user_agent" => $_SERVER['HTTP_USER_AGENT'] ?? null,
+					"ip_address" => $_SERVER['REMOTE_ADDR'] ?? null
+				]
+			);
+
+		return $res;
+	}
+
+	public function generate_refresh_token (string $token = "") {
+		if (empty($token)) $token = bin2hex(random_bytes(64));
+		$hash = hash("sha256", $token);
+
+		return [
+			"token" => $token,
+			"hash" => $hash
+		];
+	}
+
+	public function verify_refresh_token (string $token = "", string $hash = "") {
+		return hash_equals($hash, hash('sha256', $token));
+	}
+
+	public function get_refresh_token (string $token_hash = "") {
+		return $this->db->query(
+			"SELECT *
+				FROM refresh_tokens
+					WHERE token_hash = :token_hash
+						AND expires_at > NOW()
+							LIMIT 1",
+			[
+				"token_hash" => $token_hash
+			]
+		);
+	}
+
+	public function delete_refresh_token (string $token_hash = "") {
+		return $this->db->query(
+			"DELETE FROM refresh_tokens
+					WHERE token_hash = :token_hash
+						AND expires_at > NOW()
+							LIMIT 1",
+			[
+				"token_hash" => $token_hash
+			]
+		);
+	}
+
+	public function regenerate_session (string $refresh_token = "") {
+		$token_info = $this->generate_refresh_token($refresh_token);
+		$active_token = $this->get_refresh_token($token_info["hash"]);
+
+		if (empty($active_token[0]["user_id"])) return false;
+
+		$this->delete_refresh_token($token_info["hash"]);
+		$this->store_refresh_token($active_token[0]["user_id"]);
+
+		// Info o użytkowniku
+		$user = $this->get_user($active_token[0]["user_id"], "id");
+		if (empty($user)) return false;
+
+		$_SESSION["USER"] = [
+			"logged_in" => true,
+			"logged_in_2FA" => false,
+			"id" => $user[0]["id"],
+			"name" => $user[0]["name"],
+			"email" => $user[0]["email"],
+			"two_factor_auth" => (bool) $user[0]["two_factor_secret"],
+			"created_at" => $user[0]["created_at"]
+		];
+
+		return true;
 	}
 
 	public function login_2fa () {
@@ -435,6 +552,16 @@ class UserService {
 	}
 
 	public function logout () {
+		$this->delete_refresh_token($_COOKIE["refresh_token"] ?? "");
+
+		setcookie('refresh_token', '', [
+			'expires' => time() - 3600,
+			'path' => '/',
+			'secure' => true,
+			'httponly' => true,
+			'samesite' => 'Strict'
+		]);
+
 		unset($_SESSION["USER"]);
 	}
 

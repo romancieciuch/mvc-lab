@@ -96,6 +96,26 @@ CREATE TABLE IF NOT EXISTS account_history (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela z tokenami
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    token_hash CHAR(64) NOT NULL, -- sha256
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    user_agent VARCHAR(255) DEFAULT NULL,
+    ip_address VARCHAR(45) DEFAULT NULL,
+
+    INDEX idx_user_id (user_id),
+    INDEX idx_token_hash (token_hash),
+    INDEX idx_expires_at (expires_at),
+
+    CONSTRAINT fk_refresh_token
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Wyzwalacze - automatyczna aktualizacja salda konta po dowolnych operacjach na tym koncie
 -- Zmiana znaku końca zapytania, aby MySQL nie przerwał tworzenia triggera w połowie

@@ -56,6 +56,8 @@
 	$_USER = new App\Models\UserService($_DB, $_MAIL, $_CONFIG);
 
 	// Użytkownik
+	if (empty($_SESSION["USER"]) && !empty($_COOKIE["refresh_token"]))
+		$_USER->regenerate_session($_COOKIE["refresh_token"]);
 	$user = App\Models\DTO\UserDTO::parse($_SESSION["USER"] ?? []);
 
 	// Nasza aplikacja
