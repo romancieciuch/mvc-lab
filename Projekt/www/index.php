@@ -1,15 +1,15 @@
 <?php
 
 declare(strict_types=1);
-ini_set('session.gc_maxlifetime', 3600);
+ini_set("session.gc_maxlifetime", 3600);
 
 session_set_cookie_params([
-    'lifetime' => 0,
-    'path'     => '/',
-    'domain'   => '',
-    'secure'   => true,
-    'httponly' => true,
-    'samesite' => 'Strict'
+    "lifetime" => 0,
+    "path"     => "/",
+    "domain"   => "",
+    "secure"   => true,
+    "httponly" => true,
+    "samesite" => "Lax"
 ]);
 
 session_start();
