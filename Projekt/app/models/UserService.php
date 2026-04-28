@@ -425,7 +425,7 @@ class UserService {
 		$this->store_refresh_token($res[0]["id"]);
 
 		return [
-			"success" => false,
+			"success" => true,
 			"data" => $_SESSION["USER"],
 			"errors" => $errors
 		];
@@ -440,7 +440,7 @@ class UserService {
 			"domain"   => "",
 			"secure"   => true,
 			"httponly" => true,
-			"samesite" => "Strict"
+			"samesite" => "Lax"
 		]);
 
 		$res = $this->db->query(
@@ -488,9 +488,8 @@ class UserService {
 	public function delete_refresh_token (string $token_hash = "") {
 		return $this->db->query(
 			"DELETE FROM refresh_tokens
-					WHERE token_hash = :token_hash
-						AND expires_at > NOW()
-							LIMIT 1",
+				WHERE token_hash = :token_hash
+					LIMIT 1",
 			[
 				"token_hash" => $token_hash
 			]
@@ -510,9 +509,11 @@ class UserService {
 		$user = $this->get_user($active_token[0]["user_id"], "id");
 		if (empty($user)) return false;
 
+		session_regenerate_id(true);
+
 		$_SESSION["USER"] = [
 			"logged_in" => true,
-			"logged_in_2FA" => false,
+			"logged_in_2FA" => true,
 			"id" => $user[0]["id"],
 			"name" => $user[0]["name"],
 			"email" => $user[0]["email"],
@@ -552,14 +553,16 @@ class UserService {
 	}
 
 	public function logout () {
-		$this->delete_refresh_token($_COOKIE["refresh_token"] ?? "");
+		$token_info = $this->generate_refresh_token($_COOKIE["refresh_token"]);
+		$this->delete_refresh_token($token_info["hash"]);
 
 		setcookie('refresh_token', '', [
-			'expires' => time() - 3600,
-			'path' => '/',
-			'secure' => true,
-			'httponly' => true,
-			'samesite' => 'Strict'
+			"expires"  => time() - 3600,
+			"path"     => "/",
+			"domain"   => "",
+			"secure"   => true,
+			"httponly" => true,
+			"samesite" => "Lax"
 		]);
 
 		unset($_SESSION["USER"]);
