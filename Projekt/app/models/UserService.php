@@ -29,16 +29,18 @@ class UserService {
 
 		if ($field === "email")
 			$res = $this->db->query("SELECT * FROM users WHERE email = :email LIMIT 1",
-				["email" => $value]
+				["email" => $value],
+				"one"
 			);
 
 		if ($field === "id")
 			$res = $this->db->query("SELECT * FROM users WHERE id = :id LIMIT 1",
-				["id" => $value]
+				["id" => $value],
+				"one"
 			);
 
-		if (!empty($res[0]["password_hash"])) unset($res[0]["password_hash"]);
-		if (!empty($res[0]["token"])) unset($res[0]["token"]);
+		if (!empty($res["password_hash"])) unset($res["password_hash"]);
+		if (!empty($res["token"])) unset($res["token"]);
 
 		if (!empty($res)) return $res;
 		return 0;
@@ -473,6 +475,8 @@ class UserService {
 	}
 
 	public function get_refresh_token (string $token_hash = "") {
+		if (empty($token_hash)) return false;
+
 		return $this->db->query(
 			"SELECT *
 				FROM refresh_tokens
@@ -481,11 +485,45 @@ class UserService {
 							LIMIT 1",
 			[
 				"token_hash" => $token_hash
-			]
+			],
+			"one"
 		);
 	}
 
+	public function update_refresh_token (string $token_hash = "") {
+		if (empty($token_hash)) return false;
+		$new_token_info = $this->generate_refresh_token();
+
+		setcookie("refresh_token", $new_token_info["token"], [
+			"expires"  => time() + 60 * 60 * 24 * 30, // 30 dni
+			"path"     => "/",
+			"domain"   => "",
+			"secure"   => true,
+			"httponly" => true,
+			"samesite" => "Lax"
+		]);
+
+		$res = $this->db->query(
+				"UPDATE refresh_tokens
+					SET token_hash = :new_token_hash, expires_at = :expires_at,
+						user_agent = :user_agent, ip_address = :ip_address
+							WHERE token_hash = :token_hash
+								LIMIT 1",
+				[
+					"token_hash" => $token_hash,
+					"new_token_hash" => $new_token_info["hash"],
+					"expires_at" => date('Y-m-d H:i:s', time() + 60 * 60 * 24 * 30), // 30 dni
+					"user_agent" => $_SERVER['HTTP_USER_AGENT'] ?? null,
+					"ip_address" => $_SERVER['REMOTE_ADDR'] ?? null
+				]
+			);
+
+		return $res;
+	}
+
 	public function delete_refresh_token (string $token_hash = "") {
+		if (empty($token_hash)) return false;
+
 		return $this->db->query(
 			"DELETE FROM refresh_tokens
 				WHERE token_hash = :token_hash
@@ -500,13 +538,21 @@ class UserService {
 		$token_info = $this->generate_refresh_token($refresh_token);
 		$active_token = $this->get_refresh_token($token_info["hash"]);
 
-		if (empty($active_token[0]["user_id"])) return false;
+		if (empty($active_token["user_id"])) return false;
 
-		$this->delete_refresh_token($token_info["hash"]);
-		$this->store_refresh_token($active_token[0]["user_id"]);
+		// Sprawdzamy, czy nie kradziona sesja
+		if (($_SERVER["HTTP_USER_AGENT"] ?? null) !== $active_token["user_agent"]) {
+			$this->delete_refresh_token($token_info["hash"]);
+			return false;
+		}
+
+		// $this->delete_refresh_token($token_info["hash"]);
+		// $this->store_refresh_token($active_token[0]["user_id"]);
+		// Wydajniejsze niż kasowanie i tworzenie nowego
+		$this->update_refresh_token($token_info["hash"]);
 
 		// Info o użytkowniku
-		$user = $this->get_user($active_token[0]["user_id"], "id");
+		$user = $this->get_user($active_token["user_id"], "id");
 		if (empty($user)) return false;
 
 		session_regenerate_id(true);
@@ -514,11 +560,11 @@ class UserService {
 		$_SESSION["USER"] = [
 			"logged_in" => true,
 			"logged_in_2FA" => true,
-			"id" => $user[0]["id"],
-			"name" => $user[0]["name"],
-			"email" => $user[0]["email"],
-			"two_factor_auth" => (bool) $user[0]["two_factor_secret"],
-			"created_at" => $user[0]["created_at"]
+			"id" => $user["id"],
+			"name" => $user["name"],
+			"email" => $user["email"],
+			"two_factor_auth" => (bool) $user["two_factor_secret"],
+			"created_at" => $user["created_at"]
 		];
 
 		return true;

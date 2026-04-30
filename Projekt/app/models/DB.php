@@ -31,7 +31,7 @@ class DB {
 		}
 	}
 
-	public function query (string $sql, array $params = []) : mixed {
+	public function query (string $sql, array $params = [], string $mode = "all") : mixed {
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute($params);
 
@@ -39,7 +39,7 @@ class DB {
     	$type = strtoupper($matches[1] ?? '');
 
 		return match ($type) {
-			"SELECT", "SHOW"	=> $stmt->fetchAll(),
+			"SELECT", "SHOW"	=> $mode === "one" ? $stmt->fetch() : $stmt->fetchAll(),
 			"INSERT"			=> $this->pdo->lastInsertId(),
 			"UPDATE", "DELETE"	=> $stmt->rowCount(),
 			default				=> $stmt->fetchAll() ?? true
