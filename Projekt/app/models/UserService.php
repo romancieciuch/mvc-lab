@@ -490,16 +490,18 @@ class UserService {
 		);
 	}
 
-	public function get_user_session (int $session_id = 0) {
-		if (empty($session_id)) return false;
+	public function get_user_session (int $user_id = 0, int $session_id = 0) {
+		if (empty($user_id) || empty($session_id)) return false;
 
 		return $this->db->query(
 			"SELECT *
 				FROM refresh_tokens
 					WHERE id = :id
-						LIMIT 1",
+						AND user_id = :user_id
+							LIMIT 1",
 			[
-				"id" => $session_id
+				"id" => $session_id,
+				"user_id" => $user_id
 			],
 			"one"
 		);

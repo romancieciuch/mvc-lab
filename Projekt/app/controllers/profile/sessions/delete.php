@@ -12,6 +12,6 @@
 	if (isset($_GET["delete"]))
 		$deleted = $_USER->delete_refresh_token("id", $session_id);
 	else
-		$data = $_USER->get_user_session($session_id);
+		$data = $_USER->get_user_session($user->id, $session_id);
 
 	$prev_page = "/profile/sessions/";
