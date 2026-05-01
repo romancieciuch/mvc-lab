@@ -490,6 +490,34 @@ class UserService {
 		);
 	}
 
+	public function get_user_session (int $session_id = 0) {
+		if (empty($session_id)) return false;
+
+		return $this->db->query(
+			"SELECT *
+				FROM refresh_tokens
+					WHERE id = :id
+						LIMIT 1",
+			[
+				"id" => $session_id
+			],
+			"one"
+		);
+	}
+
+	public function get_user_sessions (int $user_id = 0) {
+		if (empty($user_id)) return [];
+
+		return $this->db->query(
+			"SELECT *
+				FROM refresh_tokens
+					WHERE user_id = :user_id",
+			[
+				"user_id" => $user_id
+			]
+		);
+	}
+
 	public function update_refresh_token (string $token_hash = "") {
 		if (empty($token_hash)) return false;
 		$new_token_info = $this->generate_refresh_token();
@@ -521,15 +549,45 @@ class UserService {
 		return $res;
 	}
 
-	public function delete_refresh_token (string $token_hash = "") {
-		if (empty($token_hash)) return false;
+	public function is_it_my_session (int $user_id = 0, string $key = "", string $value = "") {
+		if (empty($user_id) || empty($key) || empty($value)) return false;
+
+		$res = $this->db->query(
+			"SELECT id FROM refresh_tokens
+				WHERE {$key} = :{$key}
+					AND user_id = :user_id
+						LIMIT 1",
+			[
+				$key => $value,
+				"user_id" => $user_id
+			],
+			"one"
+		);
+
+		return !empty($res);
+	}
+
+	public function delete_refresh_token (string $key = "", string $value = "") {
+		if (empty($key) || empty($value)) return false;
 
 		return $this->db->query(
 			"DELETE FROM refresh_tokens
-				WHERE token_hash = :token_hash
+				WHERE {$key} = :{$key}
 					LIMIT 1",
 			[
-				"token_hash" => $token_hash
+				$key => $value
+			]
+		);
+	}
+
+	public function delete_all_refresh_tokens (int $user_id = 0) {
+		if (empty($user_id)) return false;
+
+		return $this->db->query(
+			"DELETE FROM refresh_tokens
+				WHERE user_id = :user_id",
+			[
+				"user_id" => $user_id
 			]
 		);
 	}
@@ -542,7 +600,8 @@ class UserService {
 
 		// Sprawdzamy, czy nie kradziona sesja
 		if (($_SERVER["HTTP_USER_AGENT"] ?? null) !== $active_token["user_agent"]) {
-			$this->delete_refresh_token($token_info["hash"]);
+			// $this->delete_refresh_token($token_info["hash"]);
+			$this->delete_all_refresh_tokens($active_token["user_id"]);
 			return false;
 		}
 
