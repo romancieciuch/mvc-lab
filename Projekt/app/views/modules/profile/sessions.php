@@ -19,7 +19,7 @@
 				<thead>
 					<tr>
 						<th>Urządzenie</th>
-						<th>IP</th>
+						<th>Adres IP</th>
 						<th>Data utworzenia</th>
 						<th>Data ważności</th>
 						<th>Akcje</th>

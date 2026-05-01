@@ -17,11 +17,11 @@
 		<?php
 			if (!empty($user->two_factor_auth))
 				echo $_FORM->global_message([
-					"title" => "Twoje logowanie dwuetapowe jest włączone."
+					"title" => "Logowanie dwuetapowe jest włączone."
 				]);
 			else
 				echo $_FORM->global_info([
-					"title" => "Twoje logowanie dwuetapowe jest wyłączone."
+					"title" => "Logowanie dwuetapowe jest wyłączone."
 				]);
 		?>
 
