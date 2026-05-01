@@ -9,6 +9,7 @@
 			<a href="/profile/password/" class="tab-item">Zmiana hasła</a>
 			<a href="/profile/2fa/" class="tab-item">Logowanie dwuetapowe</a>
 			<a href="/profile/statistics/" class="tab-item">Statystyka</a>
+			<a href="/profile/sessions/" class="tab-item">Sesje</a>
 		</nav>
 	</div>
 
